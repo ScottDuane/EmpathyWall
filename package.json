@@ -1,0 +1,22 @@
+{
+  "name": "empathy-wall",
+  "version": "1.0.0",
+  "description": "== README",
+  "main": "empathy_wall.jsx",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ScottDuane/EmpathyWall.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ScottDuane/EmpathyWall/issues"
+  },
+  "homepage": "https://github.com/ScottDuane/EmpathyWall#readme"
+}
