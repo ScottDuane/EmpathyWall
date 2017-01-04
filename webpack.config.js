@@ -1,7 +1,8 @@
 module.exports = {
-  entry: "./empathy_wall.jsx",
+  entry: "./frontend/empathy_wall.jsx",
   output: {
-    filename: "./bundle.js"
+    path: "/app/assets/javascripts/"
+    filename: "bundle.js"
   },
   module: {
     loaders: [

@@ -54,7 +54,7 @@ Rails.application.routes.draw do
   #     resources :products
   #   end
 
-  namespace :api defaults: { format: :json } do
+  namespace :api, defaults: { format: :json } do
     resources :notes
     resources :tags
   end
