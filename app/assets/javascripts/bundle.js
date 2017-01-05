@@ -53,8 +53,17 @@
 	var _reactDom = __webpack_require__(32);
 	
 	var _reactDom2 = _interopRequireDefault(_reactDom);
-
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	document.addEventListener('DOMContentLoaded', function () {
+	    var root = document.getElementById('root');
+	    _reactDom2.default.render(_react2.default.createElement(
+	        'h1',
+	        null,
+	        'Gonna be greatttt'
+	    ), root);
+	});
 
 /***/ },
 /* 1 */

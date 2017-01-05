@@ -14,7 +14,7 @@
     "type": "git",
     "url": "git+https://github.com/ScottDuane/EmpathyWall.git"
   },
-  "author": "",
+  "author": "Scott Duane",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/ScottDuane/EmpathyWall/issues"
@@ -29,5 +29,6 @@
     "react-dom": "^15.4.1",
     "react-router": "^3.0.0",
     "webpack": "^1.14.0"
-  }
+  },
+  "devDependencies": {}
 }
