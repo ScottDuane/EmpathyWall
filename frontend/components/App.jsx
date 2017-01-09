@@ -1,8 +1,16 @@
+import React from 'react';
+import Navbar from './Navbar';
+import NoteFilters from './NoteFilters';
+import NoteIndex from './NoteIndex';
 
 const App = () => {
-  return () = {
-    <Navbar />
-    <NoteFilters />
-    <NoteIndex />
-  }
+  return (
+    <div>
+      <Navbar />
+      <NoteFilters />
+      <NoteIndex />
+    </div>
+  );
 };
+
+export default App;
