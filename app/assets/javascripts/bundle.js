@@ -58,11 +58,22 @@
 	
 	var _Root2 = _interopRequireDefault(_Root);
 	
+<<<<<<< HEAD
+=======
+	var _App = __webpack_require__(240);
+	
+	var _App2 = _interopRequireDefault(_App);
+	
+>>>>>>> 66733fb5d6b8f7bf178f8cab6d69ceca1d8710b8
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	document.addEventListener('DOMContentLoaded', function () {
 	    var root = document.getElementById('root');
+<<<<<<< HEAD
 	    _reactDom2.default.render(_react2.default.createElement(_Root2.default, null), root);
+=======
+	    _reactDom2.default.render(_react2.default.createElement(_App2.default, null), root);
+>>>>>>> 66733fb5d6b8f7bf178f8cab6d69ceca1d8710b8
 	});
 
 /***/ },
@@ -21774,16 +21785,20 @@
 
 	'use strict';
 	
+<<<<<<< HEAD
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
 	
+=======
+>>>>>>> 66733fb5d6b8f7bf178f8cab6d69ceca1d8710b8
 	var _reactRouter = __webpack_require__(184);
 	
 	var _App = __webpack_require__(240);
 	
 	var _App2 = _interopRequireDefault(_App);
 	
+<<<<<<< HEAD
 	var _NoteLongShow = __webpack_require__(241);
 	
 	var _NoteLongShow2 = _interopRequireDefault(_NoteLongShow);
@@ -21812,6 +21827,30 @@
 	};
 	
 	exports.default = Root;
+=======
+	var _NoteLongShow = __webpack_require__(245);
+	
+	var _NoteLongShow2 = _interopRequireDefault(_NoteLongShow);
+	
+	var _AddNote = __webpack_require__(246);
+	
+	var _AddNote2 = _interopRequireDefault(_AddNote);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var Root = function Root() {
+	  return React.createElement(
+	    _reactRouter.Router,
+	    { history: _reactRouter.hashHistory },
+	    React.createElement(
+	      _reactRouter.Route,
+	      { path: '/', component: _App2.default },
+	      React.createElement(_reactRouter.Route, { path: '/notes/:noteId', component: _NoteLongShow2.default }),
+	      React.createElement(_reactRouter.Route, { path: '/notes/new', component: _AddNote2.default })
+	    )
+	  );
+	};
+>>>>>>> 66733fb5d6b8f7bf178f8cab6d69ceca1d8710b8
 
 /***/ },
 /* 184 */
@@ -26821,6 +26860,7 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
+<<<<<<< HEAD
 	var _Navbar = __webpack_require__(243);
 	
 	var _Navbar2 = _interopRequireDefault(_Navbar);
@@ -26830,6 +26870,17 @@
 	var _NoteFilters2 = _interopRequireDefault(_NoteFilters);
 	
 	var _NoteIndex = __webpack_require__(245);
+=======
+	var _Navbar = __webpack_require__(241);
+	
+	var _Navbar2 = _interopRequireDefault(_Navbar);
+	
+	var _NoteFilters = __webpack_require__(242);
+	
+	var _NoteFilters2 = _interopRequireDefault(_NoteFilters);
+	
+	var _NoteIndex = __webpack_require__(243);
+>>>>>>> 66733fb5d6b8f7bf178f8cab6d69ceca1d8710b8
 	
 	var _NoteIndex2 = _interopRequireDefault(_NoteIndex);
 	
@@ -26849,12 +26900,15 @@
 
 /***/ },
 /* 241 */
+<<<<<<< HEAD
 /***/ function(module, exports) {
 
 	"use strict";
 
 /***/ },
 /* 242 */
+=======
+>>>>>>> 66733fb5d6b8f7bf178f8cab6d69ceca1d8710b8
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -26863,12 +26917,16 @@
 	  value: true
 	});
 	
+<<<<<<< HEAD
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
+=======
+>>>>>>> 66733fb5d6b8f7bf178f8cab6d69ceca1d8710b8
 	var _react = __webpack_require__(1);
 	
 	var _react2 = _interopRequireDefault(_react);
 	
+<<<<<<< HEAD
 	var _reactDom = __webpack_require__(32);
 	
 	var _reactDom2 = _interopRequireDefault(_reactDom);
@@ -26910,6 +26968,36 @@
 
 /***/ },
 /* 243 */
+=======
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var Navbar = function Navbar() {
+	  return _react2.default.createElement(
+	    'ul',
+	    null,
+	    _react2.default.createElement(
+	      'li',
+	      null,
+	      'Logo'
+	    ),
+	    _react2.default.createElement(
+	      'li',
+	      null,
+	      'About'
+	    ),
+	    _react2.default.createElement(
+	      'li',
+	      null,
+	      'Contact'
+	    )
+	  );
+	};
+	
+	exports.default = Navbar;
+
+/***/ },
+/* 242 */
+>>>>>>> 66733fb5d6b8f7bf178f8cab6d69ceca1d8710b8
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -26918,12 +27006,16 @@
 	  value: true
 	});
 	
+<<<<<<< HEAD
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
+=======
+>>>>>>> 66733fb5d6b8f7bf178f8cab6d69ceca1d8710b8
 	var _react = __webpack_require__(1);
 	
 	var _react2 = _interopRequireDefault(_react);
 	
+<<<<<<< HEAD
 	var _reactDom = __webpack_require__(32);
 	
 	var _reactDom2 = _interopRequireDefault(_reactDom);
@@ -26983,6 +27075,22 @@
 
 /***/ },
 /* 244 */
+=======
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var NoteFilters = function NoteFilters() {
+	  return _react2.default.createElement(
+	    'div',
+	    null,
+	    'Filters'
+	  );
+	};
+	
+	exports.default = NoteFilters;
+
+/***/ },
+/* 243 */
+>>>>>>> 66733fb5d6b8f7bf178f8cab6d69ceca1d8710b8
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -26991,12 +27099,16 @@
 	  value: true
 	});
 	
+<<<<<<< HEAD
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
+=======
+>>>>>>> 66733fb5d6b8f7bf178f8cab6d69ceca1d8710b8
 	var _react = __webpack_require__(1);
 	
 	var _react2 = _interopRequireDefault(_react);
 	
+<<<<<<< HEAD
 	var _reactDom = __webpack_require__(32);
 	
 	var _reactDom2 = _interopRequireDefault(_reactDom);
@@ -27038,6 +27150,23 @@
 
 /***/ },
 /* 245 */
+=======
+	var _NoteShortShow = __webpack_require__(244);
+	
+	var _NoteShortShow2 = _interopRequireDefault(_NoteShortShow);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var NoteIndex = function NoteIndex() {
+	  var aNote = { "content": "This is some notey note content" };
+	  return _react2.default.createElement(_NoteShortShow2.default, { note: aNote });
+	};
+	
+	exports.default = NoteIndex;
+
+/***/ },
+/* 244 */
+>>>>>>> 66733fb5d6b8f7bf178f8cab6d69ceca1d8710b8
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -27046,12 +27175,16 @@
 	  value: true
 	});
 	
+<<<<<<< HEAD
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
+=======
+>>>>>>> 66733fb5d6b8f7bf178f8cab6d69ceca1d8710b8
 	var _react = __webpack_require__(1);
 	
 	var _react2 = _interopRequireDefault(_react);
 	
+<<<<<<< HEAD
 	var _reactDom = __webpack_require__(32);
 	
 	var _reactDom2 = _interopRequireDefault(_reactDom);
@@ -27093,6 +27226,31 @@
 	;
 	
 	exports.default = NoteIndex;
+=======
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var NoteShortShow = function NoteShortShow() {
+	  return _react2.default.createElement(
+	    'div',
+	    null,
+	    'Note content yo'
+	  );
+	};
+	
+	exports.default = NoteShortShow;
+
+/***/ },
+/* 245 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+/***/ },
+/* 246 */
+/***/ function(module, exports) {
+
+	"use strict";
+>>>>>>> 66733fb5d6b8f7bf178f8cab6d69ceca1d8710b8
 
 /***/ }
 /******/ ]);

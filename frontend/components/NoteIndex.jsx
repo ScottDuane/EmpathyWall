@@ -2,8 +2,11 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 
 class NoteIndex extends Component {
-  componentDidMount () {
+  getInitialState () {
     
+  };
+  componentDidMount () {
+
   };
 
   render () {
