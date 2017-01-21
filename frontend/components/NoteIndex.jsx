@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 
 class NoteIndex extends Component {
   getInitialState () {
-    
+    NoteActions.fetchAllNotes();
   };
   componentDidMount () {
 
