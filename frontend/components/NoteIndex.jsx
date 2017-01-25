@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
+import { fetchAllNotes } from '../actions/note_actions';
 
-class NoteIndex extends Component {
-  getInitialState () {
-    NoteActions.fetchAllNotes();
-  };
-  componentDidMount () {
-
+class NoteIndex extends React.Component {
+  constructor () {
+    super();
+    this.state = { notes: fetchAllNotes() };
   };
 
   render () {
