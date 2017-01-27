@@ -12,7 +12,6 @@ class NoteIndex extends React.Component {
   };
 
   componentDidMount () {
-    console.log("looky i mounted");
     this.noteStore.addChangeListener(this.onChange.bind(this));
   };
 
@@ -25,7 +24,6 @@ class NoteIndex extends React.Component {
   };
 
   render () {
-    debugger;
     return <ul>{this.state.notes.map( (note) => {
         return <li>{note.content}</li>
       })

@@ -3,7 +3,11 @@
 export const fetchNotes = () => {
   return $.ajax({
     method: 'GET',
-    url: 'api/notes/'
+    url: 'api/notes/',
+    success: (data) => {
+      // console.log("data of call " + data);
+      
+    }
   });
 };
 

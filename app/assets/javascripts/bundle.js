@@ -21788,11 +21788,11 @@
 	
 	var _App2 = _interopRequireDefault(_App);
 	
-	var _NoteLongShow = __webpack_require__(251);
+	var _NoteLongShow = __webpack_require__(253);
 	
 	var _NoteLongShow2 = _interopRequireDefault(_NoteLongShow);
 	
-	var _AddNote = __webpack_require__(252);
+	var _AddNote = __webpack_require__(254);
 	
 	var _AddNote2 = _interopRequireDefault(_AddNote);
 	
@@ -26837,9 +26837,13 @@
 	
 	var _NoteIndex2 = _interopRequireDefault(_NoteIndex);
 	
-	var _note_store = __webpack_require__(250);
+	var _note_store = __webpack_require__(251);
 	
 	var _note_store2 = _interopRequireDefault(_note_store);
+	
+	var _IndexHeader = __webpack_require__(255);
+	
+	var _IndexHeader2 = _interopRequireDefault(_IndexHeader);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -26848,7 +26852,7 @@
 	    'div',
 	    null,
 	    _react2.default.createElement(_Navbar2.default, null),
-	    _react2.default.createElement(_NoteFilters2.default, null),
+	    _react2.default.createElement(_IndexHeader2.default, null),
 	    _react2.default.createElement(_NoteIndex2.default, null)
 	  );
 	};
@@ -27005,7 +27009,7 @@
 	
 	var _note_actions = __webpack_require__(244);
 	
-	var _note_store = __webpack_require__(250);
+	var _note_store = __webpack_require__(251);
 	
 	var _note_store2 = _interopRequireDefault(_note_store);
 	
@@ -27034,7 +27038,6 @@
 	  _createClass(NoteIndex, [{
 	    key: 'componentDidMount',
 	    value: function componentDidMount() {
-	      console.log("looky i mounted");
 	      this.noteStore.addChangeListener(this.onChange.bind(this));
 	    }
 	  }, {
@@ -27050,7 +27053,6 @@
 	  }, {
 	    key: 'render',
 	    value: function render() {
-	      debugger;
 	      return _react2.default.createElement(
 	        'ul',
 	        null,
@@ -27087,7 +27089,7 @@
 	
 	var _dispatcher = __webpack_require__(246);
 	
-	var _note_constants = __webpack_require__(254);
+	var _note_constants = __webpack_require__(250);
 	
 	var RECEIVE_NOTES = exports.RECEIVE_NOTES = "RECEIVE_NOTES";
 	
@@ -27119,7 +27121,11 @@
 	var fetchNotes = exports.fetchNotes = function fetchNotes() {
 	  return $.ajax({
 	    method: 'GET',
-	    url: 'api/notes/'
+	    url: 'api/notes/',
+	    success: function success(data) {
+	      // console.log("data of call " + data);
+	
+	    }
 	  });
 	};
 	
@@ -27470,6 +27476,18 @@
 
 /***/ },
 /* 250 */
+/***/ function(module, exports) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	var NOTES_RECEIVED = exports.NOTES_RECEIVED = "NOTES_RECEIVED";
+	var NOTE_RECEIVED = exports.NOTE_RECEIVED = "NOTE_RECEIVED";
+
+/***/ },
+/* 251 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -27480,13 +27498,13 @@
 	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
-	var _events = __webpack_require__(253);
+	var _events = __webpack_require__(252);
 	
 	var _note_actions = __webpack_require__(244);
 	
 	var _dispatcher = __webpack_require__(246);
 	
-	var _note_constants = __webpack_require__(254);
+	var _note_constants = __webpack_require__(250);
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
@@ -27553,68 +27571,7 @@
 	exports.default = NoteStore;
 
 /***/ },
-/* 251 */
-/***/ function(module, exports) {
-
-	"use strict";
-
-/***/ },
 /* 252 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-	
-	var _react = __webpack_require__(1);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	var _reactDom = __webpack_require__(32);
-	
-	var _reactDom2 = _interopRequireDefault(_reactDom);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-	
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-	
-	var AddNote = function (_Component) {
-	  _inherits(AddNote, _Component);
-	
-	  function AddNote() {
-	    _classCallCheck(this, AddNote);
-	
-	    return _possibleConstructorReturn(this, (AddNote.__proto__ || Object.getPrototypeOf(AddNote)).apply(this, arguments));
-	  }
-	
-	  _createClass(AddNote, [{
-	    key: 'render',
-	    value: function render() {
-	      return _react2.default.createElement(
-	        'div',
-	        null,
-	        'Add a note sillypants'
-	      );
-	    }
-	  }]);
-	
-	  return AddNote;
-	}(_react.Component);
-	
-	;
-	
-	exports.default = AddNote;
-
-/***/ },
-/* 253 */
 /***/ function(module, exports) {
 
 	// Copyright Joyent, Inc. and other Node contributors.
@@ -27922,16 +27879,152 @@
 
 
 /***/ },
-/* 254 */
+/* 253 */
 /***/ function(module, exports) {
 
 	"use strict";
+
+/***/ },
+/* 254 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
 	
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	var NOTES_RECEIVED = exports.NOTES_RECEIVED = "NOTES_RECEIVED";
-	var NOTE_RECEIVED = exports.NOTE_RECEIVED = "NOTE_RECEIVED";
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _reactDom = __webpack_require__(32);
+	
+	var _reactDom2 = _interopRequireDefault(_reactDom);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var AddNote = function (_Component) {
+	  _inherits(AddNote, _Component);
+	
+	  function AddNote() {
+	    _classCallCheck(this, AddNote);
+	
+	    return _possibleConstructorReturn(this, (AddNote.__proto__ || Object.getPrototypeOf(AddNote)).apply(this, arguments));
+	  }
+	
+	  _createClass(AddNote, [{
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'div',
+	        null,
+	        'Add a note sillypants'
+	      );
+	    }
+	  }]);
+	
+	  return AddNote;
+	}(_react.Component);
+	
+	;
+	
+	exports.default = AddNote;
+
+/***/ },
+/* 255 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _reactDom = __webpack_require__(32);
+	
+	var _reactDom2 = _interopRequireDefault(_reactDom);
+	
+	var _NoteFilters = __webpack_require__(242);
+	
+	var _NoteFilters2 = _interopRequireDefault(_NoteFilters);
+	
+	var _AddNote = __webpack_require__(254);
+	
+	var _AddNote2 = _interopRequireDefault(_AddNote);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var IndexHeader = function (_React$Component) {
+	  _inherits(IndexHeader, _React$Component);
+	
+	  function IndexHeader() {
+	    _classCallCheck(this, IndexHeader);
+	
+	    var _this = _possibleConstructorReturn(this, (IndexHeader.__proto__ || Object.getPrototypeOf(IndexHeader)).call(this));
+	
+	    _this.state = { addVisible: false };
+	    return _this;
+	  }
+	
+	  _createClass(IndexHeader, [{
+	    key: 'toggleAdd',
+	    value: function toggleAdd() {
+	      this.setState({ addVisible: !this.state.addVisible });
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      var visible = this.state.addVisible ? "" : "invisible";
+	      return _react2.default.createElement(
+	        'div',
+	        null,
+	        _react2.default.createElement(
+	          'h1',
+	          null,
+	          'Empathy Wall'
+	        ),
+	        _react2.default.createElement(_NoteFilters2.default, null),
+	        _react2.default.createElement(
+	          'div',
+	          { className: visible },
+	          _react2.default.createElement(_AddNote2.default, null)
+	        ),
+	        _react2.default.createElement(
+	          'button',
+	          { onClick: this.toggleAdd.bind(this) },
+	          'Add a note'
+	        )
+	      );
+	    }
+	  }]);
+	
+	  return IndexHeader;
+	}(_react2.default.Component);
+	
+	;
+	
+	exports.default = IndexHeader;
 
 /***/ }
 /******/ ]);
