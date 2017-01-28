@@ -15,10 +15,11 @@ class IndexHeader extends React.Component {
 
   render () {
     let visible = this.state.addVisible ? "" : "invisible";
+    let that = this;
     return <div>
       <h1>Empathy Wall</h1>
       <NoteFilters />
-      <div className={visible}><AddNote /></div>
+      <div className={visible}><AddNote parent={that}/></div>
       <button onClick={this.toggleAdd.bind(this)}>Add a note</button>
     </div>
   }

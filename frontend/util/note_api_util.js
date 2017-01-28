@@ -6,12 +6,12 @@ export const fetchNotes = () => {
     url: 'api/notes/',
     success: (data) => {
       // console.log("data of call " + data);
-      
+
     }
   });
 };
 
-export const createNote = (data) => {
+export const createNewNote = (data) => {
   return $.ajax({
     method: 'POST',
     url: 'api/notes',

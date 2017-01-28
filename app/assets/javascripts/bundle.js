@@ -27083,7 +27083,7 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.receiveNote = exports.receiveNotes = exports.fetchAllNotes = exports.RECEIVE_NOTES = undefined;
+	exports.receiveNote = exports.receiveNotes = exports.createNote = exports.fetchAllNotes = exports.RECEIVE_NOTES = undefined;
 	
 	var _note_api_util = __webpack_require__(245);
 	
@@ -27096,6 +27096,12 @@
 	var fetchAllNotes = exports.fetchAllNotes = function fetchAllNotes() {
 	  (0, _note_api_util.fetchNotes)().then(function (data) {
 	    _dispatcher.AppDispatcher.dispatch(receiveNotes(data.notes));
+	  });
+	};
+	
+	var createNote = exports.createNote = function createNote(content) {
+	  (0, _note_api_util.createNewNote)({ note: { content: content } }).then(function (data) {
+	    _dispatcher.AppDispatcher.dispatch(receiveNote(data.note));
 	  });
 	};
 	
@@ -27129,7 +27135,7 @@
 	  });
 	};
 	
-	var createNote = exports.createNote = function createNote(data) {
+	var createNewNote = exports.createNewNote = function createNewNote(data) {
 	  return $.ajax({
 	    method: 'POST',
 	    url: 'api/notes',
@@ -27935,6 +27941,7 @@
 	    key: 'render',
 	    value: function render() {
 	      var visible = this.state.addVisible ? "" : "invisible";
+	      var that = this;
 	      return _react2.default.createElement(
 	        'div',
 	        null,
@@ -27947,7 +27954,7 @@
 	        _react2.default.createElement(
 	          'div',
 	          { className: visible },
-	          _react2.default.createElement(_AddNote2.default, null)
+	          _react2.default.createElement(_AddNote2.default, { parent: that })
 	        ),
 	        _react2.default.createElement(
 	          'button',
@@ -27989,7 +27996,7 @@
 	
 	var _reactQuill2 = _interopRequireDefault(_reactQuill);
 	
-	var _note_api_util = __webpack_require__(245);
+	var _note_actions = __webpack_require__(244);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -28019,8 +28026,8 @@
 	  }, {
 	    key: 'saveNote',
 	    value: function saveNote() {
-	      (0, _note_api_util.createNote)(input);
-	      this.parent.toggleAdd();
+	      (0, _note_actions.createNote)(this.content);
+	      this.props.parent.toggleAdd();
 	    }
 	  }, {
 	    key: 'render',
@@ -28041,7 +28048,7 @@
 	          className: 'note-content-input' }),
 	        _react2.default.createElement(
 	          'button',
-	          { className: 'save-button', onClick: that.saveNote },
+	          { className: 'save-button', onClick: this.saveNote.bind(this) },
 	          'Save Note'
 	        )
 	      );

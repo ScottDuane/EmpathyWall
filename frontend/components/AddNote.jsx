@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import ReactQuill from 'react-quill';
-import { createNote } from '../util/note_api_util';
+import { createNote } from '../actions/note_actions';
 
 class AddNote extends Component {
   constructor () {
@@ -14,8 +14,8 @@ class AddNote extends Component {
   };
 
   saveNote () {
-    createNote(input);
-    this.parent.toggleAdd();
+    createNote(this.content);
+    this.props.parent.toggleAdd();
   };
 
   render () {
@@ -27,7 +27,7 @@ class AddNote extends Component {
                    onChange={this.changeContent.bind(this)}
                    placeholder="Type your note here..."
                    className="note-content-input"/>
-                 <button className="save-button" onClick={that.saveNote}>Save Note</button>
+                 <button className="save-button" onClick={this.saveNote.bind(this)}>Save Note</button>
     </div>;
   };
 };
