@@ -17,3 +17,12 @@
  .invisible {
    display: none;
  }
+
+.list-item-note {
+  width: 25%;
+}
+
+img {
+  height: 20px;
+  width: 40px;
+}

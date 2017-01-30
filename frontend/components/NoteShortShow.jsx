@@ -1,9 +1,9 @@
 import React from 'react';
 
-const NoteShortShow = () => {
-  return (
-    <div>Note content yo</div>
-  );
+class NoteShortShow extends React.Component {
+  render () {
+    return <li>{this.props.content}</li>
+  };
 };
 
 export default NoteShortShow;

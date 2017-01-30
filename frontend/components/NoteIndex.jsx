@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { fetchAllNotes } from '../actions/note_actions';
 import NoteStore from '../stores/note_store';
+import NoteShortShow from './NoteShortShow';
+import Masonry from 'react-masonry-component';
+import Packery from 'packery';
 
 class NoteIndex extends React.Component {
   constructor () {
@@ -24,10 +27,16 @@ class NoteIndex extends React.Component {
   };
 
   render () {
-    return <ul>{this.state.notes.map( (note) => {
-        return <li>{note.content}</li>
-      })
-    }</ul>;
+    let listItems = this.state.notes.map( (note) => {
+            return <li key={note.id} className='list-item-note'><img src="http://image.shutterstock.com/z/stock-vector-angry-unicorn-296810093.jpg" /></li>
+          });
+
+    return <Masonry
+      className={'note-grid'}
+      elementType={'ul'}
+       >
+      {listItems}
+  </Masonry>
   };
 };
 
