@@ -26840,26 +26840,36 @@
 	        switch (randNum1) {
 	          case 0:
 	            heightClass += " list-item-note-1";
+	            break;
 	          case 1:
 	            heightClass += " list-item-note-2";
+	            break;
 	          case 2:
 	            heightClass += " list-item-note-3";
+	            break;
 	        };
 	
 	        var randNum2 = Math.floor(Math.random() * 3);
 	        switch (randNum2) {
 	          case 0:
 	            heightClass += " list-item-yellow";
+	            break;
 	          case 1:
 	            heightClass += " list-item-pink";
+	            break;
 	          case 2:
 	            heightClass += " list-item-blue";
+	            break;
 	        };
-	
 	        return _react2.default.createElement(
 	          'li',
 	          { key: note.id, className: heightClass },
-	          note.content
+	          _react2.default.createElement('hr', null),
+	          _react2.default.createElement(
+	            'span',
+	            { className: 'post-it-content' },
+	            note.content
+	          )
 	        );
 	      });
 	

@@ -20,37 +20,52 @@
 
 .list-item-note {
   display: inline-block;
+  text-align: center;
+  color: #111;
+  margin: 3px;
+  font-family: 'Permanent Marker', cursive;*/
+  font-size: 18px;
+  padding-top: 10px;
+  padding-bottom: 15px;
+  width: 20%;
 }
 
+.post-it-line {
+  color: #333;
+  padding: 3px;
+}
 .list-item-note-1 {
-  height: 100px;
-  width: 100px;
+  width: 20%;
 }
 
 .list-item-note-2 {
-  height: 80px;
-  width: 80px;
+  width: 15%;
 }
 
 .list-item-note-3 {
-  height: 120px;
-  width: 120px;
+  width: 25%;
 }
 
-.list-item-note-yellow {
+.list-item-yellow {
   background-color: #f3ff70;
 }
 
-.list-item-note-blue {
+.list-item-blue {
   background-color: #80f2fc;
 }
 
-.list-item-note-pink {
+.list-item-pink {
   background-color: #ff99d1;
 }
 
 .note-grid {
 
+}
+
+.note-grid:after {
+  content: '';
+  display: block;
+  clear: both;
 }
 
 html {
