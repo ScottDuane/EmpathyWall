@@ -28,12 +28,35 @@ class NoteIndex extends React.Component {
 
   render () {
     let listItems = this.state.notes.map( (note) => {
-            return <li key={note.id} className='list-item-note'><img src="http://image.shutterstock.com/z/stock-vector-angry-unicorn-296810093.jpg" /></li>
+            let randNum1 = Math.floor(Math.random()*3);
+            let heightClass = "list-item-note ";
+            switch (randNum1) {
+              case 0:
+                heightClass += " list-item-note-1";
+              case 1:
+                heightClass += " list-item-note-2";
+              case 2:
+                heightClass += " list-item-note-3";
+            };
+
+            let randNum2 = Math.floor(Math.random()*3);
+            switch (randNum2) {
+              case 0:
+                heightClass += " list-item-yellow";
+              case 1:
+                heightClass += " list-item-pink";
+              case 2:
+                heightClass += " list-item-blue";
+            };
+
+            return <li key={note.id} className={heightClass}>{note.content}</li>
           });
 
+    let masonryOptions = {};
     return <Masonry
       className={'note-grid'}
       elementType={'ul'}
+      options={masonryOptions}
        >
       {listItems}
   </Masonry>

@@ -19,10 +19,50 @@
  }
 
 .list-item-note {
-  width: 25%;
+  display: inline-block;
 }
 
-img {
-  height: 20px;
-  width: 40px;
+.list-item-note-1 {
+  height: 100px;
+  width: 100px;
+}
+
+.list-item-note-2 {
+  height: 80px;
+  width: 80px;
+}
+
+.list-item-note-3 {
+  height: 120px;
+  width: 120px;
+}
+
+.list-item-note-yellow {
+  background-color: #f3ff70;
+}
+
+.list-item-note-blue {
+  background-color: #80f2fc;
+}
+
+.list-item-note-pink {
+  background-color: #ff99d1;
+}
+
+.note-grid {
+
+}
+
+html {
+  background-color: #111;
+  color: #ccc;
+}
+
+h1 {
+  text-align: center;
+  /*font-family: 'Indie Flower', cursive;*/
+/*font-family: 'Gloria Hallelujah', cursive;
+font-family: 'Permanent Marker', cursive;*/
+  font-family: 'Rock Salt', cursive;
+/*font-family: 'Walter Turncoat', cursive;*/
 }

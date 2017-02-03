@@ -4,8 +4,8 @@ import ReactDOM from 'react-dom';
 class Navbar extends Component {
   render () {
     return (
-      <div>
-        <ul>
+      <div className="navbar-wrapper">
+        <ul className="navbar-class">
           <li>About</li>
           <li>Github</li>
           <li>LinkedIn</li>
