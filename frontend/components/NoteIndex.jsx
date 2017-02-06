@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { fetchAllNotes } from '../actions/note_actions';
-import NoteStore from '../stores/note_store';
 import NoteShortShow from './NoteShortShow';
 import Masonry from 'react-masonry-component';
 import Packery from 'packery';
@@ -10,20 +9,19 @@ class NoteIndex extends React.Component {
   constructor () {
     super();
     fetchAllNotes();
-    this.noteStore = new NoteStore();
-    this.state = { notes: this.noteStore.getNotes() };
+    this.state = { notes: [], addVisible: false };
   };
 
   componentDidMount () {
-    this.noteStore.addChangeListener(this.onChange.bind(this));
+    this.props.noteStore.addChangeListener(this.onChange.bind(this));
   };
 
   componentWillUnmount () {
-    this.noteStore.removeChangeListener(this.onChange.bind(this));
+    this.props.noteStore.removeChangeListener(this.onChange.bind(this));
   };
 
   onChange () {
-    this.setState({ notes: this.noteStore.getNotes() })
+    this.setState({ notes: this.props.noteStore.getNotes(), addVisible: this.props.noteStore.getAddState() })
   };
 
   render () {
@@ -42,16 +40,24 @@ class NoteIndex extends React.Component {
                 break;
             };
 
-            let randNum2 = Math.floor(Math.random()*3);
-            switch (randNum2) {
-              case 0:
+            switch (note.color) {
+              case "yellow":
                 heightClass += " list-item-yellow";
                 break;
-              case 1:
+              case "pink":
                 heightClass += " list-item-pink";
                 break;
-              case 2:
+              case "blue":
                 heightClass += " list-item-blue";
+                break;
+              case "green":
+                heightClass += " list-item-green";
+                break;
+              case "orange":
+                heightClass += " list-item-orange";
+                break;
+              default:
+                heightClass += " list-item-yellow";
                 break;
             };
             return <li key={note.id} className={heightClass}><hr /><span className="post-it-content">{note.content}</span></li>

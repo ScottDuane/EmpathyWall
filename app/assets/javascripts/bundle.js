@@ -26590,6 +26590,8 @@
 	  value: true
 	});
 	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
 	var _react = __webpack_require__(1);
 	
 	var _react2 = _interopRequireDefault(_react);
@@ -26606,7 +26608,7 @@
 	
 	var _NoteIndex2 = _interopRequireDefault(_NoteIndex);
 	
-	var _note_store = __webpack_require__(244);
+	var _note_store = __webpack_require__(274);
 	
 	var _note_store2 = _interopRequireDefault(_note_store);
 	
@@ -26614,17 +26616,63 @@
 	
 	var _IndexHeader2 = _interopRequireDefault(_IndexHeader);
 	
+	var _AddNote = __webpack_require__(277);
+	
+	var _AddNote2 = _interopRequireDefault(_AddNote);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	var App = function App() {
-	  return _react2.default.createElement(
-	    'div',
-	    null,
-	    _react2.default.createElement(_Navbar2.default, null),
-	    _react2.default.createElement(_IndexHeader2.default, null),
-	    _react2.default.createElement(_NoteIndex2.default, null)
-	  );
-	};
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var App = function (_React$Component) {
+	  _inherits(App, _React$Component);
+	
+	  function App() {
+	    _classCallCheck(this, App);
+	
+	    var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this));
+	
+	    _this.state = { addVisible: false };
+	    _this.noteStore = new _note_store2.default();
+	    return _this;
+	  }
+	
+	  _createClass(App, [{
+	    key: 'toggleAdd',
+	
+	    //
+	    value: function toggleAdd() {
+	      var currentState = this.state.addVisible;
+	      var nextState = !currentState;
+	      this.setState(function (child, nextState) {
+	        return { visible: nextState };
+	      });
+	      this.forceUpdate(child.toggleSelf);
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      var that = this;
+	      var fauxKlass = this.state.addVisible ? "add-modal-wrapper" : "invisible";
+	      return _react2.default.createElement(
+	        'div',
+	        null,
+	        _react2.default.createElement(_Navbar2.default, { noteStore: that.noteStore }),
+	        _react2.default.createElement(_IndexHeader2.default, { noteStore: that.noteStore }),
+	        _react2.default.createElement(_NoteIndex2.default, { noteStore: that.noteStore }),
+	        _react2.default.createElement(_AddNote2.default, { noteStore: that.noteStore })
+	      );
+	    }
+	  }]);
+	
+	  return App;
+	}(_react2.default.Component);
+	
+	;
 	
 	exports.default = App;
 
@@ -26778,19 +26826,15 @@
 	
 	var _note_actions = __webpack_require__(238);
 	
-	var _note_store = __webpack_require__(244);
-	
-	var _note_store2 = _interopRequireDefault(_note_store);
-	
-	var _NoteShortShow = __webpack_require__(246);
+	var _NoteShortShow = __webpack_require__(244);
 	
 	var _NoteShortShow2 = _interopRequireDefault(_NoteShortShow);
 	
-	var _reactMasonryComponent = __webpack_require__(247);
+	var _reactMasonryComponent = __webpack_require__(245);
 	
 	var _reactMasonryComponent2 = _interopRequireDefault(_reactMasonryComponent);
 	
-	var _packery = __webpack_require__(272);
+	var _packery = __webpack_require__(270);
 	
 	var _packery2 = _interopRequireDefault(_packery);
 	
@@ -26811,25 +26855,24 @@
 	    var _this = _possibleConstructorReturn(this, (NoteIndex.__proto__ || Object.getPrototypeOf(NoteIndex)).call(this));
 	
 	    (0, _note_actions.fetchAllNotes)();
-	    _this.noteStore = new _note_store2.default();
-	    _this.state = { notes: _this.noteStore.getNotes() };
+	    _this.state = { notes: [], addVisible: false };
 	    return _this;
 	  }
 	
 	  _createClass(NoteIndex, [{
 	    key: 'componentDidMount',
 	    value: function componentDidMount() {
-	      this.noteStore.addChangeListener(this.onChange.bind(this));
+	      this.props.noteStore.addChangeListener(this.onChange.bind(this));
 	    }
 	  }, {
 	    key: 'componentWillUnmount',
 	    value: function componentWillUnmount() {
-	      this.noteStore.removeChangeListener(this.onChange.bind(this));
+	      this.props.noteStore.removeChangeListener(this.onChange.bind(this));
 	    }
 	  }, {
 	    key: 'onChange',
 	    value: function onChange() {
-	      this.setState({ notes: this.noteStore.getNotes() });
+	      this.setState({ notes: this.props.noteStore.getNotes(), addVisible: this.props.noteStore.getAddState() });
 	    }
 	  }, {
 	    key: 'render',
@@ -26849,16 +26892,24 @@
 	            break;
 	        };
 	
-	        var randNum2 = Math.floor(Math.random() * 3);
-	        switch (randNum2) {
-	          case 0:
+	        switch (note.color) {
+	          case "yellow":
 	            heightClass += " list-item-yellow";
 	            break;
-	          case 1:
+	          case "pink":
 	            heightClass += " list-item-pink";
 	            break;
-	          case 2:
+	          case "blue":
 	            heightClass += " list-item-blue";
+	            break;
+	          case "green":
+	            heightClass += " list-item-green";
+	            break;
+	          case "orange":
+	            heightClass += " list-item-orange";
+	            break;
+	          default:
+	            heightClass += " list-item-yellow";
 	            break;
 	        };
 	        return _react2.default.createElement(
@@ -26902,7 +26953,7 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.receiveNote = exports.receiveNotes = exports.createNote = exports.fetchAllNotes = exports.RECEIVE_NOTES = undefined;
+	exports.receiveNote = exports.receiveNotes = exports.toggleNoteAdd = exports.createNote = exports.fetchAllNotes = undefined;
 	
 	var _note_api_util = __webpack_require__(239);
 	
@@ -26910,18 +26961,22 @@
 	
 	var _note_constants = __webpack_require__(243);
 	
-	var RECEIVE_NOTES = exports.RECEIVE_NOTES = "RECEIVE_NOTES";
-	
 	var fetchAllNotes = exports.fetchAllNotes = function fetchAllNotes() {
 	  (0, _note_api_util.fetchNotes)().then(function (data) {
 	    _dispatcher.AppDispatcher.dispatch(receiveNotes(data.notes));
 	  });
 	};
 	
-	var createNote = exports.createNote = function createNote(content) {
-	  (0, _note_api_util.createNewNote)({ note: { content: content } }).then(function (data) {
+	var createNote = exports.createNote = function createNote(content, color) {
+	  (0, _note_api_util.createNewNote)({ note: { content: content, color: color } }).then(function (data) {
 	    _dispatcher.AppDispatcher.dispatch(receiveNote(data.note));
 	  });
+	};
+	
+	var toggleNoteAdd = exports.toggleNoteAdd = function toggleNoteAdd(addState) {
+	  var payload = { actionType: _note_constants.TOGGLE_ADD,
+	    addState: addState };
+	  _dispatcher.AppDispatcher.dispatch(payload);
 	};
 	
 	var receiveNotes = exports.receiveNotes = function receiveNotes(notes) {
@@ -27249,401 +27304,10 @@
 	});
 	var NOTES_RECEIVED = exports.NOTES_RECEIVED = "NOTES_RECEIVED";
 	var NOTE_RECEIVED = exports.NOTE_RECEIVED = "NOTE_RECEIVED";
+	var TOGGLE_ADD = exports.TOGGLE_ADD = "TOGGLE_ADD";
 
 /***/ },
 /* 244 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-	
-	var _events = __webpack_require__(245);
-	
-	var _note_actions = __webpack_require__(238);
-	
-	var _dispatcher = __webpack_require__(240);
-	
-	var _note_constants = __webpack_require__(243);
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-	
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-	
-	var NoteStore = function (_EventEmitter) {
-	  _inherits(NoteStore, _EventEmitter);
-	
-	  function NoteStore() {
-	    _classCallCheck(this, NoteStore);
-	
-	    var _this = _possibleConstructorReturn(this, (NoteStore.__proto__ || Object.getPrototypeOf(NoteStore)).call(this));
-	
-	    _this.notes = ["a notes or something"];
-	    _this.filteredNotes = [];
-	    _this.change_event = "change";
-	
-	    _dispatcher.AppDispatcher.register(function (payload) {
-	      _this.updateStore(payload);
-	    });
-	    return _this;
-	  }
-	
-	  _createClass(NoteStore, [{
-	    key: 'updateStore',
-	    value: function updateStore(payload) {
-	      console.log("updating store");
-	      // debugger;
-	      switch (payload.actionType) {
-	        case _note_constants.NOTES_RECEIVED:
-	          this.notes = payload.notes;
-	          this.emit(this.change_event);
-	          break;
-	        case _note_constants.NOTE_RECEIVED:
-	          this.notes.push(payload.note);
-	          this.emit(this.change_event);
-	          break;
-	      }
-	    }
-	  }, {
-	    key: 'getNotes',
-	    value: function getNotes() {
-	      return this.notes;
-	    }
-	  }, {
-	    key: 'addChangeListener',
-	    value: function addChangeListener(callback) {
-	      this.on(this.change_event, callback);
-	    }
-	  }, {
-	    key: 'removeChangeListener',
-	    value: function removeChangeListener(callback) {
-	      this.removeListener(this.change_event, callback);
-	    }
-	  }]);
-	
-	  return NoteStore;
-	}(_events.EventEmitter);
-	
-	;
-	
-	exports.default = NoteStore;
-
-/***/ },
-/* 245 */
-/***/ function(module, exports) {
-
-	// Copyright Joyent, Inc. and other Node contributors.
-	//
-	// Permission is hereby granted, free of charge, to any person obtaining a
-	// copy of this software and associated documentation files (the
-	// "Software"), to deal in the Software without restriction, including
-	// without limitation the rights to use, copy, modify, merge, publish,
-	// distribute, sublicense, and/or sell copies of the Software, and to permit
-	// persons to whom the Software is furnished to do so, subject to the
-	// following conditions:
-	//
-	// The above copyright notice and this permission notice shall be included
-	// in all copies or substantial portions of the Software.
-	//
-	// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
-	// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-	// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
-	// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-	// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
-	// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
-	// USE OR OTHER DEALINGS IN THE SOFTWARE.
-	
-	function EventEmitter() {
-	  this._events = this._events || {};
-	  this._maxListeners = this._maxListeners || undefined;
-	}
-	module.exports = EventEmitter;
-	
-	// Backwards-compat with node 0.10.x
-	EventEmitter.EventEmitter = EventEmitter;
-	
-	EventEmitter.prototype._events = undefined;
-	EventEmitter.prototype._maxListeners = undefined;
-	
-	// By default EventEmitters will print a warning if more than 10 listeners are
-	// added to it. This is a useful default which helps finding memory leaks.
-	EventEmitter.defaultMaxListeners = 10;
-	
-	// Obviously not all Emitters should be limited to 10. This function allows
-	// that to be increased. Set to zero for unlimited.
-	EventEmitter.prototype.setMaxListeners = function(n) {
-	  if (!isNumber(n) || n < 0 || isNaN(n))
-	    throw TypeError('n must be a positive number');
-	  this._maxListeners = n;
-	  return this;
-	};
-	
-	EventEmitter.prototype.emit = function(type) {
-	  var er, handler, len, args, i, listeners;
-	
-	  if (!this._events)
-	    this._events = {};
-	
-	  // If there is no 'error' event listener then throw.
-	  if (type === 'error') {
-	    if (!this._events.error ||
-	        (isObject(this._events.error) && !this._events.error.length)) {
-	      er = arguments[1];
-	      if (er instanceof Error) {
-	        throw er; // Unhandled 'error' event
-	      } else {
-	        // At least give some kind of context to the user
-	        var err = new Error('Uncaught, unspecified "error" event. (' + er + ')');
-	        err.context = er;
-	        throw err;
-	      }
-	    }
-	  }
-	
-	  handler = this._events[type];
-	
-	  if (isUndefined(handler))
-	    return false;
-	
-	  if (isFunction(handler)) {
-	    switch (arguments.length) {
-	      // fast cases
-	      case 1:
-	        handler.call(this);
-	        break;
-	      case 2:
-	        handler.call(this, arguments[1]);
-	        break;
-	      case 3:
-	        handler.call(this, arguments[1], arguments[2]);
-	        break;
-	      // slower
-	      default:
-	        args = Array.prototype.slice.call(arguments, 1);
-	        handler.apply(this, args);
-	    }
-	  } else if (isObject(handler)) {
-	    args = Array.prototype.slice.call(arguments, 1);
-	    listeners = handler.slice();
-	    len = listeners.length;
-	    for (i = 0; i < len; i++)
-	      listeners[i].apply(this, args);
-	  }
-	
-	  return true;
-	};
-	
-	EventEmitter.prototype.addListener = function(type, listener) {
-	  var m;
-	
-	  if (!isFunction(listener))
-	    throw TypeError('listener must be a function');
-	
-	  if (!this._events)
-	    this._events = {};
-	
-	  // To avoid recursion in the case that type === "newListener"! Before
-	  // adding it to the listeners, first emit "newListener".
-	  if (this._events.newListener)
-	    this.emit('newListener', type,
-	              isFunction(listener.listener) ?
-	              listener.listener : listener);
-	
-	  if (!this._events[type])
-	    // Optimize the case of one listener. Don't need the extra array object.
-	    this._events[type] = listener;
-	  else if (isObject(this._events[type]))
-	    // If we've already got an array, just append.
-	    this._events[type].push(listener);
-	  else
-	    // Adding the second element, need to change to array.
-	    this._events[type] = [this._events[type], listener];
-	
-	  // Check for listener leak
-	  if (isObject(this._events[type]) && !this._events[type].warned) {
-	    if (!isUndefined(this._maxListeners)) {
-	      m = this._maxListeners;
-	    } else {
-	      m = EventEmitter.defaultMaxListeners;
-	    }
-	
-	    if (m && m > 0 && this._events[type].length > m) {
-	      this._events[type].warned = true;
-	      console.error('(node) warning: possible EventEmitter memory ' +
-	                    'leak detected. %d listeners added. ' +
-	                    'Use emitter.setMaxListeners() to increase limit.',
-	                    this._events[type].length);
-	      if (typeof console.trace === 'function') {
-	        // not supported in IE 10
-	        console.trace();
-	      }
-	    }
-	  }
-	
-	  return this;
-	};
-	
-	EventEmitter.prototype.on = EventEmitter.prototype.addListener;
-	
-	EventEmitter.prototype.once = function(type, listener) {
-	  if (!isFunction(listener))
-	    throw TypeError('listener must be a function');
-	
-	  var fired = false;
-	
-	  function g() {
-	    this.removeListener(type, g);
-	
-	    if (!fired) {
-	      fired = true;
-	      listener.apply(this, arguments);
-	    }
-	  }
-	
-	  g.listener = listener;
-	  this.on(type, g);
-	
-	  return this;
-	};
-	
-	// emits a 'removeListener' event iff the listener was removed
-	EventEmitter.prototype.removeListener = function(type, listener) {
-	  var list, position, length, i;
-	
-	  if (!isFunction(listener))
-	    throw TypeError('listener must be a function');
-	
-	  if (!this._events || !this._events[type])
-	    return this;
-	
-	  list = this._events[type];
-	  length = list.length;
-	  position = -1;
-	
-	  if (list === listener ||
-	      (isFunction(list.listener) && list.listener === listener)) {
-	    delete this._events[type];
-	    if (this._events.removeListener)
-	      this.emit('removeListener', type, listener);
-	
-	  } else if (isObject(list)) {
-	    for (i = length; i-- > 0;) {
-	      if (list[i] === listener ||
-	          (list[i].listener && list[i].listener === listener)) {
-	        position = i;
-	        break;
-	      }
-	    }
-	
-	    if (position < 0)
-	      return this;
-	
-	    if (list.length === 1) {
-	      list.length = 0;
-	      delete this._events[type];
-	    } else {
-	      list.splice(position, 1);
-	    }
-	
-	    if (this._events.removeListener)
-	      this.emit('removeListener', type, listener);
-	  }
-	
-	  return this;
-	};
-	
-	EventEmitter.prototype.removeAllListeners = function(type) {
-	  var key, listeners;
-	
-	  if (!this._events)
-	    return this;
-	
-	  // not listening for removeListener, no need to emit
-	  if (!this._events.removeListener) {
-	    if (arguments.length === 0)
-	      this._events = {};
-	    else if (this._events[type])
-	      delete this._events[type];
-	    return this;
-	  }
-	
-	  // emit removeListener for all listeners on all events
-	  if (arguments.length === 0) {
-	    for (key in this._events) {
-	      if (key === 'removeListener') continue;
-	      this.removeAllListeners(key);
-	    }
-	    this.removeAllListeners('removeListener');
-	    this._events = {};
-	    return this;
-	  }
-	
-	  listeners = this._events[type];
-	
-	  if (isFunction(listeners)) {
-	    this.removeListener(type, listeners);
-	  } else if (listeners) {
-	    // LIFO order
-	    while (listeners.length)
-	      this.removeListener(type, listeners[listeners.length - 1]);
-	  }
-	  delete this._events[type];
-	
-	  return this;
-	};
-	
-	EventEmitter.prototype.listeners = function(type) {
-	  var ret;
-	  if (!this._events || !this._events[type])
-	    ret = [];
-	  else if (isFunction(this._events[type]))
-	    ret = [this._events[type]];
-	  else
-	    ret = this._events[type].slice();
-	  return ret;
-	};
-	
-	EventEmitter.prototype.listenerCount = function(type) {
-	  if (this._events) {
-	    var evlistener = this._events[type];
-	
-	    if (isFunction(evlistener))
-	      return 1;
-	    else if (evlistener)
-	      return evlistener.length;
-	  }
-	  return 0;
-	};
-	
-	EventEmitter.listenerCount = function(emitter, type) {
-	  return emitter.listenerCount(type);
-	};
-	
-	function isFunction(arg) {
-	  return typeof arg === 'function';
-	}
-	
-	function isNumber(arg) {
-	  return typeof arg === 'number';
-	}
-	
-	function isObject(arg) {
-	  return typeof arg === 'object' && arg !== null;
-	}
-	
-	function isUndefined(arg) {
-	  return arg === void 0;
-	}
-
-
-/***/ },
-/* 246 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -27694,16 +27358,16 @@
 	exports.default = NoteShortShow;
 
 /***/ },
-/* 247 */
+/* 245 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var isBrowser = typeof window !== 'undefined';
-	var Masonry = isBrowser ? window.Masonry || __webpack_require__(248) : null;
-	var imagesloaded = isBrowser ? __webpack_require__(255) : null;
-	var assign = __webpack_require__(256);
-	var elementResizeDetectorMaker = __webpack_require__(257);
-	var debounce = __webpack_require__(270);
-	var omit = __webpack_require__(271);
+	var Masonry = isBrowser ? window.Masonry || __webpack_require__(246) : null;
+	var imagesloaded = isBrowser ? __webpack_require__(253) : null;
+	var assign = __webpack_require__(254);
+	var elementResizeDetectorMaker = __webpack_require__(255);
+	var debounce = __webpack_require__(268);
+	var omit = __webpack_require__(269);
 	var React = __webpack_require__(1);
 	var refName = 'masonryContainer';
 	
@@ -27990,7 +27654,7 @@
 
 
 /***/ },
-/* 248 */
+/* 246 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -28007,8 +27671,8 @@
 	  if ( true ) {
 	    // AMD
 	    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [
-	        __webpack_require__(249),
-	        __webpack_require__(251)
+	        __webpack_require__(247),
+	        __webpack_require__(249)
 	      ], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 	  } else if ( typeof module == 'object' && module.exports ) {
 	    // CommonJS
@@ -28200,7 +27864,7 @@
 
 
 /***/ },
-/* 249 */
+/* 247 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -28216,10 +27880,10 @@
 	  if ( true ) {
 	    // AMD - RequireJS
 	    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [
+	        __webpack_require__(248),
+	        __webpack_require__(249),
 	        __webpack_require__(250),
-	        __webpack_require__(251),
-	        __webpack_require__(252),
-	        __webpack_require__(254)
+	        __webpack_require__(252)
 	      ], __WEBPACK_AMD_DEFINE_RESULT__ = function( EvEmitter, getSize, utils, Item ) {
 	        return factory( window, EvEmitter, getSize, utils, Item);
 	      }.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
@@ -29143,7 +28807,7 @@
 
 
 /***/ },
-/* 250 */
+/* 248 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
@@ -29258,7 +28922,7 @@
 
 
 /***/ },
-/* 251 */
+/* 249 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -29473,7 +29137,7 @@
 
 
 /***/ },
-/* 252 */
+/* 250 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
@@ -29490,7 +29154,7 @@
 	  if ( true ) {
 	    // AMD
 	    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [
-	      __webpack_require__(253)
+	      __webpack_require__(251)
 	    ], __WEBPACK_AMD_DEFINE_RESULT__ = function( matchesSelector ) {
 	      return factory( window, matchesSelector );
 	    }.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
@@ -29716,7 +29380,7 @@
 
 
 /***/ },
-/* 253 */
+/* 251 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
@@ -29775,7 +29439,7 @@
 
 
 /***/ },
-/* 254 */
+/* 252 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
@@ -29788,8 +29452,8 @@
 	  if ( true ) {
 	    // AMD - RequireJS
 	    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [
-	        __webpack_require__(250),
-	        __webpack_require__(251)
+	        __webpack_require__(248),
+	        __webpack_require__(249)
 	      ], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 	  } else if ( typeof module == 'object' && module.exports ) {
 	    // CommonJS - Browserify, Webpack
@@ -30332,7 +29996,7 @@
 
 
 /***/ },
-/* 255 */
+/* 253 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -30349,7 +30013,7 @@
 	  if ( true ) {
 	    // AMD
 	    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [
-	      __webpack_require__(250)
+	      __webpack_require__(248)
 	    ], __WEBPACK_AMD_DEFINE_RESULT__ = function( EvEmitter ) {
 	      return factory( window, EvEmitter );
 	    }.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
@@ -30708,7 +30372,7 @@
 
 
 /***/ },
-/* 256 */
+/* 254 */
 /***/ function(module, exports) {
 
 	/**
@@ -31351,24 +31015,24 @@
 
 
 /***/ },
-/* 257 */
+/* 255 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	
-	var forEach                 = __webpack_require__(258).forEach;
-	var elementUtilsMaker       = __webpack_require__(259);
-	var listenerHandlerMaker    = __webpack_require__(260);
-	var idGeneratorMaker        = __webpack_require__(261);
-	var idHandlerMaker          = __webpack_require__(262);
-	var reporterMaker           = __webpack_require__(263);
-	var browserDetector         = __webpack_require__(264);
-	var batchProcessorMaker     = __webpack_require__(265);
-	var stateHandler            = __webpack_require__(267);
+	var forEach                 = __webpack_require__(256).forEach;
+	var elementUtilsMaker       = __webpack_require__(257);
+	var listenerHandlerMaker    = __webpack_require__(258);
+	var idGeneratorMaker        = __webpack_require__(259);
+	var idHandlerMaker          = __webpack_require__(260);
+	var reporterMaker           = __webpack_require__(261);
+	var browserDetector         = __webpack_require__(262);
+	var batchProcessorMaker     = __webpack_require__(263);
+	var stateHandler            = __webpack_require__(265);
 	
 	//Detection strategies.
-	var objectStrategyMaker     = __webpack_require__(268);
-	var scrollStrategyMaker     = __webpack_require__(269);
+	var objectStrategyMaker     = __webpack_require__(266);
+	var scrollStrategyMaker     = __webpack_require__(267);
 	
 	function isCollection(obj) {
 	    return Array.isArray(obj) || obj.length !== undefined;
@@ -31678,7 +31342,7 @@
 
 
 /***/ },
-/* 258 */
+/* 256 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -31703,7 +31367,7 @@
 
 
 /***/ },
-/* 259 */
+/* 257 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -31761,7 +31425,7 @@
 
 
 /***/ },
-/* 260 */
+/* 258 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -31827,7 +31491,7 @@
 
 
 /***/ },
-/* 261 */
+/* 259 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -31851,7 +31515,7 @@
 
 
 /***/ },
-/* 262 */
+/* 260 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -31904,7 +31568,7 @@
 
 
 /***/ },
-/* 263 */
+/* 261 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -31952,7 +31616,7 @@
 	};
 
 /***/ },
-/* 264 */
+/* 262 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -31997,12 +31661,12 @@
 
 
 /***/ },
-/* 265 */
+/* 263 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	
-	var utils = __webpack_require__(266);
+	var utils = __webpack_require__(264);
 	
 	module.exports = function batchProcessorMaker(options) {
 	    options             = options || {};
@@ -32141,7 +31805,7 @@
 
 
 /***/ },
-/* 266 */
+/* 264 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -32162,7 +31826,7 @@
 
 
 /***/ },
-/* 267 */
+/* 265 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -32190,7 +31854,7 @@
 
 
 /***/ },
-/* 268 */
+/* 266 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -32200,7 +31864,7 @@
 	
 	"use strict";
 	
-	var browserDetector = __webpack_require__(264);
+	var browserDetector = __webpack_require__(262);
 	
 	module.exports = function(options) {
 	    options             = options || {};
@@ -32410,7 +32074,7 @@
 
 
 /***/ },
-/* 269 */
+/* 267 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -32420,7 +32084,7 @@
 	
 	"use strict";
 	
-	var forEach = __webpack_require__(258).forEach;
+	var forEach = __webpack_require__(256).forEach;
 	
 	module.exports = function(options) {
 	    options             = options || {};
@@ -33037,7 +32701,7 @@
 
 
 /***/ },
-/* 270 */
+/* 268 */
 /***/ function(module, exports) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {/**
@@ -33421,7 +33085,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
-/* 271 */
+/* 269 */
 /***/ function(module, exports) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {/**
@@ -34916,7 +34580,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
-/* 272 */
+/* 270 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -34936,11 +34600,11 @@
 	  if ( true ) {
 	    // AMD
 	    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [
-	        __webpack_require__(251),
 	        __webpack_require__(249),
-	        __webpack_require__(273),
-	        __webpack_require__(274),
-	        __webpack_require__(275)
+	        __webpack_require__(247),
+	        __webpack_require__(271),
+	        __webpack_require__(272),
+	        __webpack_require__(273)
 	      ], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 	  } else if ( typeof module == 'object' && module.exports ) {
 	    // CommonJS
@@ -35588,7 +35252,7 @@
 
 
 /***/ },
-/* 273 */
+/* 271 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
@@ -35746,7 +35410,7 @@
 
 
 /***/ },
-/* 274 */
+/* 272 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
@@ -35759,7 +35423,7 @@
 	  /* jshint strict: false */ /* globals define, module, require */
 	  if ( true ) {
 	    // AMD
-	    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [ __webpack_require__(273) ], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+	    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [ __webpack_require__(271) ], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 	  } else if ( typeof module == 'object' && module.exports ) {
 	    // CommonJS
 	    module.exports = factory(
@@ -35949,7 +35613,7 @@
 
 
 /***/ },
-/* 275 */
+/* 273 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
@@ -35962,8 +35626,8 @@
 	  if ( true ) {
 	    // AMD
 	    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [
-	        __webpack_require__(249),
-	        __webpack_require__(273)
+	        __webpack_require__(247),
+	        __webpack_require__(271)
 	      ], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 	  } else if ( typeof module == 'object' && module.exports ) {
 	    // CommonJS
@@ -36084,6 +35748,405 @@
 
 
 /***/ },
+/* 274 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _events = __webpack_require__(275);
+	
+	var _note_actions = __webpack_require__(238);
+	
+	var _dispatcher = __webpack_require__(240);
+	
+	var _note_constants = __webpack_require__(243);
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var NoteStore = function (_EventEmitter) {
+	  _inherits(NoteStore, _EventEmitter);
+	
+	  function NoteStore() {
+	    _classCallCheck(this, NoteStore);
+	
+	    var _this = _possibleConstructorReturn(this, (NoteStore.__proto__ || Object.getPrototypeOf(NoteStore)).call(this));
+	
+	    _this.notes = ["a notes or something"];
+	    _this.filteredNotes = [];
+	    _this.change_event = "change";
+	    _this.addState = false;
+	    _dispatcher.AppDispatcher.register(function (payload) {
+	      _this.updateStore(payload);
+	    });
+	    return _this;
+	  }
+	
+	  _createClass(NoteStore, [{
+	    key: 'updateStore',
+	    value: function updateStore(payload) {
+	      switch (payload.actionType) {
+	        case _note_constants.NOTES_RECEIVED:
+	          this.notes = payload.notes;
+	          this.emit(this.change_event);
+	          break;
+	        case _note_constants.NOTE_RECEIVED:
+	          this.notes.push(payload.note);
+	          this.emit(this.change_event);
+	          break;
+	        case _note_constants.TOGGLE_ADD:
+	          this.addState = payload.addState;
+	          this.emit(this.change_event);
+	          break;
+	      }
+	    }
+	  }, {
+	    key: 'getAddState',
+	    value: function getAddState() {
+	      return this.addState;
+	    }
+	  }, {
+	    key: 'getNotes',
+	    value: function getNotes() {
+	      return this.notes;
+	    }
+	  }, {
+	    key: 'addChangeListener',
+	    value: function addChangeListener(callback) {
+	      this.on(this.change_event, callback);
+	    }
+	  }, {
+	    key: 'removeChangeListener',
+	    value: function removeChangeListener(callback) {
+	      this.removeListener(this.change_event, callback);
+	    }
+	  }]);
+	
+	  return NoteStore;
+	}(_events.EventEmitter);
+	
+	;
+	
+	exports.default = NoteStore;
+
+/***/ },
+/* 275 */
+/***/ function(module, exports) {
+
+	// Copyright Joyent, Inc. and other Node contributors.
+	//
+	// Permission is hereby granted, free of charge, to any person obtaining a
+	// copy of this software and associated documentation files (the
+	// "Software"), to deal in the Software without restriction, including
+	// without limitation the rights to use, copy, modify, merge, publish,
+	// distribute, sublicense, and/or sell copies of the Software, and to permit
+	// persons to whom the Software is furnished to do so, subject to the
+	// following conditions:
+	//
+	// The above copyright notice and this permission notice shall be included
+	// in all copies or substantial portions of the Software.
+	//
+	// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+	// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+	// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+	// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+	// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+	// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+	// USE OR OTHER DEALINGS IN THE SOFTWARE.
+	
+	function EventEmitter() {
+	  this._events = this._events || {};
+	  this._maxListeners = this._maxListeners || undefined;
+	}
+	module.exports = EventEmitter;
+	
+	// Backwards-compat with node 0.10.x
+	EventEmitter.EventEmitter = EventEmitter;
+	
+	EventEmitter.prototype._events = undefined;
+	EventEmitter.prototype._maxListeners = undefined;
+	
+	// By default EventEmitters will print a warning if more than 10 listeners are
+	// added to it. This is a useful default which helps finding memory leaks.
+	EventEmitter.defaultMaxListeners = 10;
+	
+	// Obviously not all Emitters should be limited to 10. This function allows
+	// that to be increased. Set to zero for unlimited.
+	EventEmitter.prototype.setMaxListeners = function(n) {
+	  if (!isNumber(n) || n < 0 || isNaN(n))
+	    throw TypeError('n must be a positive number');
+	  this._maxListeners = n;
+	  return this;
+	};
+	
+	EventEmitter.prototype.emit = function(type) {
+	  var er, handler, len, args, i, listeners;
+	
+	  if (!this._events)
+	    this._events = {};
+	
+	  // If there is no 'error' event listener then throw.
+	  if (type === 'error') {
+	    if (!this._events.error ||
+	        (isObject(this._events.error) && !this._events.error.length)) {
+	      er = arguments[1];
+	      if (er instanceof Error) {
+	        throw er; // Unhandled 'error' event
+	      } else {
+	        // At least give some kind of context to the user
+	        var err = new Error('Uncaught, unspecified "error" event. (' + er + ')');
+	        err.context = er;
+	        throw err;
+	      }
+	    }
+	  }
+	
+	  handler = this._events[type];
+	
+	  if (isUndefined(handler))
+	    return false;
+	
+	  if (isFunction(handler)) {
+	    switch (arguments.length) {
+	      // fast cases
+	      case 1:
+	        handler.call(this);
+	        break;
+	      case 2:
+	        handler.call(this, arguments[1]);
+	        break;
+	      case 3:
+	        handler.call(this, arguments[1], arguments[2]);
+	        break;
+	      // slower
+	      default:
+	        args = Array.prototype.slice.call(arguments, 1);
+	        handler.apply(this, args);
+	    }
+	  } else if (isObject(handler)) {
+	    args = Array.prototype.slice.call(arguments, 1);
+	    listeners = handler.slice();
+	    len = listeners.length;
+	    for (i = 0; i < len; i++)
+	      listeners[i].apply(this, args);
+	  }
+	
+	  return true;
+	};
+	
+	EventEmitter.prototype.addListener = function(type, listener) {
+	  var m;
+	
+	  if (!isFunction(listener))
+	    throw TypeError('listener must be a function');
+	
+	  if (!this._events)
+	    this._events = {};
+	
+	  // To avoid recursion in the case that type === "newListener"! Before
+	  // adding it to the listeners, first emit "newListener".
+	  if (this._events.newListener)
+	    this.emit('newListener', type,
+	              isFunction(listener.listener) ?
+	              listener.listener : listener);
+	
+	  if (!this._events[type])
+	    // Optimize the case of one listener. Don't need the extra array object.
+	    this._events[type] = listener;
+	  else if (isObject(this._events[type]))
+	    // If we've already got an array, just append.
+	    this._events[type].push(listener);
+	  else
+	    // Adding the second element, need to change to array.
+	    this._events[type] = [this._events[type], listener];
+	
+	  // Check for listener leak
+	  if (isObject(this._events[type]) && !this._events[type].warned) {
+	    if (!isUndefined(this._maxListeners)) {
+	      m = this._maxListeners;
+	    } else {
+	      m = EventEmitter.defaultMaxListeners;
+	    }
+	
+	    if (m && m > 0 && this._events[type].length > m) {
+	      this._events[type].warned = true;
+	      console.error('(node) warning: possible EventEmitter memory ' +
+	                    'leak detected. %d listeners added. ' +
+	                    'Use emitter.setMaxListeners() to increase limit.',
+	                    this._events[type].length);
+	      if (typeof console.trace === 'function') {
+	        // not supported in IE 10
+	        console.trace();
+	      }
+	    }
+	  }
+	
+	  return this;
+	};
+	
+	EventEmitter.prototype.on = EventEmitter.prototype.addListener;
+	
+	EventEmitter.prototype.once = function(type, listener) {
+	  if (!isFunction(listener))
+	    throw TypeError('listener must be a function');
+	
+	  var fired = false;
+	
+	  function g() {
+	    this.removeListener(type, g);
+	
+	    if (!fired) {
+	      fired = true;
+	      listener.apply(this, arguments);
+	    }
+	  }
+	
+	  g.listener = listener;
+	  this.on(type, g);
+	
+	  return this;
+	};
+	
+	// emits a 'removeListener' event iff the listener was removed
+	EventEmitter.prototype.removeListener = function(type, listener) {
+	  var list, position, length, i;
+	
+	  if (!isFunction(listener))
+	    throw TypeError('listener must be a function');
+	
+	  if (!this._events || !this._events[type])
+	    return this;
+	
+	  list = this._events[type];
+	  length = list.length;
+	  position = -1;
+	
+	  if (list === listener ||
+	      (isFunction(list.listener) && list.listener === listener)) {
+	    delete this._events[type];
+	    if (this._events.removeListener)
+	      this.emit('removeListener', type, listener);
+	
+	  } else if (isObject(list)) {
+	    for (i = length; i-- > 0;) {
+	      if (list[i] === listener ||
+	          (list[i].listener && list[i].listener === listener)) {
+	        position = i;
+	        break;
+	      }
+	    }
+	
+	    if (position < 0)
+	      return this;
+	
+	    if (list.length === 1) {
+	      list.length = 0;
+	      delete this._events[type];
+	    } else {
+	      list.splice(position, 1);
+	    }
+	
+	    if (this._events.removeListener)
+	      this.emit('removeListener', type, listener);
+	  }
+	
+	  return this;
+	};
+	
+	EventEmitter.prototype.removeAllListeners = function(type) {
+	  var key, listeners;
+	
+	  if (!this._events)
+	    return this;
+	
+	  // not listening for removeListener, no need to emit
+	  if (!this._events.removeListener) {
+	    if (arguments.length === 0)
+	      this._events = {};
+	    else if (this._events[type])
+	      delete this._events[type];
+	    return this;
+	  }
+	
+	  // emit removeListener for all listeners on all events
+	  if (arguments.length === 0) {
+	    for (key in this._events) {
+	      if (key === 'removeListener') continue;
+	      this.removeAllListeners(key);
+	    }
+	    this.removeAllListeners('removeListener');
+	    this._events = {};
+	    return this;
+	  }
+	
+	  listeners = this._events[type];
+	
+	  if (isFunction(listeners)) {
+	    this.removeListener(type, listeners);
+	  } else if (listeners) {
+	    // LIFO order
+	    while (listeners.length)
+	      this.removeListener(type, listeners[listeners.length - 1]);
+	  }
+	  delete this._events[type];
+	
+	  return this;
+	};
+	
+	EventEmitter.prototype.listeners = function(type) {
+	  var ret;
+	  if (!this._events || !this._events[type])
+	    ret = [];
+	  else if (isFunction(this._events[type]))
+	    ret = [this._events[type]];
+	  else
+	    ret = this._events[type].slice();
+	  return ret;
+	};
+	
+	EventEmitter.prototype.listenerCount = function(type) {
+	  if (this._events) {
+	    var evlistener = this._events[type];
+	
+	    if (isFunction(evlistener))
+	      return 1;
+	    else if (evlistener)
+	      return evlistener.length;
+	  }
+	  return 0;
+	};
+	
+	EventEmitter.listenerCount = function(emitter, type) {
+	  return emitter.listenerCount(type);
+	};
+	
+	function isFunction(arg) {
+	  return typeof arg === 'function';
+	}
+	
+	function isNumber(arg) {
+	  return typeof arg === 'number';
+	}
+	
+	function isObject(arg) {
+	  return typeof arg === 'object' && arg !== null;
+	}
+	
+	function isUndefined(arg) {
+	  return arg === void 0;
+	}
+
+
+/***/ },
 /* 276 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -36111,6 +36174,8 @@
 	
 	var _AddNote2 = _interopRequireDefault(_AddNote);
 	
+	var _note_actions = __webpack_require__(238);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -36132,15 +36197,31 @@
 	  }
 	
 	  _createClass(IndexHeader, [{
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      this.props.noteStore.addChangeListener(this.onChange.bind(this));
+	    }
+	  }, {
+	    key: 'componentWillUnmount',
+	    value: function componentWillUnmount() {
+	      this.props.noteStore.removeChangeListener(this.onChange.bind(this));
+	    }
+	  }, {
+	    key: 'onChange',
+	    value: function onChange() {
+	      var newAddState = this.props.noteStore.getAddState();
+	      this.setState({ addVisible: newAddState });
+	    }
+	  }, {
 	    key: 'toggleAdd',
 	    value: function toggleAdd() {
-	      this.setState({ addVisible: !this.state.addVisible });
+	      (0, _note_actions.toggleNoteAdd)(!this.state.addVisible);
 	    }
 	  }, {
 	    key: 'render',
 	    value: function render() {
-	      var visible = this.state.addVisible ? "" : "invisible";
 	      var that = this;
+	      var klass = this.state.addVisible ? "add-note-button" : "add-note-button add-note-wrapper";
 	      return _react2.default.createElement(
 	        'div',
 	        null,
@@ -36149,16 +36230,10 @@
 	          null,
 	          'Empathy Wall'
 	        ),
-	        _react2.default.createElement(_NoteFilters2.default, null),
-	        _react2.default.createElement(
-	          'div',
-	          { className: visible },
-	          _react2.default.createElement(_AddNote2.default, { parent: that })
-	        ),
 	        _react2.default.createElement(
 	          'button',
-	          { onClick: this.toggleAdd.bind(this) },
-	          'Add a note'
+	          { className: klass, onClick: this.toggleAdd.bind(this) },
+	          '+'
 	        )
 	      );
 	    }
@@ -36214,41 +36289,77 @@
 	    var _this = _possibleConstructorReturn(this, (AddNote.__proto__ || Object.getPrototypeOf(AddNote)).call(this));
 	
 	    _this.content = "";
+	    _this.state = { visible: false };
 	    return _this;
 	  }
 	
 	  _createClass(AddNote, [{
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      this.props.noteStore.addChangeListener(this.onChange.bind(this));
+	    }
+	  }, {
+	    key: 'componentWillUnmount',
+	    value: function componentWillUnmount() {
+	      this.props.noteStore.removeChangeListener(this.onChange.bind(this));
+	    }
+	  }, {
+	    key: 'onChange',
+	    value: function onChange() {
+	      this.setState({ visible: this.props.noteStore.getAddState() });
+	    }
+	  }, {
 	    key: 'changeContent',
 	    value: function changeContent(input) {
 	      this.content = input;
 	    }
 	  }, {
+	    key: 'toggleAdd',
+	    value: function toggleAdd() {
+	      var newAddState = !this.state.visible;
+	      (0, _note_actions.toggleNoteAdd)(newAddState);
+	    }
+	  }, {
 	    key: 'saveNote',
 	    value: function saveNote() {
-	      (0, _note_actions.createNote)(this.content);
-	      this.props.parent.toggleAdd();
+	      var colorHash = { 0: "yellow",
+	        1: "pink",
+	        2: "blue",
+	        3: "green",
+	        4: "orange" };
+	
+	      var randNum = Math.random() * 5 / 5;
+	
+	      (0, _note_actions.createNote)(this.content, colorHash[randNum]);
+	      (0, _note_actions.toggleNoteAdd)(false);
 	    }
 	  }, {
 	    key: 'render',
 	    value: function render() {
 	      var that = this;
+	      var klass = this.state.visible ? "add-modal-wrapper" : "invisible";
 	      return _react2.default.createElement(
 	        'div',
-	        null,
+	        { className: klass },
+	        _react2.default.createElement('div', { className: 'add-modal-background', onClick: this.toggleAdd.bind(this) }),
 	        _react2.default.createElement(
-	          'h4',
-	          null,
-	          'What do you want to say?'
-	        ),
-	        _react2.default.createElement(_reactQuill2.default, { theme: 'snow',
-	          value: that.content,
-	          onChange: this.changeContent.bind(this),
-	          placeholder: 'Type your note here...',
-	          className: 'note-content-input' }),
-	        _react2.default.createElement(
-	          'button',
-	          { className: 'save-button', onClick: this.saveNote.bind(this) },
-	          'Save Note'
+	          'div',
+	          { className: 'add-note-modal' },
+	          _react2.default.createElement(
+	            'h4',
+	            null,
+	            'What do you want to say?'
+	          ),
+	          _react2.default.createElement(_reactQuill2.default, { theme: 'snow',
+	            value: that.content,
+	            onChange: this.changeContent.bind(this),
+	            placeholder: 'Type your note here...',
+	            className: 'note-content-input' }),
+	          _react2.default.createElement(
+	            'button',
+	            { className: 'save-button', onClick: this.saveNote.bind(this) },
+	            'Save Note'
+	          )
 	        )
 	      );
 	    }

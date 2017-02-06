@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import NoteFilters from './NoteFilters';
 import AddNote from './AddNote';
+import { toggleNoteAdd } from '../actions/note_actions';
 
 class IndexHeader extends React.Component {
   constructor () {
@@ -9,18 +10,29 @@ class IndexHeader extends React.Component {
     this.state = { addVisible: false };
   };
 
+  componentDidMount () {
+    this.props.noteStore.addChangeListener(this.onChange.bind(this));
+  };
+
+  componentWillUnmount () {
+    this.props.noteStore.removeChangeListener(this.onChange.bind(this));
+  };
+
+  onChange() {
+    let newAddState = this.props.noteStore.getAddState();
+    this.setState( { addVisible: newAddState });
+  };
+
   toggleAdd () {
-    this.setState({ addVisible: !this.state.addVisible });
+    toggleNoteAdd(!this.state.addVisible);
   };
 
   render () {
-    let visible = this.state.addVisible ? "" : "invisible";
     let that = this;
+    let klass = this.state.addVisible ? "add-note-button" : "add-note-button add-note-wrapper";
     return <div>
       <h1>Empathy Wall</h1>
-      <NoteFilters />
-      <div className={visible}><AddNote parent={that}/></div>
-      <button onClick={this.toggleAdd.bind(this)}>Add a note</button>
+      <button className={klass} onClick={this.toggleAdd.bind(this)}>+</button>
     </div>
   }
 };

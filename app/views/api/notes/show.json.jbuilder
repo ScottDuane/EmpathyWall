@@ -1,3 +1,4 @@
 json.note do
   json.content @note.content
-end 
+  json.color @note.color 
+end

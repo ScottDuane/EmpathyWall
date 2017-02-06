@@ -23,15 +23,18 @@
   text-align: center;
   color: #111;
   margin: 3px;
-  font-family: 'Permanent Marker', cursive;*/
+  font-family: 'Permanent Marker', cursive;
   font-size: 18px;
   padding-top: 10px;
   padding-bottom: 15px;
   width: 20%;
+  box-shadow: 0px 4px 6px #333;
+  -moz-box-shadow: 0px 4px 6px #333;
+  -webkit-box-shadow: 0px 4px 6px #333;
 }
 
 .post-it-line {
-  color: #333;
+  color: #222;
   padding: 3px;
 }
 .list-item-note-1 {
@@ -47,15 +50,23 @@
 }
 
 .list-item-yellow {
-  background-color: #f3ff70;
+  background-color: #fff66a;
 }
 
 .list-item-blue {
-  background-color: #80f2fc;
+  background-color: #78d8ff;
 }
 
 .list-item-pink {
   background-color: #ff99d1;
+}
+
+.list-item-green {
+  background-color: #6dff8e;
+}
+
+.list-item-orange {
+  background-color: #ffb86d;
 }
 
 .note-grid {
@@ -68,12 +79,37 @@
   clear: both;
 }
 
+.add-modal-background {
+  z-index: 1;
+  height: 100%;
+  width: 100%;
+  position: fixed;
+}
+
+.add-note-modal {
+  z-index: 2;
+  height: 80%;
+  width: 80%;
+  position: fixed;
+
+}
+
+.add-modal-wrapper {
+  height: 100vh;
+}
+
+.add-note-button {
+  background-color: #fff66a;
+  height: 24px;
+  width: 30px;
+  border-radius: 0px;
+}
 html {
   background-color: #111;
   color: #ccc;
 }
 
-h1 {
+h1, h4 {
   text-align: center;
   /*font-family: 'Indie Flower', cursive;*/
 /*font-family: 'Gloria Hallelujah', cursive;
