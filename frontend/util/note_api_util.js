@@ -11,6 +11,13 @@ export const fetchNotes = () => {
   });
 };
 
+export const fetchTags = () => {
+  return $.ajax({
+    method: 'GET',
+    url: 'api/tags'
+  });
+};
+
 export const createNewNote = (data) => {
   return $.ajax({
     method: 'POST',
