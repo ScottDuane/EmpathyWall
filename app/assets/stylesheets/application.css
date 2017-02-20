@@ -91,11 +91,19 @@
   height: 80%;
   width: 80%;
   position: fixed;
+  right: 10%;
+  bottom: 10%;
+  background-color: black;
 
 }
 
 .add-modal-wrapper {
-  height: 100vh;
+  height: 100%;
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.7);
 }
 
 .add-note-button {
@@ -103,6 +111,11 @@
   height: 24px;
   width: 30px;
   border-radius: 0px;
+}
+
+.quill {
+  text-align: center;
+  font-family: 'Permanent Marker', cursive;
 }
 html {
   background-color: #111;
