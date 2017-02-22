@@ -22,15 +22,15 @@ class AddNote extends Component {
     this.setState( { visible: this.props.noteStore.getAddState() });
   };
 
-  changeContent (input) {
-    this.content = input;
+  changeContent (e) {
+    this.content = e.target.value;
   };
 
   toggleAdd () {
     let newAddState = !this.state.visible;
     toggleNoteAdd(newAddState);
   };
-  
+
   saveNote () {
     const colorHash = { 0: "yellow",
                         1: "pink",
@@ -52,12 +52,8 @@ class AddNote extends Component {
       <div className="add-modal-background" onClick={this.toggleAdd.bind(this)}></div>
       <div className="add-note-modal">
         <h4>What do you want to say?</h4>
-        <ReactQuill  theme="snow"
-                     value={that.content}
-                     onChange={this.changeContent.bind(this)}
-                     placeholder="Type your note here..."
-                     className="note-content-input"/>
-                   <button className="save-button" onClick={this.saveNote.bind(this)}>Save Note</button>
+        <textarea className="note-content-input" onChange={this.changeContent.bind(this)}></textarea>
+        <button className="save-button" onClick={this.saveNote.bind(this)}>Save Note</button>
       </div>
     </div>;
   };

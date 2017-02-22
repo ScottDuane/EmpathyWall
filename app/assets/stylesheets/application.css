@@ -87,6 +87,8 @@
 }
 
 .add-note-modal {
+  display: flex;
+  flex-direction: column;
   z-index: 2;
   height: 80%;
   width: 80%;
@@ -107,6 +109,7 @@
 }
 
 button {
+  display: flex;
   background-color: #fff66a;
   size: 24px;
   border-radius: 0px;
@@ -121,7 +124,9 @@ button:hover {
   cursor: pointer;
 }
 
-.quill {
+.note-content-input {
+  display: flex;
+  flex-grow: 5;
   text-align: center;
   font-family: 'Rock Salt', cursive;
   background-color: #fff66a;
@@ -131,6 +136,18 @@ button:hover {
   margin-left: 10%;
   margin-right: 10%;
 }
+
+.save-button {
+  align-self: center;
+  margin: 10px 0px 10px 0px;
+  width: 150px;
+  padding-left: 41px;
+}
+
+textarea:active {
+  border: none;
+}
+
 html {
   background-color: #111;
   color: #ccc;

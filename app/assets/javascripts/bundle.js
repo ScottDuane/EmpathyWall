@@ -38856,8 +38856,8 @@
 	    }
 	  }, {
 	    key: 'changeContent',
-	    value: function changeContent(input) {
-	      this.content = input;
+	    value: function changeContent(e) {
+	      this.content = e.target.value;
 	    }
 	  }, {
 	    key: 'toggleAdd',
@@ -38896,11 +38896,7 @@
 	            null,
 	            'What do you want to say?'
 	          ),
-	          _react2.default.createElement(_reactQuill2.default, { theme: 'snow',
-	            value: that.content,
-	            onChange: this.changeContent.bind(this),
-	            placeholder: 'Type your note here...',
-	            className: 'note-content-input' }),
+	          _react2.default.createElement('textarea', { className: 'note-content-input', onChange: this.changeContent.bind(this) }),
 	          _react2.default.createElement(
 	            'button',
 	            { className: 'save-button', onClick: this.saveNote.bind(this) },
