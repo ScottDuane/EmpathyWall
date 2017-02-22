@@ -106,16 +106,30 @@
   background-color: rgba(0, 0, 0, 0.7);
 }
 
-.add-note-button {
+button {
   background-color: #fff66a;
-  height: 24px;
-  width: 30px;
+  size: 24px;
   border-radius: 0px;
+  border: 3px solid #fff66a;
+  font-family: 'Rock Salt', cursive;
+
+}
+
+button:hover {
+  border: 3px solid #fff66a;
+  background: transparent;
+  cursor: pointer;
 }
 
 .quill {
   text-align: center;
-  font-family: 'Permanent Marker', cursive;
+  font-family: 'Rock Salt', cursive;
+  background-color: #fff66a;
+  color: black;
+  width: 70%;
+  height: 50%;
+  margin-left: 10%;
+  margin-right: 10%;
 }
 html {
   background-color: #111;
