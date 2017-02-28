@@ -36,7 +36,19 @@ class TagStore extends EventEmitter {
     });
   };
 
+  // go through join table to create a JSON object that takes the id of the note as its key
+  // values are arrays of strings -- tag.name
+  getMatchedTags () {
+    return this.tags;
+  };
 
+  addChangeListener(callback) {
+    this.on(this.change_event, callback);
+  };
+
+  removeChangeListener(callback) {
+    this.removeListener(this.change_event, callback);
+  };
 };
 
 export default TagStore;

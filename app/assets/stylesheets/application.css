@@ -124,17 +124,26 @@ button:hover {
   cursor: pointer;
 }
 
+textarea:focus {
+  border: none;
+}
+
+textarea {
+  resize: none;
+}
 .note-content-input {
   display: flex;
   flex-grow: 5;
   text-align: center;
   font-family: 'Rock Salt', cursive;
+  font-size: large;
+  padding-top: 16px;
   background-color: #fff66a;
   color: black;
   width: 70%;
   height: 50%;
-  margin-left: 10%;
-  margin-right: 10%;
+  margin-left: 15%;
+  margin-right: 15%;
 }
 
 .save-button {

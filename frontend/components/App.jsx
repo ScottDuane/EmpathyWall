@@ -3,14 +3,17 @@ import Navbar from './Navbar';
 import NoteFilters from './NoteFilters';
 import NoteIndex from './NoteIndex';
 import NoteStore from '../stores/note_store';
+import TagStore from '../stores/tag_store';
 import IndexHeader from './IndexHeader';
 import AddNote from './AddNote';
+
 
 class App extends React.Component {
   constructor () {
     super();
     this.state = { addVisible: false };
     this.noteStore = new NoteStore();
+    this.tagStore = new TagStore();
   };
   //
   toggleAdd () {
@@ -27,10 +30,10 @@ class App extends React.Component {
     let fauxKlass = this.state.addVisible ? "add-modal-wrapper" : "invisible";
     return (
       <div>
-        <Navbar noteStore={that.noteStore} />
-        <IndexHeader noteStore={that.noteStore} />
-        <NoteIndex noteStore={that.noteStore} />
-        <AddNote noteStore={that.noteStore} />
+        <Navbar noteStore={that.noteStore} tagStore={that.tagStore} />
+        <IndexHeader noteStore={that.noteStore} tagStore={that.tagStore} />
+        <NoteIndex noteStore={that.noteStore} tagStore={that.tagStore} />
+        <AddNote noteStore={that.noteStore} tagStore={that.tagStore} />
       </div>
     );
   }

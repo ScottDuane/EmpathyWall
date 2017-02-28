@@ -14,14 +14,16 @@ class NoteIndex extends React.Component {
 
   componentDidMount () {
     this.props.noteStore.addChangeListener(this.onChange.bind(this));
+    this.props.tagStore.addChangeListener(this.onChange.bind(this));
   };
 
   componentWillUnmount () {
     this.props.noteStore.removeChangeListener(this.onChange.bind(this));
+    this.props.tagStore.removeChangeListener(this.onChange.bind(this));
   };
 
   onChange () {
-    this.setState({ notes: this.props.noteStore.getNotes(), addVisible: this.props.noteStore.getAddState() })
+    this.setState({ notes: this.props.noteStore.getNotes(), addVisible: this.props.noteStore.getAddState(), tags: this.props.tagStore.getMatchedTags() })
   };
 
   render () {
@@ -60,8 +62,10 @@ class NoteIndex extends React.Component {
                 heightClass += " list-item-yellow";
                 break;
             };
-            return <li key={note.id} className={heightClass}><hr /><span className="post-it-content">{note.content}</span></li>
+            let tags = ["dog", "cat"]
+            return <NoteShortShow klass={heightClass} note={note} key={note.id} tags={tags} />
           });
+
 
     let masonryOptions = {};
     return <Masonry
