@@ -18,6 +18,19 @@ export const fetchTags = () => {
   });
 };
 
+export const fetchMatches = () => {
+  return $.ajax({
+    method: 'GET',
+    url: 'api/note_tags',
+    success: (data) => {
+      debugger;
+    },
+    error: (err) => {
+      debugger;
+    }
+  });
+};
+
 export const createNewNote = (data) => {
   return $.ajax({
     method: 'POST',
@@ -30,6 +43,14 @@ export const createTag = (data) => {
   return $.ajax({
     method: 'POST',
     url: 'api/tags',
+    data: data
+  });
+};
+
+export const createMatch = (data) => {
+  return $.ajax({
+    method: 'POST',
+    url: 'api/note_tags',
     data: data
   });
 };

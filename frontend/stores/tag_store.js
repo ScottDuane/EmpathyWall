@@ -18,7 +18,7 @@ class TagStore extends EventEmitter {
     switch (payload.actionType) {
       case TAGS_RECEIVED:
         this.tags = payload.tags;
-        this.sortTags();
+        // this.sortTags();
         break;
       case TAG_RECEIVED:
         this.tags.push(payload.tag);
@@ -35,6 +35,7 @@ class TagStore extends EventEmitter {
       return tag.name;
     });
   };
+
 
   // go through join table to create a JSON object that takes the id of the note as its key
   // values are arrays of strings -- tag.name

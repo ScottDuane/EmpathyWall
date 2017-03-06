@@ -1,4 +1,4 @@
 json.tag do
   json.name @tag.name
-  json.occurrences @note.occurrences 
+  json.occurrences @tag.occurrences 
 end

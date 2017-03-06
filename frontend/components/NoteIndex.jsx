@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import { fetchAllNotes } from '../actions/note_actions';
+import { fetchAllNotes, fetchAllTags, fetchAllMatches } from '../actions/note_actions';
 import NoteShortShow from './NoteShortShow';
 import Masonry from 'react-masonry-component';
 import Packery from 'packery';
@@ -9,7 +9,9 @@ class NoteIndex extends React.Component {
   constructor () {
     super();
     fetchAllNotes();
-    this.state = { notes: [], addVisible: false };
+    fetchAllTags();
+    fetchAllMatches();
+    this.state = { notes: [], matches: {}, addVisible: false };
   };
 
   componentDidMount () {
@@ -23,10 +25,11 @@ class NoteIndex extends React.Component {
   };
 
   onChange () {
-    this.setState({ notes: this.props.noteStore.getNotes(), addVisible: this.props.noteStore.getAddState(), tags: this.props.tagStore.getMatchedTags() })
+    this.setState({ notes: this.props.noteStore.getNotes(), matches: this.props.noteStore.getMatches(), addVisible: this.props.noteStore.getAddState(), tags: this.props.tagStore.getMatchedTags() })
   };
 
   render () {
+    let that = this;
     let listItems = this.state.notes.map( (note) => {
             let randNum1 = Math.floor(Math.random()*3);
             let heightClass = "list-item-note ";
@@ -62,7 +65,7 @@ class NoteIndex extends React.Component {
                 heightClass += " list-item-yellow";
                 break;
             };
-            let tags = ["dog", "cat"]
+            let tags = that.state.matches[note.id] == undefined ? [] :  that.state.matches[note.id];
             return <NoteShortShow klass={heightClass} note={note} key={note.id} tags={tags} />
           });
 
