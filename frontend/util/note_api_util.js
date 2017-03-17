@@ -3,11 +3,7 @@
 export const fetchNotes = () => {
   return $.ajax({
     method: 'GET',
-    url: 'api/notes/',
-    success: (data) => {
-      // console.log("data of call " + data);
-
-    }
+    url: 'api/notes/'
   });
 };
 
@@ -21,13 +17,7 @@ export const fetchTags = () => {
 export const fetchMatches = () => {
   return $.ajax({
     method: 'GET',
-    url: 'api/note_tags',
-    success: (data) => {
-      debugger;
-    },
-    error: (err) => {
-      debugger;
-    }
+    url: 'api/note_tags'
   });
 };
 

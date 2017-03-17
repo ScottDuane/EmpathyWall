@@ -40,20 +40,24 @@ class NoteStore extends EventEmitter {
 
   updateTagsHash(tags) {
     let that = this;
-    tags.forEach((tag) => {
-      that.tagsHash[tag.id] = tag;
+    debugger;
+    tags.forEach((tag, index) => {
+      that.tagsHash[index] = tag;
     });
+    debugger;
   };
 
   updateMatchesHash(matches) {
     let that = this;
-    this.matches.forEach((match) => {
-      if (this.noteTagsHash[match.note_id]) {
-        that.noteTagsHash[match.note_id].push(that.tagsHash[match.tag_id]);
+    matches.forEach((match, index) => {
+      if (that.noteTagsHash[match["note_id"]]) {
+        that.noteTagsHash[match["note_id"]].push(that.tagsHash[match["tag_id"]]);
       } else {
-        that.noteTagsHash[match.note_id] = [that.tagsHash[match.tag_id]];
+        that.noteTagsHash[match["note_id"]] = [that.tagsHash[match["tag_id"]]];
       }
     });
+
+    debugger;
   };
 
   updateStore(payload) {

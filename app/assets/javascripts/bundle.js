@@ -27256,11 +27256,7 @@
 	var fetchNotes = exports.fetchNotes = function fetchNotes() {
 	  return $.ajax({
 	    method: 'GET',
-	    url: 'api/notes/',
-	    success: function success(data) {
-	      // console.log("data of call " + data);
-	
-	    }
+	    url: 'api/notes/'
 	  });
 	};
 	
@@ -38418,23 +38414,25 @@
 	    key: 'updateTagsHash',
 	    value: function updateTagsHash(tags) {
 	      var that = this;
-	      tags.forEach(function (tag) {
-	        that.tagsHash[tag.id] = tag;
+	      debugger;
+	      tags.forEach(function (tag, index) {
+	        that.tagsHash[index] = tag;
 	      });
+	      debugger;
 	    }
 	  }, {
 	    key: 'updateMatchesHash',
 	    value: function updateMatchesHash(matches) {
-	      var _this2 = this;
-	
 	      var that = this;
-	      this.matches.forEach(function (match) {
-	        if (_this2.noteTagsHash[match.note_id]) {
-	          that.noteTagsHash[match.note_id].push(that.tagsHash[match.tag_id]);
+	      matches.forEach(function (match, index) {
+	        if (that.noteTagsHash[match["note_id"]]) {
+	          that.noteTagsHash[match["note_id"]].push(that.tagsHash[match["tag_id"]]);
 	        } else {
-	          that.noteTagsHash[match.note_id] = [that.tagsHash[match.tag_id]];
+	          that.noteTagsHash[match["note_id"]] = [that.tagsHash[match["tag_id"]]];
 	        }
 	      });
+	
+	      debugger;
 	    }
 	  }, {
 	    key: 'updateStore',
