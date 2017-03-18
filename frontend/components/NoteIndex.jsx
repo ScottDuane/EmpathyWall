@@ -10,8 +10,7 @@ class NoteIndex extends React.Component {
     super();
     fetchAllNotes();
     fetchAllTags();
-    fetchAllMatches();
-    this.state = { notes: [], matches: {}, addVisible: false };
+    this.state = { notes: [], addVisible: false };
   };
 
   componentDidMount () {
@@ -25,7 +24,7 @@ class NoteIndex extends React.Component {
   };
 
   onChange () {
-    this.setState({ notes: this.props.noteStore.getNotes(), matches: this.props.noteStore.getMatches(), addVisible: this.props.noteStore.getAddState(), tags: this.props.tagStore.getMatchedTags() })
+    this.setState({ notes: this.props.noteStore.getNotes(), addVisible: this.props.noteStore.getAddState(), tags: this.props.tagStore.getMatchedTags() })
   };
 
   render () {
@@ -65,8 +64,8 @@ class NoteIndex extends React.Component {
                 heightClass += " list-item-yellow";
                 break;
             };
-            let tags = that.state.matches[note.id] == undefined ? [] :  that.state.matches[note.id];
-            return <NoteShortShow klass={heightClass} note={note} key={note.id} tags={tags} />
+
+            return <NoteShortShow klass={heightClass} note={note} key={note.id} tags={note.tags} />
           });
 
 

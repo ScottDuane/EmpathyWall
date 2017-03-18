@@ -16,10 +16,8 @@ class NoteStore extends EventEmitter {
     this.change_event = "change";
     this.addState = false;
     this.tags = [];
-    this.matches = [];
     this.notesHash = {};
-    this.tagsHash = {};
-    this.noteTagsHash = {};
+
     // 1. Get notes.  Create hash _notes { note id => note }
     // 2. Get tags.  Create hash _tags { tag id => tag }
     // 3. Get matches.  Iterate through and create note_tags hash { note id => array containing all tags of this note }
@@ -31,45 +29,14 @@ class NoteStore extends EventEmitter {
     });
   };
 
-  updateNotesHash(notes) {
-    let that = this;
-    notes.forEach((note) => {
-      that.notesHash[note.id] = note;
-    });
-  };
-
-  updateTagsHash(tags) {
-    let that = this;
-    debugger;
-    tags.forEach((tag, index) => {
-      that.tagsHash[index] = tag;
-    });
-    debugger;
-  };
-
-  updateMatchesHash(matches) {
-    let that = this;
-    matches.forEach((match, index) => {
-      if (that.noteTagsHash[match["note_id"]]) {
-        that.noteTagsHash[match["note_id"]].push(that.tagsHash[match["tag_id"]]);
-      } else {
-        that.noteTagsHash[match["note_id"]] = [that.tagsHash[match["tag_id"]]];
-      }
-    });
-
-    debugger;
-  };
-
   updateStore(payload) {
       switch (payload.actionType) {
         case NOTES_RECEIVED:
           this.notes = payload.notes;
-          this.updateNotesHash(payload.notes);
           this.emit(this.change_event);
           break;
         case NOTE_RECEIVED:
           this.notes.push(payload.note);
-          this.updateNotesHash([payload.note]);
           this.emit(this.change_event);
           break;
         case TOGGLE_ADD:
@@ -77,15 +44,11 @@ class NoteStore extends EventEmitter {
           this.emit(this.change_event);
           break;
         case TAGS_RECEIVED:
-          this.updateTagsHash(payload.tags);
+          this.tags = payload.tags;
           this.emit(this.change_event);
           break;
         case TAG_RECEIVED:
-          this.updateTagsHash([payload.tag]);
-          this.emit(this.change_event);
-          break;
-        case MATCHES_RECEIVED:
-          this.updateMatchesHash(payload.matches);
+          this.tags.push([payload.tag]);
           this.emit(this.change_event);
           break;
       }
@@ -97,10 +60,6 @@ class NoteStore extends EventEmitter {
 
   getNotes() {
     return this.notes;
-  };
-
-  getMatches() {
-    return this.noteTagsHash;
   };
 
   addChangeListener(callback) {

@@ -1,6 +1,6 @@
 import { fetchNotes, createNewNote, fetchTags, fetchMatches } from '../util/note_api_util';
 import { AppDispatcher } from '../dispatcher/dispatcher';
-import { NOTES_RECEIVED, NOTE_RECEIVED, TOGGLE_ADD, TAGS_RECEIVED, MATCHES_RECEIVED } from '../constants/note_constants';
+import { NOTES_RECEIVED, NOTE_RECEIVED, TOGGLE_ADD, TAGS_RECEIVED } from '../constants/note_constants';
 
 
 export const fetchAllNotes = () => {
@@ -9,10 +9,6 @@ export const fetchAllNotes = () => {
 
 export const fetchAllTags = () => {
   fetchTags().then((data) => { AppDispatcher.dispatch(receiveTags(data.tags)); });
-};
-
-export const fetchAllMatches = () => {
-  fetchMatches().then((data) => { AppDispatcher.dispatch(receiveMatches(data.matches)); });
 };
 
 export const createNote = (content, color) => {
@@ -38,9 +34,4 @@ export const receiveNote = (note) => {
 export const receiveTags = (tags) => {
   return { actionType: TAGS_RECEIVED,
            tags: tags };
-};
-
-export const receiveMatches = (matches) => {
-  return { actionType: MATCHES_RECEIVED,
-           matches: matches }
 };

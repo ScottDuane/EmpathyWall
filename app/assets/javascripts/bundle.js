@@ -27092,8 +27092,7 @@
 	
 	    (0, _note_actions.fetchAllNotes)();
 	    (0, _note_actions.fetchAllTags)();
-	    (0, _note_actions.fetchAllMatches)();
-	    _this.state = { notes: [], matches: {}, addVisible: false };
+	    _this.state = { notes: [], addVisible: false };
 	    return _this;
 	  }
 	
@@ -27112,7 +27111,7 @@
 	  }, {
 	    key: 'onChange',
 	    value: function onChange() {
-	      this.setState({ notes: this.props.noteStore.getNotes(), matches: this.props.noteStore.getMatches(), addVisible: this.props.noteStore.getAddState(), tags: this.props.tagStore.getMatchedTags() });
+	      this.setState({ notes: this.props.noteStore.getNotes(), addVisible: this.props.noteStore.getAddState(), tags: this.props.tagStore.getMatchedTags() });
 	    }
 	  }, {
 	    key: 'render',
@@ -27153,8 +27152,8 @@
 	            heightClass += " list-item-yellow";
 	            break;
 	        };
-	        var tags = that.state.matches[note.id] == undefined ? [] : that.state.matches[note.id];
-	        return _react2.default.createElement(_NoteShortShow2.default, { klass: heightClass, note: note, key: note.id, tags: tags });
+	
+	        return _react2.default.createElement(_NoteShortShow2.default, { klass: heightClass, note: note, key: note.id, tags: note.tags });
 	      });
 	
 	      var masonryOptions = {};
@@ -27186,7 +27185,7 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.receiveMatches = exports.receiveTags = exports.receiveNote = exports.receiveNotes = exports.toggleNoteAdd = exports.createNote = exports.fetchAllMatches = exports.fetchAllTags = exports.fetchAllNotes = undefined;
+	exports.receiveTags = exports.receiveNote = exports.receiveNotes = exports.toggleNoteAdd = exports.createNote = exports.fetchAllTags = exports.fetchAllNotes = undefined;
 	
 	var _note_api_util = __webpack_require__(245);
 	
@@ -27203,12 +27202,6 @@
 	var fetchAllTags = exports.fetchAllTags = function fetchAllTags() {
 	  (0, _note_api_util.fetchTags)().then(function (data) {
 	    _dispatcher.AppDispatcher.dispatch(receiveTags(data.tags));
-	  });
-	};
-	
-	var fetchAllMatches = exports.fetchAllMatches = function fetchAllMatches() {
-	  (0, _note_api_util.fetchMatches)().then(function (data) {
-	    _dispatcher.AppDispatcher.dispatch(receiveMatches(data.matches));
 	  });
 	};
 	
@@ -27238,11 +27231,6 @@
 	  return { actionType: _note_constants.TAGS_RECEIVED,
 	    tags: tags };
 	};
-	
-	var receiveMatches = exports.receiveMatches = function receiveMatches(matches) {
-	  return { actionType: _note_constants.MATCHES_RECEIVED,
-	    matches: matches };
-	};
 
 /***/ },
 /* 245 */
@@ -27264,13 +27252,6 @@
 	  return $.ajax({
 	    method: 'GET',
 	    url: 'api/tags'
-	  });
-	};
-	
-	var fetchMatches = exports.fetchMatches = function fetchMatches() {
-	  return $.ajax({
-	    method: 'GET',
-	    url: 'api/note_tags'
 	  });
 	};
 	
@@ -27641,7 +27622,6 @@
 	var TOGGLE_ADD = exports.TOGGLE_ADD = "TOGGLE_ADD";
 	var TAGS_RECEIVED = exports.TAGS_RECEIVED = "TAGS_RECEIVED";
 	var TAG_RECEIVED = exports.TAG_RECEIVED = "TAG_RECEIVED";
-	var MATCHES_RECEIVED = exports.MATCHES_RECEIVED = "MATCHES_RECEIVED";
 
 /***/ },
 /* 251 */
@@ -27691,11 +27671,11 @@
 	        _react2.default.createElement(
 	          "ul",
 	          { className: "short-show-tag-list" },
-	          this.props.tags.map(function (tag) {
+	          this.props.tags.map(function (tag, idx) {
 	            return _react2.default.createElement(
 	              "li",
-	              { className: "short-show-tag-item" },
-	              tag
+	              { key: idx, className: "short-show-tag-item" },
+	              tag.name
 	            );
 	          })
 	        )
@@ -38386,10 +38366,8 @@
 	    _this.change_event = "change";
 	    _this.addState = false;
 	    _this.tags = [];
-	    _this.matches = [];
 	    _this.notesHash = {};
-	    _this.tagsHash = {};
-	    _this.noteTagsHash = {};
+	
 	    // 1. Get notes.  Create hash _notes { note id => note }
 	    // 2. Get tags.  Create hash _tags { tag id => tag }
 	    // 3. Get matches.  Iterate through and create note_tags hash { note id => array containing all tags of this note }
@@ -38403,49 +38381,15 @@
 	  }
 	
 	  _createClass(NoteStore, [{
-	    key: 'updateNotesHash',
-	    value: function updateNotesHash(notes) {
-	      var that = this;
-	      notes.forEach(function (note) {
-	        that.notesHash[note.id] = note;
-	      });
-	    }
-	  }, {
-	    key: 'updateTagsHash',
-	    value: function updateTagsHash(tags) {
-	      var that = this;
-	      debugger;
-	      tags.forEach(function (tag, index) {
-	        that.tagsHash[index] = tag;
-	      });
-	      debugger;
-	    }
-	  }, {
-	    key: 'updateMatchesHash',
-	    value: function updateMatchesHash(matches) {
-	      var that = this;
-	      matches.forEach(function (match, index) {
-	        if (that.noteTagsHash[match["note_id"]]) {
-	          that.noteTagsHash[match["note_id"]].push(that.tagsHash[match["tag_id"]]);
-	        } else {
-	          that.noteTagsHash[match["note_id"]] = [that.tagsHash[match["tag_id"]]];
-	        }
-	      });
-	
-	      debugger;
-	    }
-	  }, {
 	    key: 'updateStore',
 	    value: function updateStore(payload) {
 	      switch (payload.actionType) {
 	        case _note_constants.NOTES_RECEIVED:
 	          this.notes = payload.notes;
-	          this.updateNotesHash(payload.notes);
 	          this.emit(this.change_event);
 	          break;
 	        case _note_constants.NOTE_RECEIVED:
 	          this.notes.push(payload.note);
-	          this.updateNotesHash([payload.note]);
 	          this.emit(this.change_event);
 	          break;
 	        case _note_constants.TOGGLE_ADD:
@@ -38453,15 +38397,11 @@
 	          this.emit(this.change_event);
 	          break;
 	        case _note_constants.TAGS_RECEIVED:
-	          this.updateTagsHash(payload.tags);
+	          this.tags = payload.tags;
 	          this.emit(this.change_event);
 	          break;
 	        case _note_constants.TAG_RECEIVED:
-	          this.updateTagsHash([payload.tag]);
-	          this.emit(this.change_event);
-	          break;
-	        case _note_constants.MATCHES_RECEIVED:
-	          this.updateMatchesHash(payload.matches);
+	          this.tags.push([payload.tag]);
 	          this.emit(this.change_event);
 	          break;
 	      }
@@ -38475,11 +38415,6 @@
 	    key: 'getNotes',
 	    value: function getNotes() {
 	      return this.notes;
-	    }
-	  }, {
-	    key: 'getMatches',
-	    value: function getMatches() {
-	      return this.noteTagsHash;
 	    }
 	  }, {
 	    key: 'addChangeListener',
