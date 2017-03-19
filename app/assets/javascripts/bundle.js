@@ -26961,22 +26961,29 @@
 	          _react2.default.createElement(
 	            'li',
 	            null,
-	            _react2.default.createElement('img', { className: 'icon', src: 'assets/question.svg' })
+	            _react2.default.createElement(
+	              'a',
+	              { href: 'http://www.linkedin.com/in/sduane' },
+	              _react2.default.createElement('img', { className: 'icon', src: 'assets/linkedin-logo.svg' })
+	            )
 	          ),
 	          _react2.default.createElement(
 	            'li',
 	            null,
-	            _react2.default.createElement('img', { className: 'icon', src: 'assets/github.svg' })
+	            _react2.default.createElement(
+	              'a',
+	              { href: 'http://www.github.com/ScottDuane' },
+	              _react2.default.createElement('img', { className: 'icon', src: 'assets/github.svg' })
+	            )
 	          ),
 	          _react2.default.createElement(
 	            'li',
 	            null,
-	            _react2.default.createElement('img', { className: 'icon', src: 'assets/mail-black-envelope-symbol.svg' })
-	          ),
-	          _react2.default.createElement(
-	            'li',
-	            null,
-	            _react2.default.createElement('img', { className: 'icon', src: 'assets/linkedin-logo.svg' })
+	            _react2.default.createElement(
+	              'a',
+	              { href: 'mailto:adrian.scott.duane@gmail.com' },
+	              _react2.default.createElement('img', { className: 'icon', src: 'assets/mail-black-envelope-symbol.svg' })
+	            )
 	          )
 	        )
 	      );
@@ -38373,12 +38380,6 @@
 	    _this.tags = [];
 	    _this.notesHash = {};
 	
-	    // 1. Get notes.  Create hash _notes { note id => note }
-	    // 2. Get tags.  Create hash _tags { tag id => tag }
-	    // 3. Get matches.  Iterate through and create note_tags hash { note id => array containing all tags of this note }
-	    // 4. Sort tags by occurences.  Feature most popular tags with a filter.
-	    // 5. To filter by tag, iterate through _filtered and delete if note does not contain tag
-	    // 6. To remove a filter, compare _unfiltered to _filtered.  If note is
 	    _dispatcher.AppDispatcher.register(function (payload) {
 	      _this.updateStore(payload);
 	    });

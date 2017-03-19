@@ -24,13 +24,14 @@
   color: #111;
   margin: 3px;
   font-family: 'Permanent Marker', cursive;
-  font-size: 18px;
+  font-size: 24px;
   padding-top: 10px;
   padding-bottom: 15px;
   width: 20%;
   box-shadow: 0px 4px 6px #333;
   -moz-box-shadow: 0px 4px 6px #333;
   -webkit-box-shadow: 0px 4px 6px #333;
+  min-height: 100px;
 }
 
 .post-it-line {
@@ -192,17 +193,19 @@ font-family: 'Permanent Marker', cursive;*/
 .navbar-class {
   display: flex;
   list-style: none;
+  float: right;
 }
 
 .icon {
   display: inline-block;
-  width: 28px;
-  height: 28px;
-  transition: all 500ms ease 500ms;
+  height: 36px;
+  transition: all 500ms ease 0ms;
+  margin: 10px;
 }
 
 .icon:hover {
-  -ms-transform: rotate(15deg); /* IE 9 */
-  -webkit-transform: rotate(15deg); /* Chrome, Safari, Opera */
-  transform: rotate(15deg);
+  -ms-transform: rotate(10deg); /* IE 9 */
+  -webkit-transform: rotate(10deg); /* Chrome, Safari, Opera */
+  transform: rotate(10deg);
+  cursor: pointer;
 }

@@ -5,8 +5,7 @@ import { NOTES_RECEIVED,
          NOTE_RECEIVED,
          TOGGLE_ADD,
          TAGS_RECEIVED,
-         TAG_RECEIVED,
-         MATCHES_RECEIVED } from '../constants/note_constants';
+         TAG_RECEIVED } from '../constants/note_constants';
 
 class NoteStore extends EventEmitter {
   constructor() {
@@ -18,12 +17,6 @@ class NoteStore extends EventEmitter {
     this.tags = [];
     this.notesHash = {};
 
-    // 1. Get notes.  Create hash _notes { note id => note }
-    // 2. Get tags.  Create hash _tags { tag id => tag }
-    // 3. Get matches.  Iterate through and create note_tags hash { note id => array containing all tags of this note }
-    // 4. Sort tags by occurences.  Feature most popular tags with a filter.
-    // 5. To filter by tag, iterate through _filtered and delete if note does not contain tag
-    // 6. To remove a filter, compare _unfiltered to _filtered.  If note is
     AppDispatcher.register( (payload) => {
       this.updateStore(payload);
     });
