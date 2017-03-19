@@ -173,46 +173,36 @@ font-family: 'Permanent Marker', cursive;*/
 
 .short-show-tag-list {
   display: flex;
+  flex-flow: row;
+  list-style-type: none;
 }
 
 .short-show-tag-item {
-  position: relative;
   margin: 0 2px 0 2px;
-  display: flex;
-  flex-grow: 1;
-  flex-wrap: wrap;
-  height: 21px;
-  border-radius: 0 5px 5px 0;
+  height: 23px;
+  border-radius: 10px;
   padding: 0 5px 0 5px;
   background: transparent;
-  border: 1px solid #C7D2D4;
-  color:#999;
+  border: 1px solid #222;
+  color:#222;
   font-size: 14px;
+  font-family: 'Walter Turncoat', cursive;
 }
 
-.short-show-tag-item:before {
-   position:absolute;
-   background:#E8EDF0;
-   content:"\25CF";
-   color:white;
-   text-shadow: 0 0 1px #aaa;
-   font-size:12px;
-   line-height:13px;
-   text-indent:6px;
-   top:3px;
-   left:-10px;
-   width: 18px;
-   height: 18px;
-   transform: rotate(45deg);
-   border-left:1px solid #C7D2D4;
-   border-bottom:1px solid #C7D2D4;
+.navbar-class {
+  display: flex;
+  list-style: none;
 }
 
-/*.short-show-tag-item:after {
-  position:absolute;
-  right:0;
-  margin:1px 7px;
-  font-weight:bold;
-  font-size:19px;
-  content:"\00D7";
-}*/
+.icon {
+  display: inline-block;
+  width: 28px;
+  height: 28px;
+  transition: all 500ms ease 500ms;
+}
+
+.icon:hover {
+  -ms-transform: rotate(15deg); /* IE 9 */
+  -webkit-transform: rotate(15deg); /* Chrome, Safari, Opera */
+  transform: rotate(15deg);
+}

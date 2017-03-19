@@ -26961,17 +26961,22 @@
 	          _react2.default.createElement(
 	            'li',
 	            null,
-	            'About'
+	            _react2.default.createElement('img', { className: 'icon', src: 'assets/question.svg' })
 	          ),
 	          _react2.default.createElement(
 	            'li',
 	            null,
-	            'Github'
+	            _react2.default.createElement('img', { className: 'icon', src: 'assets/github.svg' })
 	          ),
 	          _react2.default.createElement(
 	            'li',
 	            null,
-	            'LinkedIn'
+	            _react2.default.createElement('img', { className: 'icon', src: 'assets/mail-black-envelope-symbol.svg' })
+	          ),
+	          _react2.default.createElement(
+	            'li',
+	            null,
+	            _react2.default.createElement('img', { className: 'icon', src: 'assets/linkedin-logo.svg' })
 	          )
 	        )
 	      );
@@ -27661,7 +27666,7 @@
 	    value: function render() {
 	      return _react2.default.createElement(
 	        "li",
-	        { className: this.props.klass },
+	        { key: this.props.note.id, className: this.props.klass },
 	        _react2.default.createElement("hr", null),
 	        _react2.default.createElement(
 	          "span",
