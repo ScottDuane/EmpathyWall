@@ -32,7 +32,11 @@ class IndexHeader extends React.Component {
     let klass = this.state.addVisible ? "add-note-button" : "add-note-button add-note-wrapper";
     return <div>
       <h1>Empathy Wall</h1>
-      <button className={klass} onClick={this.toggleAdd.bind(this)}>+</button>
+      <div className="input-wrapper">
+
+        <button className={klass} onClick={this.toggleAdd.bind(this)}><img src="assets/pencil.svg" /></button>
+        <input type="text" className="search-bar" />
+      </div>
     </div>
   }
 };

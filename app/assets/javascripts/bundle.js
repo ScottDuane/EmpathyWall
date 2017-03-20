@@ -38929,9 +38929,14 @@
 	          'Empathy Wall'
 	        ),
 	        _react2.default.createElement(
-	          'button',
-	          { className: klass, onClick: this.toggleAdd.bind(this) },
-	          '+'
+	          'div',
+	          { className: 'input-wrapper' },
+	          _react2.default.createElement(
+	            'button',
+	            { className: klass, onClick: this.toggleAdd.bind(this) },
+	            _react2.default.createElement('img', { src: 'assets/pencil.svg' })
+	          ),
+	          _react2.default.createElement('input', { type: 'text', className: 'search-bar' })
 	        )
 	      );
 	    }

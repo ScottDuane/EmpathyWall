@@ -209,3 +209,15 @@ font-family: 'Permanent Marker', cursive;*/
   transform: rotate(10deg);
   cursor: pointer;
 }
+
+.input-wrapper {
+  display: flex;
+  flex-flow: row;
+  justify-content: center;
+}
+
+.search-bar {
+  width: 400px;
+  font-size: 18px;
+  
+}
