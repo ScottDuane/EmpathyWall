@@ -21,6 +21,11 @@ export const toggleNoteAdd = (addState) => {
   AppDispatcher.dispatch(payload);
 };
 
+export const searchNotes = (query) => {
+  let payload = { actionType: SEARCH_NOTES, query: query };
+  AppDispatcher.dispatch(payload);
+};
+
 export const receiveNotes = (notes) => {
   return { actionType: NOTES_RECEIVED,
           notes: notes };

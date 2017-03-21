@@ -5,7 +5,9 @@ import { NOTES_RECEIVED,
          NOTE_RECEIVED,
          TOGGLE_ADD,
          TAGS_RECEIVED,
-         TAG_RECEIVED } from '../constants/note_constants';
+         TAG_RECEIVED,
+         SEARCH_NOTES } from '../constants/note_constants';
+import Fuse from 'fuse.js';
 
 class NoteStore extends EventEmitter {
   constructor() {
@@ -16,6 +18,16 @@ class NoteStore extends EventEmitter {
     this.addState = false;
     this.tags = [];
     this.notesHash = {};
+    this.searchQuery = "";
+    this.fuseOptions = {
+                         shouldSort: true,
+                         threshold: 0.6,
+                         location: 0,
+                         distance: 100,
+                         maxPatternLength: 32,
+                         minMatchCharLength: 3,
+                         keys: [ "content", "tags.name"]
+                       };
 
     AppDispatcher.register( (payload) => {
       this.updateStore(payload);
@@ -44,7 +56,17 @@ class NoteStore extends EventEmitter {
           this.tags.push([payload.tag]);
           this.emit(this.change_event);
           break;
+        case SEARCH_NOTES:
+          this.searchNotes(payload.query);
+          this.emit(this.change_event);
+          break;
       }
+  };
+
+  searchNotes(query) {
+    this.searchQuery = query;
+    let fuse = new Fuse(notes, this.fuseOptions);
+    this.filteredNotes = fuse.search(query);
   };
 
   getAddState () {
@@ -52,7 +74,11 @@ class NoteStore extends EventEmitter {
   };
 
   getNotes() {
-    return this.notes;
+    if (this.searchQuery.length > 0){
+      return this.filteredNotes;
+    } else {
+      return this.notes;
+    }
   };
 
   addChangeListener(callback) {
@@ -62,8 +88,6 @@ class NoteStore extends EventEmitter {
   removeChangeListener(callback) {
     this.removeListener(this.change_event, callback);
   };
-
-
 };
 
 export default NoteStore;

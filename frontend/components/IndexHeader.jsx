@@ -2,11 +2,12 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import NoteFilters from './NoteFilters';
 import AddNote from './AddNote';
-import { toggleNoteAdd } from '../actions/note_actions';
+import { toggleNoteAdd, searchNotes } from '../actions/note_actions';
 
 class IndexHeader extends React.Component {
   constructor () {
     super();
+    this.searchQuery = "";
     this.state = { addVisible: false };
   };
 
@@ -27,6 +28,10 @@ class IndexHeader extends React.Component {
     toggleNoteAdd(!this.state.addVisible);
   };
 
+  updateSearch (e) {
+    this.searchQuery = e.target.value;
+  };
+
   render () {
     let that = this;
     let klass = this.state.addVisible ? "add-note-button" : "add-note-button add-note-wrapper";
@@ -34,8 +39,8 @@ class IndexHeader extends React.Component {
       <h1>Empathy Wall</h1>
       <div className="input-wrapper">
 
-        <button className={klass} onClick={this.toggleAdd.bind(this)}><img src="assets/pencil.svg" /></button>
-        <input type="text" className="search-bar" />
+        <button className={klass} onClick={this.toggleAdd.bind(this)}><img className="add-icon" src="assets/pencil.svg" /></button>
+        <input type="text" className="search-bar" onChange={this.updateSearch.bind(this)} />
       </div>
     </div>
   }
