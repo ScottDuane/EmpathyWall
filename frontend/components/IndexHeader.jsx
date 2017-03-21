@@ -30,6 +30,7 @@ class IndexHeader extends React.Component {
 
   updateSearch (e) {
     this.searchQuery = e.target.value;
+    searchNotes(this.searchQuery);
   };
 
   render () {
@@ -40,7 +41,7 @@ class IndexHeader extends React.Component {
       <div className="input-wrapper">
 
         <button className={klass} onClick={this.toggleAdd.bind(this)}><img className="add-icon" src="assets/pencil.svg" /></button>
-        <input type="text" className="search-bar" onChange={this.updateSearch.bind(this)} />
+        <input type="text" className="search-bar" placeholder="Search..." onChange={this.updateSearch.bind(this)} />
       </div>
     </div>
   }

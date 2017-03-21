@@ -3,3 +3,4 @@ export const NOTE_RECEIVED = "NOTE_RECEIVED";
 export const TOGGLE_ADD = "TOGGLE_ADD";
 export const TAGS_RECEIVED = "TAGS_RECEIVED";
 export const TAG_RECEIVED = "TAG_RECEIVED";
+export const SEARCH_NOTES = "SEARCH_NOTES";

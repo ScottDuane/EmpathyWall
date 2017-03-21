@@ -65,7 +65,7 @@ class NoteStore extends EventEmitter {
 
   searchNotes(query) {
     this.searchQuery = query;
-    let fuse = new Fuse(notes, this.fuseOptions);
+    let fuse = new Fuse(this.notes, this.fuseOptions);
     this.filteredNotes = fuse.search(query);
   };
 

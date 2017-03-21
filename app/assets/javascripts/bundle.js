@@ -27230,7 +27230,7 @@
 	};
 	
 	var searchNotes = exports.searchNotes = function searchNotes(query) {
-	  var payload = { actionType: SEARCH_NOTES, query: query };
+	  var payload = { actionType: _note_constants.SEARCH_NOTES, query: query };
 	  _dispatcher.AppDispatcher.dispatch(payload);
 	};
 	
@@ -27639,6 +27639,7 @@
 	var TOGGLE_ADD = exports.TOGGLE_ADD = "TOGGLE_ADD";
 	var TAGS_RECEIVED = exports.TAGS_RECEIVED = "TAGS_RECEIVED";
 	var TAG_RECEIVED = exports.TAG_RECEIVED = "TAG_RECEIVED";
+	var SEARCH_NOTES = exports.SEARCH_NOTES = "SEARCH_NOTES";
 
 /***/ },
 /* 251 */
@@ -38441,7 +38442,7 @@
 	    key: 'searchNotes',
 	    value: function searchNotes(query) {
 	      this.searchQuery = query;
-	      var fuse = new _fuse2.default(notes, this.fuseOptions);
+	      var fuse = new _fuse2.default(this.notes, this.fuseOptions);
 	      this.filteredNotes = fuse.search(query);
 	    }
 	  }, {
@@ -39787,6 +39788,7 @@
 	    key: 'updateSearch',
 	    value: function updateSearch(e) {
 	      this.searchQuery = e.target.value;
+	      (0, _note_actions.searchNotes)(this.searchQuery);
 	    }
 	  }, {
 	    key: 'render',
@@ -39809,7 +39811,7 @@
 	            { className: klass, onClick: this.toggleAdd.bind(this) },
 	            _react2.default.createElement('img', { className: 'add-icon', src: 'assets/pencil.svg' })
 	          ),
-	          _react2.default.createElement('input', { type: 'text', className: 'search-bar', onChange: this.updateSearch.bind(this) })
+	          _react2.default.createElement('input', { type: 'text', className: 'search-bar', placeholder: 'Search...', onChange: this.updateSearch.bind(this) })
 	        )
 	      );
 	    }

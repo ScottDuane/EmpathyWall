@@ -1,6 +1,6 @@
 import { fetchNotes, createNewNote, fetchTags, fetchMatches } from '../util/note_api_util';
 import { AppDispatcher } from '../dispatcher/dispatcher';
-import { NOTES_RECEIVED, NOTE_RECEIVED, TOGGLE_ADD, TAGS_RECEIVED } from '../constants/note_constants';
+import { NOTES_RECEIVED, NOTE_RECEIVED, TOGGLE_ADD, TAGS_RECEIVED, SEARCH_NOTES } from '../constants/note_constants';
 
 
 export const fetchAllNotes = () => {
