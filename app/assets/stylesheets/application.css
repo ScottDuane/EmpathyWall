@@ -193,6 +193,12 @@ font-family: 'Permanent Marker', cursive;*/
   font-family: 'Walter Turncoat', cursive;
 }
 
+.short-show-tag-item:hover {
+  background: black;
+  color: #bbb;
+  cursor: pointer;
+}
+
 .navbar-class {
   display: flex;
   list-style: none;
@@ -237,6 +243,7 @@ font-family: 'Permanent Marker', cursive;*/
 
 .add-note-button {
   margin-right: 20px;
+  width: 55px;
   transition: all 500ms ease 0ms;
 }
 
