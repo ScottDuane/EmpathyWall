@@ -3,16 +3,18 @@ import ReactDOM from 'react-dom';
 import NoteFilters from './NoteFilters';
 import AddNote from './AddNote';
 import { toggleNoteAdd, searchNotes } from '../actions/note_actions';
+import { toggleAddHover } from '../actions/alert_actions';
 
 class IndexHeader extends React.Component {
   constructor () {
     super();
     this.searchQuery = "";
-    this.state = { addVisible: false };
+    this.state = { addVisible: false, addHover: false };
   };
 
   componentDidMount () {
     this.props.noteStore.addChangeListener(this.onChange.bind(this));
+    this.props.alertStore.addChangeListener(this.onChange.bind(this));
   };
 
   componentWillUnmount () {
@@ -21,11 +23,16 @@ class IndexHeader extends React.Component {
 
   onChange() {
     let newAddState = this.props.noteStore.getAddState();
-    this.setState( { addVisible: newAddState });
+    let newHoverState = this.props.alertStore.getAddHoverState();
+    this.setState( { addVisible: newAddState, addHover: newHoverState });
   };
 
   toggleAdd () {
     toggleNoteAdd(!this.state.addVisible);
+  };
+
+  toggleAddButtonHover () {
+    toggleAddHover();
   };
 
   updateSearch (e) {
@@ -35,13 +42,15 @@ class IndexHeader extends React.Component {
 
   render () {
     let that = this;
-    let klass = this.state.addVisible ? "add-note-button" : "add-note-button add-note-wrapper";
+    let unhoverClass = this.state.addHover ? "invisible" : "add-note-button";
+    let hoverClass = this.state.addHover ? "add-note-button" : "invisible";
+
     return <div>
       <h1>Empathy Wall</h1>
       <div className="input-wrapper">
-
-        <button className={klass} onClick={this.toggleAdd.bind(this)}><img className="add-icon" src="assets/pencil.svg" /></button>
-        <input type="text" className="search-bar" placeholder="Search..." onChange={this.updateSearch.bind(this)} />
+        <button className={hoverClass} onMouseLeave={this.toggleAddButtonHover.bind(this)} onClick={this.toggleAdd.bind(this)}><img className="add-icon" src="assets/black_note.svg" /></button>
+        <button className={unhoverClass} onMouseEnter={this.toggleAddButtonHover.bind(this)} onClick={this.toggleAdd.bind(this)}><img className="add-icon" src="assets/grey_note.svg" /></button>
+        <input type="text" className="search-bar" default="Search..." placeholder="Search..." onChange={this.updateSearch.bind(this)} />
       </div>
     </div>
   }

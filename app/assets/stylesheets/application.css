@@ -15,6 +15,7 @@
  */
 
  .invisible {
+   visibility: hidden;
    display: none;
  }
 
@@ -120,10 +121,6 @@ button {
 }
 
 button:hover {
-  transform: rotate(90deg);
-  height: 50px;
-  width: 50px;
-  background: transparent;
   cursor: pointer;
 }
 
@@ -240,8 +237,9 @@ font-family: 'Permanent Marker', cursive;*/
 
 .add-note-button {
   margin-right: 20px;
+  transition: all 500ms ease 0ms;
 }
 
 .add-note-button:hover {
-  background-color: magenta;
+  background-color: #fff66a;
 }
