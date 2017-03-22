@@ -6,7 +6,8 @@ import { NOTES_RECEIVED,
          TOGGLE_ADD,
          TAGS_RECEIVED,
          TAG_RECEIVED,
-         SEARCH_NOTES } from '../constants/note_constants';
+         SEARCH_NOTES,
+        FILTER_RECEIVED  } from '../constants/note_constants';
 import Fuse from 'fuse.js';
 
 class NoteStore extends EventEmitter {
@@ -19,6 +20,7 @@ class NoteStore extends EventEmitter {
     this.tags = [];
     this.notesHash = {};
     this.searchQuery = "";
+    this.filteredByTag = false;
     this.fuseOptions = {
                          shouldSort: true,
                          threshold: 0.6,
@@ -60,8 +62,18 @@ class NoteStore extends EventEmitter {
           this.searchNotes(payload.query);
           this.emit(this.change_event);
           break;
+        case FILTER_RECEIVED:
+          this.filterNotesByTag(payload.tag);
+          this.emit(this.change_event);
+          break;
       }
   };
+
+  filterNotesByTag(tag) {
+    this.filteredNotes = tag.notes;
+    this.filteredByTag = true;
+  };
+
 
   searchNotes(query) {
     this.searchQuery = query;
@@ -74,7 +86,7 @@ class NoteStore extends EventEmitter {
   };
 
   getNotes() {
-    if (this.searchQuery.length > 0){
+    if (this.searchQuery.length > 0 || this.filteredByTag){
       return this.filteredNotes;
     } else {
       return this.notes;
