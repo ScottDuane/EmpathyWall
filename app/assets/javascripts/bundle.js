@@ -27128,7 +27128,7 @@
 	  }, {
 	    key: 'onChange',
 	    value: function onChange() {
-	      this.setState({ notes: this.props.noteStore.getNotes(), addVisible: this.props.noteStore.getAddState(), tags: this.props.tagStore.getMatchedTags() });
+	      this.setState({ notes: this.props.noteStore.getNotes(), addVisible: this.props.noteStore.getAddState() });
 	    }
 	  }, {
 	    key: 'render',
@@ -27241,7 +27241,6 @@
 	
 	var filterNotesByTag = exports.filterNotesByTag = function filterNotesByTag(tag) {
 	  var payload = { actionType: _note_constants.FILTER_RECEIVED, tag: tag };
-	  debugger;
 	  _dispatcher.AppDispatcher.dispatch(payload);
 	};
 	
@@ -27691,15 +27690,15 @@
 	  _createClass(NoteShortShow, [{
 	    key: 'filterByTag',
 	    value: function filterByTag(e) {
-	      debugger;
-	      console.log("my tag is " + e.target.value);
-	      (0, _note_actions.filterNotesByTag)(e.target.value);
+	      (0, _note_actions.filterNotesByTag)(e.target.innerText);
 	    }
 	  }, {
 	    key: 'render',
 	    value: function render() {
 	      var _this2 = this;
 	
+	      var that = this;
+	      debugger;
 	      return _react2.default.createElement(
 	        'li',
 	        { key: this.props.note.id, className: this.props.klass },
@@ -27712,7 +27711,7 @@
 	        _react2.default.createElement(
 	          'ul',
 	          { className: 'short-show-tag-list' },
-	          this.props.tags.map(function (tag, idx) {
+	          that.props.tags.map(function (tag, idx) {
 	            return _react2.default.createElement(
 	              'li',
 	              { key: idx, onClick: _this2.filterByTag.bind(_this2), className: 'short-show-tag-item' },
@@ -38468,8 +38467,14 @@
 	    }
 	  }, {
 	    key: 'filterNotesByTag',
-	    value: function filterNotesByTag(tag) {
-	      this.filteredNotes = tag.notes;
+	    value: function filterNotesByTag(tagName) {
+	      var foundTag = null;
+	      this.tags.forEach(function (tag) {
+	        if (tag.name === tagName) {
+	          foundTag = tag;
+	        }
+	      });
+	      this.filteredNotes = foundTag.notes;
 	      this.filteredByTag = true;
 	    }
 	  }, {

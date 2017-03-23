@@ -28,7 +28,6 @@ export const searchNotes = (query) => {
 
 export const filterNotesByTag = (tag) => {
   let payload = { actionType: FILTER_RECEIVED, tag: tag };
-  debugger;
   AppDispatcher.dispatch(payload);
 };
 

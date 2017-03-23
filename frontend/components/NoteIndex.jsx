@@ -24,7 +24,7 @@ class NoteIndex extends React.Component {
   };
 
   onChange () {
-    this.setState({ notes: this.props.noteStore.getNotes(), addVisible: this.props.noteStore.getAddState(), tags: this.props.tagStore.getMatchedTags() })
+    this.setState({ notes: this.props.noteStore.getNotes(), addVisible: this.props.noteStore.getAddState() })
   };
 
   render () {

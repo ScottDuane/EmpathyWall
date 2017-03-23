@@ -69,8 +69,14 @@ class NoteStore extends EventEmitter {
       }
   };
 
-  filterNotesByTag(tag) {
-    this.filteredNotes = tag.notes;
+  filterNotesByTag(tagName) {
+    let foundTag = null;
+    this.tags.forEach((tag) => {
+      if (tag.name === tagName) {
+        foundTag = tag;
+      }
+    });
+    this.filteredNotes = foundTag.notes;
     this.filteredByTag = true;
   };
 
