@@ -38489,7 +38489,6 @@
 	        });
 	      });
 	
-	      debugger;
 	      return taggedNotes;
 	    }
 	  }, {
@@ -40045,7 +40044,7 @@
 	    var _this = _possibleConstructorReturn(this, (AddNote.__proto__ || Object.getPrototypeOf(AddNote)).call(this));
 	
 	    _this.content = "";
-	    _this.state = { visible: false };
+	    _this.state = { visible: false, tags: [] };
 	    return _this;
 	  }
 	
@@ -40106,7 +40105,24 @@
 	            null,
 	            'What do you want to say?'
 	          ),
+	          _react2.default.createElement('hr', null),
 	          _react2.default.createElement('textarea', { className: 'note-content-input', onChange: this.changeContent.bind(this) }),
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'tag-container' },
+	            _react2.default.createElement(
+	              'ul',
+	              null,
+	              this.state.tags.map(function (tag) {
+	                return _react2.default.createElement(
+	                  'li',
+	                  { className: 'tag-list-item' },
+	                  tag.name
+	                );
+	              })
+	            ),
+	            _react2.default.createElement('input', { type: 'text', 'default': 'Add tag...' })
+	          ),
 	          _react2.default.createElement(
 	            'button',
 	            { className: 'save-button', onClick: this.saveNote.bind(this) },
