@@ -8,7 +8,6 @@ class NoteShortShow extends React.Component {
 
   render () {
     let that = this;
-    debugger;
     return <li key={this.props.note.id} className={this.props.klass}><hr />
               <span className="post-it-content">{this.props.note.content}</span>
               <ul className="short-show-tag-list">

@@ -11,5 +11,5 @@ class Api::TagsController < ApplicationController
   private
   def tag_params
     params.require(:tag).permit(:name, :occurrences)
-  end 
+  end
 end

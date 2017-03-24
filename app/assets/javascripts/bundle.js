@@ -27698,7 +27698,6 @@
 	      var _this2 = this;
 	
 	      var that = this;
-	      debugger;
 	      return _react2.default.createElement(
 	        'li',
 	        { key: this.props.note.id, className: this.props.klass },
@@ -38474,8 +38473,24 @@
 	          foundTag = tag;
 	        }
 	      });
-	      this.filteredNotes = foundTag.notes;
+	      this.filteredNotes = this.findNotesByTag(foundTag);
 	      this.filteredByTag = true;
+	    }
+	  }, {
+	    key: 'findNotesByTag',
+	    value: function findNotesByTag(tag) {
+	      var taggedNotes = [];
+	      this.notes.forEach(function (note) {
+	        var tagNames = [];
+	        note.tags.forEach(function (tagObject) {
+	          if (tagObject.name === tag.name) {
+	            taggedNotes.push(note);
+	          }
+	        });
+	      });
+	
+	      debugger;
+	      return taggedNotes;
 	    }
 	  }, {
 	    key: 'searchNotes',
