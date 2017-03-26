@@ -66,6 +66,10 @@ class NoteStore extends EventEmitter {
           this.filterNotesByTag(payload.tag);
           this.emit(this.change_event);
           break;
+        case SEARCH_TAGS:
+          this.searchTags(payload.query);
+          this.emit(this.change_event);
+          break;
       }
   };
 
@@ -100,6 +104,13 @@ class NoteStore extends EventEmitter {
     this.filteredNotes = fuse.search(query);
   };
 
+  searchTags(query, tags) {
+    if (tags[0][0..query.length - 1] === query) {
+      return tags[0];
+    } else {
+      
+    }
+  };
   getAddState () {
     return this.addState;
   };
