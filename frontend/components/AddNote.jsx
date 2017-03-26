@@ -51,16 +51,14 @@ class AddNote extends Component {
 
       <div className="add-modal-background" onClick={this.toggleAdd.bind(this)}></div>
       <div className="add-note-modal">
-        <h4>What do you want to say?</h4>
-        <hr />
-        <textarea className="note-content-input" onChange={this.changeContent.bind(this)}></textarea>
+        <textarea className="note-content-input" default="Say it..." onChange={this.changeContent.bind(this)}></textarea>
         <div className="tag-container">
           <ul>
             {this.state.tags.map((tag) => {
               return <li className="tag-list-item">{tag.name}</li>
             })}
           </ul>
-          <input type="text" className="next-tag-field" default="Add tag..." />
+          <input type="text" className="next-tag-field" placeholder="Add a tag..." default="Add tag..." />
         </div>
         <button className="save-button" onClick={this.saveNote.bind(this)}>Save Note</button>
       </div>

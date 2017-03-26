@@ -145,16 +145,31 @@ textarea {
   background-color: #fff66a;
   color: black;
   width: 70%;
-  height: 50%;
+  height: 100%;
   margin-left: 15%;
   margin-right: 15%;
+  border: none;
+}
+
+.note-content-input:focus {
+  outline: none;
 }
 
 .save-button {
   align-self: center;
   margin: 10px 0px 10px 0px;
-  width: 150px;
+  width: 200px;
+  height: 75px;
+  font-size: 24px;
+  font-family: 'Indie Flower', cursive;
   padding-left: 41px;
+  color: #fff66a;
+  border: 2px solid #fff66a;
+}
+
+.save-button:hover {
+  color: black;
+  background: #fff66a;
 }
 
 textarea:active {
@@ -240,7 +255,6 @@ font-family: 'Permanent Marker', cursive;*/
   outline: none;
 }
 
-
 .add-note-button {
   margin-right: 20px;
   width: 55px;
@@ -249,4 +263,24 @@ font-family: 'Permanent Marker', cursive;*/
 
 .add-note-button:hover {
   background-color: #fff66a;
+}
+
+.tag-container {
+  margin-left: 15%;
+  margin-right: calc(15% - 4px);
+  background: #fff66a;
+}
+
+.next-tag-field {
+  background: #fff66a;
+  color: black;
+  height: 45px;
+  font-size: 26px;
+  margin: 10px;
+  font-family: 'Indie Flower', cursive;
+  border: none;
+}
+
+.next-tag-field:focus {
+  outline: none;
 }

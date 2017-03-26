@@ -40100,13 +40100,7 @@
 	        _react2.default.createElement(
 	          'div',
 	          { className: 'add-note-modal' },
-	          _react2.default.createElement(
-	            'h4',
-	            null,
-	            'What do you want to say?'
-	          ),
-	          _react2.default.createElement('hr', null),
-	          _react2.default.createElement('textarea', { className: 'note-content-input', onChange: this.changeContent.bind(this) }),
+	          _react2.default.createElement('textarea', { className: 'note-content-input', 'default': 'Say it...', onChange: this.changeContent.bind(this) }),
 	          _react2.default.createElement(
 	            'div',
 	            { className: 'tag-container' },
@@ -40121,7 +40115,7 @@
 	                );
 	              })
 	            ),
-	            _react2.default.createElement('input', { type: 'text', 'default': 'Add tag...' })
+	            _react2.default.createElement('input', { type: 'text', className: 'next-tag-field', placeholder: 'Add a tag...', 'default': 'Add tag...' })
 	          ),
 	          _react2.default.createElement(
 	            'button',
