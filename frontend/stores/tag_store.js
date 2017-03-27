@@ -48,21 +48,38 @@ class TagStore extends EventEmitter {
 
   searchTags(query, tags) {
     if (tags.length === 0 || query === "") {
-      return "";
+      this.suggestedTag =  "";
     }
+     else if (tags.length === 1) {
+       this.suggestedTag = this.isPartialMatch(tags[0], query) ? tags[0] : "";
+     }
 
     let midIdx = Math.floor(tags.length/2);
-    let tagBegin = tags[midIdx].length <= query.length ? query : tags[midIdx];
-    if (tagBegin === query) {
-      console.log("match is " + tags[midIdx]);
-      return tags[midIdx];
+
+    if (this.isPartialMatch(query, tags[midIdx])) {
+      this.suggestedTag = tags[midIdx];
     } else {
-      if (this.isLessThan(tagBegin, query)) {
-        this.searchTags(query, tags.slice(midIdx));
+      if (this.isLessThan(tags[midIdx], query)) {
+        return this.searchTags(query, tags.slice(midIdx+1));
       } else {
-        this.searchTags(query, tags.slice(0, midIdx));
+        return this.searchTags(query, tags.slice(0, midIdx-1));
       }
     }
+  };
+
+  isPartialMatch(str1, str2) {
+    let chars1 = str1.split("");
+    let chars2 = str2.split("");
+    let idx = 0;
+    while (idx < chars1.length && idx < chars2.length) {
+      if (chars1[idx] !== chars2[idx]) {
+        return false;
+      } else {
+        idx += 1;
+      }
+    }
+
+    return true;
   };
 
   isLessThan(str1, str2) {

@@ -39801,20 +39801,38 @@
 	    key: 'searchTags',
 	    value: function searchTags(query, tags) {
 	      if (tags.length === 0 || query === "") {
-	        return "";
+	        this.suggestedTag = "";
+	      } else if (tags.length === 1) {
+	        this.suggestedTag = this.isPartialMatch(tags[0], query) ? tags[0] : "";
 	      }
 	
 	      var midIdx = Math.floor(tags.length / 2);
-	      var tagBegin = tags[midIdx].length <= query.length ? query : tags[midIdx];
-	      if (tagBegin === query) {
-	        return tags[midIdx];
+	
+	      if (this.isPartialMatch(query, tags[midIdx])) {
+	        this.suggestedTag = tags[midIdx];
 	      } else {
-	        if (this.isLessThan(tagBegin, query)) {
-	          this.searchTags(query, tags.slice(midIdx));
+	        if (this.isLessThan(tags[midIdx], query)) {
+	          return this.searchTags(query, tags.slice(midIdx + 1));
 	        } else {
-	          this.searchTags(query, tags.slice(0, midIdx));
+	          return this.searchTags(query, tags.slice(0, midIdx - 1));
 	        }
 	      }
+	    }
+	  }, {
+	    key: 'isPartialMatch',
+	    value: function isPartialMatch(str1, str2) {
+	      var chars1 = str1.split("");
+	      var chars2 = str2.split("");
+	      var idx = 0;
+	      while (idx < chars1.length && idx < chars2.length) {
+	        if (chars1[idx] !== chars2[idx]) {
+	          return false;
+	        } else {
+	          idx += 1;
+	        }
+	      }
+	
+	      return true;
 	    }
 	  }, {
 	    key: 'isLessThan',
@@ -40139,7 +40157,7 @@
 	    var _this = _possibleConstructorReturn(this, (AddNote.__proto__ || Object.getPrototypeOf(AddNote)).call(this));
 	
 	    _this.content = "";
-	    _this.state = { visible: false, tags: [], suggestedTag: "" };
+	    _this.state = { visible: false, tags: [], suggestedTag: "", partialTag: "" };
 	    return _this;
 	  }
 	
@@ -40186,14 +40204,23 @@
 	      (0, _note_actions.toggleNoteAdd)(false);
 	    }
 	  }, {
-	    key: 'findTagMatch',
-	    value: function findTagMatch(e) {
-	      (0, _tag_actions.findSuggestedTag)(e.target.value);
+	    key: 'handleTagStroke',
+	    value: function handleTagStroke(e) {
+	      if (e.keyCode == 9 || e.keyCode == 13) {
+	        e.preventDefault();
+	        var newTags = this.state.tags.slice(0);
+	        newTags.push(e.target.value);
+	        this.setState({ tags: newTags, suggestedTag: "" });
+	      } else {
+	        this.setState({ partialTag: e.target.value });
+	        (0, _tag_actions.findSuggestedTag)(e.target.value);
+	      }
 	    }
 	  }, {
 	    key: 'render',
 	    value: function render() {
 	      var that = this;
+	      console.log("suggested tag " + this.state.suggestedTag);
 	      var klass = this.state.visible ? "add-modal-wrapper" : "invisible";
 	      var suggestedTag = this.state.suggestedTag ? this.state.suggestedTag : "Add a tag...";
 	      return _react2.default.createElement(
@@ -40204,6 +40231,7 @@
 	          'div',
 	          { className: 'add-note-modal' },
 	          _react2.default.createElement('textarea', { className: 'note-content-input', 'default': 'Say it...', onChange: this.changeContent.bind(this) }),
+	          _react2.default.createElement('hr', null),
 	          _react2.default.createElement(
 	            'div',
 	            { className: 'tag-container' },
@@ -40221,7 +40249,7 @@
 	            _react2.default.createElement(
 	              'div',
 	              { className: 'new-tag-container' },
-	              _react2.default.createElement('input', { type: 'text', className: 'next-tag-field', onChange: this.findTagMatch.bind(this), placeholder: 'Add a tag...', 'default': 'Add tag...' }),
+	              _react2.default.createElement('input', { type: 'text', className: 'next-tag-field', onKeyDown: this.handleTagStroke.bind(this), placeholder: 'Add a tag...', 'default': this.state.partialTag }),
 	              _react2.default.createElement(
 	                'span',
 	                { className: 'suggested-tag-ending' },

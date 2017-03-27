@@ -8,7 +8,7 @@ class AddNote extends Component {
   constructor () {
     super();
     this.content = "";
-    this.state = {visible: false, tags: [], suggestedTag: "" };
+    this.state = {visible: false, tags: [], suggestedTag: "", partialTag: "" };
   };
 
   componentDidMount () {
@@ -47,12 +47,21 @@ class AddNote extends Component {
     toggleNoteAdd(false);
   };
 
-  findTagMatch (e) {
-    findSuggestedTag(e.target.value);
+  handleTagStroke (e) {
+    if (e.keyCode == 9 || e.keyCode == 13) {
+      e.preventDefault();
+      let newTags = this.state.tags.slice(0);
+      newTags.push(e.target.value);
+      this.setState( { tags: newTags, suggestedTag: "" });
+    } else {
+      this.setState( { partialTag: e.target.value });
+      findSuggestedTag(e.target.value);
+    }
   };
 
   render () {
     let that = this;
+    console.log("suggested tag " + this.state.suggestedTag);
     let klass = this.state.visible ? "add-modal-wrapper" : "invisible";
     let suggestedTag = this.state.suggestedTag ? this.state.suggestedTag : "Add a tag...";
     return <div className={klass}>
@@ -60,6 +69,7 @@ class AddNote extends Component {
       <div className="add-modal-background" onClick={this.toggleAdd.bind(this)}></div>
       <div className="add-note-modal">
         <textarea className="note-content-input" default="Say it..." onChange={this.changeContent.bind(this)}></textarea>
+        <hr />
         <div className="tag-container">
           <ul>
             {this.state.tags.map((tag) => {
@@ -67,7 +77,7 @@ class AddNote extends Component {
             })}
           </ul>
           <div className="new-tag-container">
-            <input type="text" className="next-tag-field" onChange={this.findTagMatch.bind(this)} placeholder="Add a tag..." default="Add tag..." />
+            <input type="text" className="next-tag-field" onKeyDown={this.handleTagStroke.bind(this)} placeholder="Add a tag..." default={this.state.partialTag} />
             <span className="suggested-tag-ending">{this.state.suggestedTag}</span>
           </div>
         </div>
