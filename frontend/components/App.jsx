@@ -29,7 +29,7 @@ class App extends React.Component {
 
   render () {
     let that = this;
-    let fauxKlass = this.state.addVisible ? "add-modal-wrapper" : "invisible";
+
     return (
       <div>
         <Navbar noteStore={that.noteStore} tagStore={that.tagStore} alertStore={that.alertStore} />

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import { fetchAllNotes, fetchAllTags, fetchAllMatches } from '../actions/note_actions';
+import { fetchAllNotes, fetchAllMatches } from '../actions/note_actions';
+import { fetchAllTags } from '../actions/tag_actions';
 import NoteShortShow from './NoteShortShow';
 import Masonry from 'react-masonry-component';
 import Packery from 'packery';
@@ -15,12 +16,10 @@ class NoteIndex extends React.Component {
 
   componentDidMount () {
     this.props.noteStore.addChangeListener(this.onChange.bind(this));
-    this.props.tagStore.addChangeListener(this.onChange.bind(this));
   };
 
   componentWillUnmount () {
     this.props.noteStore.removeChangeListener(this.onChange.bind(this));
-    this.props.tagStore.removeChangeListener(this.onChange.bind(this));
   };
 
   onChange () {

@@ -2,24 +2,27 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import ReactQuill from 'react-quill';
 import { createNote, toggleNoteAdd } from '../actions/note_actions';
+import { findSuggestedTag } from '../actions/tag_actions';
 
 class AddNote extends Component {
   constructor () {
     super();
     this.content = "";
-    this.state = {visible: false, tags: [] };
+    this.state = {visible: false, tags: [], suggestedTag: "" };
   };
 
   componentDidMount () {
     this.props.noteStore.addChangeListener(this.onChange.bind(this));
+    this.props.tagStore.addChangeListener(this.onChange.bind(this));
   };
 
   componentWillUnmount () {
     this.props.noteStore.removeChangeListener(this.onChange.bind(this));
+    this.props.tagStore.removeChangeListener(this.onChange.bind(this));
   };
 
   onChange () {
-    this.setState( { visible: this.props.noteStore.getAddState() });
+    this.setState( { visible: this.props.noteStore.getAddState(), suggestedTag: this.props.tagStore.getSuggestedTag() });
   };
 
   changeContent (e) {
@@ -44,9 +47,14 @@ class AddNote extends Component {
     toggleNoteAdd(false);
   };
 
+  findTagMatch (e) {
+    findSuggestedTag(e.target.value);
+  };
+
   render () {
     let that = this;
     let klass = this.state.visible ? "add-modal-wrapper" : "invisible";
+    let suggestedTag = this.state.suggestedTag ? this.state.suggestedTag : "Add a tag...";
     return <div className={klass}>
 
       <div className="add-modal-background" onClick={this.toggleAdd.bind(this)}></div>
@@ -58,7 +66,10 @@ class AddNote extends Component {
               return <li className="tag-list-item">{tag.name}</li>
             })}
           </ul>
-          <input type="text" className="next-tag-field" placeholder="Add a tag..." default="Add tag..." />
+          <div className="new-tag-container">
+            <input type="text" className="next-tag-field" onChange={this.findTagMatch.bind(this)} placeholder="Add a tag..." default="Add tag..." />
+            <span className="suggested-tag-ending">{this.state.suggestedTag}</span>
+          </div>
         </div>
         <button className="save-button" onClick={this.saveNote.bind(this)}>Save Note</button>
       </div>

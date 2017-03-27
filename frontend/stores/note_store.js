@@ -4,10 +4,10 @@ import { AppDispatcher } from '../dispatcher/dispatcher';
 import { NOTES_RECEIVED,
          NOTE_RECEIVED,
          TOGGLE_ADD,
-         TAGS_RECEIVED,
-         TAG_RECEIVED,
          SEARCH_NOTES,
         FILTER_RECEIVED  } from '../constants/note_constants';
+import { TAGS_RECEIVED,
+         TAG_RECEIVED } from '../constants/tag_constants';
 import Fuse from 'fuse.js';
 
 class NoteStore extends EventEmitter {
@@ -18,6 +18,7 @@ class NoteStore extends EventEmitter {
     this.change_event = "change";
     this.addState = false;
     this.tags = [];
+    this.tagNames = [];
     this.notesHash = {};
     this.searchQuery = "";
     this.filteredByTag = false;
@@ -52,6 +53,7 @@ class NoteStore extends EventEmitter {
           break;
         case TAGS_RECEIVED:
           this.tags = payload.tags;
+          this.tagNames = Object.keys(payload.tags);
           this.emit(this.change_event);
           break;
         case TAG_RECEIVED:
@@ -64,10 +66,6 @@ class NoteStore extends EventEmitter {
           break;
         case FILTER_RECEIVED:
           this.filterNotesByTag(payload.tag);
-          this.emit(this.change_event);
-          break;
-        case SEARCH_TAGS:
-          this.searchTags(payload.query);
           this.emit(this.change_event);
           break;
       }
@@ -104,13 +102,6 @@ class NoteStore extends EventEmitter {
     this.filteredNotes = fuse.search(query);
   };
 
-  searchTags(query, tags) {
-    if (tags[0][0..query.length - 1] === query) {
-      return tags[0];
-    } else {
-      
-    }
-  };
   getAddState () {
     return this.addState;
   };
