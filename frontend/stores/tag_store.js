@@ -62,7 +62,7 @@ class TagStore extends EventEmitter {
       if (this.isLessThan(tags[midIdx], query)) {
         return this.searchTags(query, tags.slice(midIdx+1));
       } else {
-        return this.searchTags(query, tags.slice(0, midIdx-1));
+        return this.searchTags(query, tags.slice(0, midIdx));
       }
     }
   };

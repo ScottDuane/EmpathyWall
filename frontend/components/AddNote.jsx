@@ -50,12 +50,19 @@ class AddNote extends Component {
   handleTagStroke (e) {
     if (e.keyCode == 9 || e.keyCode == 13) {
       e.preventDefault();
-      let newTags = this.state.tags.slice(0);
-      newTags.push(e.target.value);
-      this.setState( { tags: newTags, suggestedTag: "" });
+      if (this.state.tags.includes(e.target.value)) {
+        this.setState( { partialTag: "", suggestedTag: "" });
+      } else {
+        let newTags = this.state.tags.slice(0);
+        newTags.push(e.target.value);
+        this.setState( { tags: newTags, suggestedTag: "" });
+      }
     } else {
-      this.setState( { partialTag: e.target.value });
-      findSuggestedTag(e.target.value);
+      let query = e.target.value;
+      this.setState( { partialTag: query });
+      if (query.length > 0) {
+        findSuggestedTag(query);
+      }
     }
   };
 
@@ -63,6 +70,7 @@ class AddNote extends Component {
     let that = this;
     console.log("suggested tag " + this.state.suggestedTag);
     let klass = this.state.visible ? "add-modal-wrapper" : "invisible";
+    let newTagClass = this.state.tags.length > 7 ? "invisible" : "next-tag-field";
     let suggestedTag = this.state.suggestedTag ? this.state.suggestedTag : "Add a tag...";
     return <div className={klass}>
 
@@ -71,13 +79,13 @@ class AddNote extends Component {
         <textarea className="note-content-input" default="Say it..." onChange={this.changeContent.bind(this)}></textarea>
         <hr />
         <div className="tag-container">
-          <ul>
+          <ul className="existing-tag-list">
             {this.state.tags.map((tag) => {
-              return <li className="tag-list-item">{tag.name}</li>
+              return <li className="tag-list-item">{tag}</li>
             })}
           </ul>
           <div className="new-tag-container">
-            <input type="text" className="next-tag-field" onKeyDown={this.handleTagStroke.bind(this)} placeholder="Add a tag..." default={this.state.partialTag} />
+            <input type="text" className={newTagClass} onKeyDown={this.handleTagStroke.bind(this)} placeholder="Add a tag..." default={this.state.partialTag} />
             <span className="suggested-tag-ending">{this.state.suggestedTag}</span>
           </div>
         </div>

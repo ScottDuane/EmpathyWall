@@ -39814,7 +39814,7 @@
 	        if (this.isLessThan(tags[midIdx], query)) {
 	          return this.searchTags(query, tags.slice(midIdx + 1));
 	        } else {
-	          return this.searchTags(query, tags.slice(0, midIdx - 1));
+	          return this.searchTags(query, tags.slice(0, midIdx));
 	        }
 	      }
 	    }
@@ -40208,12 +40208,19 @@
 	    value: function handleTagStroke(e) {
 	      if (e.keyCode == 9 || e.keyCode == 13) {
 	        e.preventDefault();
-	        var newTags = this.state.tags.slice(0);
-	        newTags.push(e.target.value);
-	        this.setState({ tags: newTags, suggestedTag: "" });
+	        if (this.state.tags.includes(e.target.value)) {
+	          this.setState({ partialTag: "", suggestedTag: "" });
+	        } else {
+	          var newTags = this.state.tags.slice(0);
+	          newTags.push(e.target.value);
+	          this.setState({ tags: newTags, suggestedTag: "" });
+	        }
 	      } else {
-	        this.setState({ partialTag: e.target.value });
-	        (0, _tag_actions.findSuggestedTag)(e.target.value);
+	        var query = e.target.value;
+	        this.setState({ partialTag: query });
+	        if (query.length > 0) {
+	          (0, _tag_actions.findSuggestedTag)(query);
+	        }
 	      }
 	    }
 	  }, {
@@ -40222,6 +40229,7 @@
 	      var that = this;
 	      console.log("suggested tag " + this.state.suggestedTag);
 	      var klass = this.state.visible ? "add-modal-wrapper" : "invisible";
+	      var newTagClass = this.state.tags.length > 7 ? "invisible" : "next-tag-field";
 	      var suggestedTag = this.state.suggestedTag ? this.state.suggestedTag : "Add a tag...";
 	      return _react2.default.createElement(
 	        'div',
@@ -40237,19 +40245,19 @@
 	            { className: 'tag-container' },
 	            _react2.default.createElement(
 	              'ul',
-	              null,
+	              { className: 'existing-tag-list' },
 	              this.state.tags.map(function (tag) {
 	                return _react2.default.createElement(
 	                  'li',
 	                  { className: 'tag-list-item' },
-	                  tag.name
+	                  tag
 	                );
 	              })
 	            ),
 	            _react2.default.createElement(
 	              'div',
 	              { className: 'new-tag-container' },
-	              _react2.default.createElement('input', { type: 'text', className: 'next-tag-field', onKeyDown: this.handleTagStroke.bind(this), placeholder: 'Add a tag...', 'default': this.state.partialTag }),
+	              _react2.default.createElement('input', { type: 'text', className: newTagClass, onKeyDown: this.handleTagStroke.bind(this), placeholder: 'Add a tag...', 'default': this.state.partialTag }),
 	              _react2.default.createElement(
 	                'span',
 	                { className: 'suggested-tag-ending' },

@@ -269,8 +269,15 @@ font-family: 'Permanent Marker', cursive;*/
   margin-left: 15%;
   margin-right: calc(15% - 4px);
   background: #fff66a;
+  display: flex;
+  flex-flow: row;
 }
 
+.existing-tag-list {
+  display: flex;
+  flex-flow: row;
+  list-style: none;
+}
 .next-tag-field {
   background: #fff66a;
   color: black;
@@ -278,7 +285,8 @@ font-family: 'Permanent Marker', cursive;*/
   font-size: 26px;
   margin: 10px;
   font-family: 'Indie Flower', cursive;
-  border: none;
+  border: 1px solid #bbb;
+  border-radius: 5px;
 }
 
 .next-tag-field:focus {
