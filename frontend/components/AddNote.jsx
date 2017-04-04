@@ -68,16 +68,17 @@ class AddNote extends Component {
 
   render () {
     let that = this;
-    console.log("suggested tag " + this.state.suggestedTag);
+
     let klass = this.state.visible ? "add-modal-wrapper" : "invisible";
     let newTagClass = this.state.tags.length > 7 ? "invisible" : "next-tag-field";
     let suggestedTag = this.state.suggestedTag ? this.state.suggestedTag : "Add a tag...";
+    let suggestedEnd = suggestedTag.slice(that.state.partialTag.length);
     return <div className={klass}>
 
       <div className="add-modal-background" onClick={this.toggleAdd.bind(this)}></div>
       <div className="add-note-modal">
+        <h2 className="add-note-header">Share some kind words</h2>
         <textarea className="note-content-input" default="Say it..." onChange={this.changeContent.bind(this)}></textarea>
-        <hr />
         <div className="tag-container">
           <ul className="existing-tag-list">
             {this.state.tags.map((tag) => {
@@ -86,10 +87,10 @@ class AddNote extends Component {
           </ul>
           <div className="new-tag-container">
             <input type="text" className={newTagClass} onKeyDown={this.handleTagStroke.bind(this)} placeholder="Add a tag..." default={this.state.partialTag} />
-            <span className="suggested-tag-ending">{this.state.suggestedTag}</span>
+            <span className="suggested-tag-start">{this.state.suggestedTag}</span>
           </div>
         </div>
-        <button className="save-button" onClick={this.saveNote.bind(this)}>Save Note</button>
+        <button className="save-button" onClick={this.saveNote.bind(this)}>Save</button>
       </div>
     </div>;
   };

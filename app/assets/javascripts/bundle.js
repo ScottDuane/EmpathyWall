@@ -40227,10 +40227,11 @@
 	    key: 'render',
 	    value: function render() {
 	      var that = this;
-	      console.log("suggested tag " + this.state.suggestedTag);
+	
 	      var klass = this.state.visible ? "add-modal-wrapper" : "invisible";
 	      var newTagClass = this.state.tags.length > 7 ? "invisible" : "next-tag-field";
 	      var suggestedTag = this.state.suggestedTag ? this.state.suggestedTag : "Add a tag...";
+	      var suggestedEnd = suggestedTag.slice(that.state.partialTag.length);
 	      return _react2.default.createElement(
 	        'div',
 	        { className: klass },
@@ -40238,8 +40239,12 @@
 	        _react2.default.createElement(
 	          'div',
 	          { className: 'add-note-modal' },
+	          _react2.default.createElement(
+	            'h2',
+	            { className: 'add-note-header' },
+	            'Share some kind words'
+	          ),
 	          _react2.default.createElement('textarea', { className: 'note-content-input', 'default': 'Say it...', onChange: this.changeContent.bind(this) }),
-	          _react2.default.createElement('hr', null),
 	          _react2.default.createElement(
 	            'div',
 	            { className: 'tag-container' },
@@ -40260,7 +40265,7 @@
 	              _react2.default.createElement('input', { type: 'text', className: newTagClass, onKeyDown: this.handleTagStroke.bind(this), placeholder: 'Add a tag...', 'default': this.state.partialTag }),
 	              _react2.default.createElement(
 	                'span',
-	                { className: 'suggested-tag-ending' },
+	                { className: 'suggested-tag-start' },
 	                this.state.suggestedTag
 	              )
 	            )
@@ -40268,7 +40273,7 @@
 	          _react2.default.createElement(
 	            'button',
 	            { className: 'save-button', onClick: this.saveNote.bind(this) },
-	            'Save Note'
+	            'Save'
 	          )
 	        )
 	      );
