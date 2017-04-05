@@ -41,10 +41,10 @@ class AddNote extends Component {
                         3: "green",
                         4: "orange" };
 
-    createNoteWithTags(this.content, this.props.tagStore.getTentativeTags(), colorHash[randNum]).then((note, tags) => {
-      createMatches(note, tags);
-    });
+    let randNum = Math.floor(Math.random()*5);
 
+    createNoteWithTags(this.content, this.props.tagStore.getTentativeTags(), colorHash[randNum]);
+    // still need to create the matches 
     toggleNoteAdd(false);
   };
 
@@ -68,7 +68,7 @@ class AddNote extends Component {
       findSuggestedTag(query);
     }
   };
-  
+
   render () {
     let that = this;
 

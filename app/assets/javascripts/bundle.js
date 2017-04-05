@@ -27286,14 +27286,11 @@
 	};
 	
 	var createNewNote = exports.createNewNote = function createNewNote(data, tags) {
-	  var newNote = $.ajax({
+	  return $.ajax({
 	    method: 'POST',
 	    url: 'api/notes',
 	    data: data
 	  });
-	
-	  var results = { newNote: newNote, tags: tags };
-	  return results;
 	};
 	
 	var createTag = exports.createTag = function createTag(data) {
@@ -40262,10 +40259,10 @@
 	        3: "green",
 	        4: "orange" };
 	
-	      (0, _note_actions.createNoteWithTags)(this.content, this.props.tagStore.getTentativeTags(), colorHash[randNum]).then(function (note, tags) {
-	        (0, _note_actions.createMatches)(note, tags);
-	      });
+	      var randNum = Math.floor(Math.random() * 5);
 	
+	      (0, _note_actions.createNoteWithTags)(this.content, this.props.tagStore.getTentativeTags(), colorHash[randNum]);
+	      // still need to create the matches 
 	      (0, _note_actions.toggleNoteAdd)(false);
 	    }
 	  }, {
