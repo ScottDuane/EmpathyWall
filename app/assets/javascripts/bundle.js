@@ -27218,17 +27218,16 @@
 	
 	var createNoteWithTags = exports.createNoteWithTags = function createNoteWithTags(content, tags, color) {
 	  var newNote = (0, _note_api_util.createNewNote)({ note: { content: content, color: color } });
-	  var newTags = [];
 	  tags.forEach(function (tag) {
-	    if (tag.typeof == "string") {
+	    var tagId = null;
+	    if (typeof tag == "string") {
 	      var newTag = createNewTag({ name: tag, occurrences: 0 });
-	      newTags.push(newTag);
+	      tagId = newTag.id;
 	    } else {
-	      newTags.push(tag);
+	      tagId = tag.id;
 	    }
+	    createMatch({ note_id: newNote.id, tag_id: tagId });
 	  });
-	
-	  return [newNote, newTags];
 	};
 	
 	var createNote = exports.createNote = function createNote(content, color) {
@@ -40262,7 +40261,7 @@
 	      var randNum = Math.floor(Math.random() * 5);
 	
 	      (0, _note_actions.createNoteWithTags)(this.content, this.props.tagStore.getTentativeTags(), colorHash[randNum]);
-	      // still need to create the matches 
+	      // still need to create the matches
 	      (0, _note_actions.toggleNoteAdd)(false);
 	    }
 	  }, {

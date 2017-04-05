@@ -9,17 +9,17 @@ export const fetchAllNotes = () => {
 
 export const createNoteWithTags = (content, tags, color) => {
   let newNote = createNewNote( { note: { content: content, color: color } } );
-  let newTags = [];
   tags.forEach((tag) => {
-    if (tag.typeof == "string") {
+    let tagId = null;
+    if (typeof(tag) == "string") {
       let newTag = createNewTag( { name: tag, occurrences: 0 } );
-      newTags.push(newTag);
+      tagId = newTag.id;
     } else {
-      newTags.push(tag);
+      tagId = tag.id;
     }
+    createMatch({ note_id: newNote.id, tag_id: tagId })
   });
 
-  return [newNote, newTags];
 };
 
 export const createNote = (content, color) => {
