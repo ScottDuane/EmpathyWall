@@ -27202,7 +27202,7 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.receiveNote = exports.receiveNotes = exports.filterNotesByTag = exports.searchNotes = exports.toggleNoteAdd = exports.createNote = exports.fetchAllNotes = undefined;
+	exports.receiveNote = exports.receiveNotes = exports.filterNotesByTag = exports.searchNotes = exports.toggleNoteAdd = exports.createMatches = exports.createNote = exports.createNoteWithTags = exports.fetchAllNotes = undefined;
 	
 	var _note_api_util = __webpack_require__(245);
 	
@@ -27216,9 +27216,30 @@
 	  });
 	};
 	
+	var createNoteWithTags = exports.createNoteWithTags = function createNoteWithTags(content, tags, color) {
+	  var newNote = (0, _note_api_util.createNewNote)({ note: { content: content, color: color } });
+	  var newTags = [];
+	  tags.forEach(function (tag) {
+	    if (tag.typeof == "string") {
+	      var newTag = createNewTag({ name: tag, occurrences: 0 });
+	      newTags.push(newTag);
+	    } else {
+	      newTags.push(tag);
+	    }
+	  });
+	
+	  return [newNote, newTags];
+	};
+	
 	var createNote = exports.createNote = function createNote(content, color) {
-	  (0, _note_api_util.createNewNote)({ note: { content: content, color: color } }).then(function (data) {
+	  (0, _note_api_util.createNewNote)({ note: { content: content, color: color } }, tags).then(function (data) {
 	    _dispatcher.AppDispatcher.dispatch(receiveNote(data.note));
+	  });
+	};
+	
+	var createMatches = exports.createMatches = function createMatches(note, tags) {
+	  tags.forEach(function (tag) {
+	    createMatch({ note_id: note.id, tag_id: tag.id });
 	  });
 	};
 	
@@ -27264,12 +27285,15 @@
 	  });
 	};
 	
-	var createNewNote = exports.createNewNote = function createNewNote(data) {
-	  return $.ajax({
+	var createNewNote = exports.createNewNote = function createNewNote(data, tags) {
+	  var newNote = $.ajax({
 	    method: 'POST',
 	    url: 'api/notes',
 	    data: data
 	  });
+	
+	  var results = { newNote: newNote, tags: tags };
+	  return results;
 	};
 	
 	var createTag = exports.createTag = function createTag(data) {
@@ -27679,6 +27703,7 @@
 	var SEARCH_TAGS = exports.SEARCH_TAGS = "SEARCH_TAGS";
 	var TAGS_RECEIVED = exports.TAGS_RECEIVED = "TAGS_RECEIVED";
 	var TAG_RECEIVED = exports.TAG_RECEIVED = "TAG_RECEIVED";
+	var ADD_NEW_TAG = exports.ADD_NEW_TAG = "ADD_NEW_TAG";
 
 /***/ },
 /* 253 */
@@ -27693,6 +27718,14 @@
 	  return $.ajax({
 	    method: 'GET',
 	    url: 'api/tags'
+	  });
+	};
+	
+	var createNewTag = exports.createNewTag = function createNewTag(data) {
+	  return $.ajax({
+	    method: 'POST',
+	    url: 'api/tags',
+	    data: data
 	  });
 	};
 
@@ -39756,6 +39789,7 @@
 	    _this.tagNames = [];
 	    _this.selectedTags = [];
 	    _this.suggestedTag = "";
+	    _this.tentativeTags = [];
 	    _this.change_event = "change";
 	    _dispatcher.AppDispatcher.register(function (payload) {
 	      _this.updateStore(payload);
@@ -39779,7 +39813,28 @@
 	          this.searchTags(payload.query, this.tagNames);
 	          this.emit(this.change_event);
 	          break;
+	        case _tag_constants.ADD_NEW_TAG:
+	          this.addTentativeTag(payload.tagName);
+	          this.emit(this.change_event);
+	          break;
 	      };
+	    }
+	  }, {
+	    key: 'addTentativeTag',
+	    value: function addTentativeTag(tagName) {
+	      var foundTag = null;
+	
+	      this.tags.forEach(function (tag) {
+	        if (tag.name === tagName) {
+	          foundTag = tag;
+	        }
+	      });
+	
+	      if (foundTag) {
+	        this.tentativeTags.push(foundTag);
+	      } else {
+	        this.tentativeTags.push(tagName);
+	      }
 	    }
 	  }, {
 	    key: 'handleTags',
@@ -39800,10 +39855,14 @@
 	  }, {
 	    key: 'searchTags',
 	    value: function searchTags(query, tags) {
+	      console.log("query is " + query);
+	      console.log("tags are " + tags);
 	      if (tags.length === 0 || query === "") {
 	        this.suggestedTag = "";
+	        return this.suggestedTag;
 	      } else if (tags.length === 1) {
 	        this.suggestedTag = this.isPartialMatch(tags[0], query) ? tags[0] : "";
+	        return this.suggestedTag;
 	      }
 	
 	      var midIdx = Math.floor(tags.length / 2);
@@ -39856,6 +39915,11 @@
 	    key: 'getSuggestedTag',
 	    value: function getSuggestedTag() {
 	      return this.suggestedTag;
+	    }
+	  }, {
+	    key: 'getTentativeTags',
+	    value: function getTentativeTags() {
+	      return this.tentativeTags;
 	    }
 	  }, {
 	    key: 'addChangeListener',
@@ -40198,9 +40262,10 @@
 	        3: "green",
 	        4: "orange" };
 	
-	      var randNum = Math.random() * 5 / 5;
+	      (0, _note_actions.createNoteWithTags)(this.content, this.props.tagStore.getTentativeTags(), colorHash[randNum]).then(function (note, tags) {
+	        (0, _note_actions.createMatches)(note, tags);
+	      });
 	
-	      (0, _note_actions.createNote)(this.content, colorHash[randNum]);
 	      (0, _note_actions.toggleNoteAdd)(false);
 	    }
 	  }, {
@@ -40215,12 +40280,15 @@
 	          newTags.push(e.target.value);
 	          this.setState({ tags: newTags, suggestedTag: "" });
 	        }
-	      } else {
-	        var query = e.target.value;
-	        this.setState({ partialTag: query });
-	        if (query.length > 0) {
-	          (0, _tag_actions.findSuggestedTag)(query);
-	        }
+	      }
+	    }
+	  }, {
+	    key: 'handleTagChange',
+	    value: function handleTagChange(e) {
+	      var query = e.target.value;
+	      this.setState({ partialTag: query });
+	      if (query.length > 0) {
+	        (0, _tag_actions.findSuggestedTag)(query);
 	      }
 	    }
 	  }, {
@@ -40262,7 +40330,7 @@
 	            _react2.default.createElement(
 	              'div',
 	              { className: 'new-tag-container' },
-	              _react2.default.createElement('input', { type: 'text', className: newTagClass, onKeyDown: this.handleTagStroke.bind(this), placeholder: 'Add a tag...', 'default': this.state.partialTag }),
+	              _react2.default.createElement('input', { type: 'text', className: newTagClass, onKeyDown: this.handleTagStroke.bind(this), onChange: this.handleTagChange.bind(this), placeholder: 'Add a tag...', 'default': this.state.partialTag }),
 	              _react2.default.createElement(
 	                'span',
 	                { className: 'suggested-tag-start' },

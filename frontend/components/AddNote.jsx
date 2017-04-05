@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import ReactQuill from 'react-quill';
-import { createNote, toggleNoteAdd } from '../actions/note_actions';
+import { createNoteWithTags, toggleNoteAdd, createMatches } from '../actions/note_actions';
 import { findSuggestedTag } from '../actions/tag_actions';
 
 class AddNote extends Component {
@@ -41,9 +41,10 @@ class AddNote extends Component {
                         3: "green",
                         4: "orange" };
 
-    let randNum = (Math.random()*5)/5;
+    createNoteWithTags(this.content, this.props.tagStore.getTentativeTags(), colorHash[randNum]).then((note, tags) => {
+      createMatches(note, tags);
+    });
 
-    createNote(this.content, colorHash[randNum]);
     toggleNoteAdd(false);
   };
 
@@ -57,15 +58,17 @@ class AddNote extends Component {
         newTags.push(e.target.value);
         this.setState( { tags: newTags, suggestedTag: "" });
       }
-    } else {
-      let query = e.target.value;
-      this.setState( { partialTag: query });
-      if (query.length > 0) {
-        findSuggestedTag(query);
-      }
     }
   };
 
+  handleTagChange (e) {
+    let query = e.target.value;
+    this.setState( { partialTag: query });
+    if (query.length > 0) {
+      findSuggestedTag(query);
+    }
+  };
+  
   render () {
     let that = this;
 
@@ -86,7 +89,7 @@ class AddNote extends Component {
             })}
           </ul>
           <div className="new-tag-container">
-            <input type="text" className={newTagClass} onKeyDown={this.handleTagStroke.bind(this)} placeholder="Add a tag..." default={this.state.partialTag} />
+            <input type="text" className={newTagClass} onKeyDown={this.handleTagStroke.bind(this)} onChange={this.handleTagChange.bind(this)} placeholder="Add a tag..." default={this.state.partialTag} />
             <span className="suggested-tag-start">{this.state.suggestedTag}</span>
           </div>
         </div>

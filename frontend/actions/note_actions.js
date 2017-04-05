@@ -7,9 +7,29 @@ export const fetchAllNotes = () => {
   fetchNotes().then((data) => { AppDispatcher.dispatch(receiveNotes(data.notes)); });
 };
 
+export const createNoteWithTags = (content, tags, color) => {
+  let newNote = createNewNote( { note: { content: content, color: color } } );
+  let newTags = [];
+  tags.forEach((tag) => {
+    if (tag.typeof == "string") {
+      let newTag = createNewTag( { name: tag, occurrences: 0 } );
+      newTags.push(newTag);
+    } else {
+      newTags.push(tag);
+    }
+  });
+
+  return [newNote, newTags];
+};
 
 export const createNote = (content, color) => {
-  createNewNote({note:  { content: content, color: color } } ).then((data) => { AppDispatcher.dispatch(receiveNote(data.note)); });
+  createNewNote({note:  { content: content, color: color } }, tags ).then((data) => { AppDispatcher.dispatch(receiveNote(data.note)); });
+};
+
+export const createMatches = (note, tags) => {
+  tags.forEach((tag) => {
+    createMatch({ note_id: note.id, tag_id: tag.id });
+  });
 };
 
 export const toggleNoteAdd = (addState) => {

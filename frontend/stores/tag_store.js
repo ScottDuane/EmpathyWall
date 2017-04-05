@@ -1,7 +1,7 @@
 import { EventEmitter } from 'events';
 import { receiveTags } from '../actions/tag_actions';
 import { AppDispatcher } from '../dispatcher/dispatcher';
-import { TAGS_RECEIVED, TAG_RECEIVED, SEARCH_TAGS } from '../constants/tag_constants';
+import { TAGS_RECEIVED, TAG_RECEIVED, SEARCH_TAGS, ADD_NEW_TAG } from '../constants/tag_constants';
 
 class TagStore extends EventEmitter {
   constructor() {
@@ -10,6 +10,7 @@ class TagStore extends EventEmitter {
     this.tagNames = [];
     this.selectedTags = [];
     this.suggestedTag = "";
+    this.tentativeTags = [];
     this.change_event = "change";
     AppDispatcher.register( (payload) => {
       this.updateStore(payload);
@@ -30,7 +31,27 @@ class TagStore extends EventEmitter {
         this.searchTags(payload.query, this.tagNames);
         this.emit(this.change_event);
         break;
+      case ADD_NEW_TAG:
+        this.addTentativeTag(payload.tagName);
+        this.emit(this.change_event);
+        break;
     };
+  };
+
+  addTentativeTag (tagName) {
+    let foundTag = null;
+
+    this.tags.forEach((tag) => {
+      if (tag.name === tagName) {
+        foundTag = tag;
+      }
+    });
+
+    if (foundTag) {
+      this.tentativeTags.push(foundTag);
+    } else {
+      this.tentativeTags.push(tagName);
+    }
   };
 
   handleTags (tags) {
@@ -46,12 +67,16 @@ class TagStore extends EventEmitter {
     this.tagNames.sort();
   };
 
-  searchTags(query, tags) {
+  searchTags (query, tags) {
+    console.log("query is " + query);
+    console.log("tags are " + tags);
     if (tags.length === 0 || query === "") {
       this.suggestedTag =  "";
+      return this.suggestedTag;
     }
      else if (tags.length === 1) {
        this.suggestedTag = this.isPartialMatch(tags[0], query) ? tags[0] : "";
+       return this.suggestedTag;
      }
 
     let midIdx = Math.floor(tags.length/2);
@@ -101,6 +126,10 @@ class TagStore extends EventEmitter {
 
   getSuggestedTag () {
     return this.suggestedTag;
+  };
+
+  getTentativeTags () {
+    return this.tentativeTags;
   };
 
   addChangeListener(callback) {

@@ -5,3 +5,11 @@ export const fetchTags = () => {
     url: 'api/tags'
   });
 };
+
+export const createNewTag = (data) => {
+  return $.ajax({
+    method: 'POST',
+    url: 'api/tags',
+    data: data
+  });
+}
