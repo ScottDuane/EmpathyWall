@@ -8,11 +8,12 @@ export const fetchAllNotes = () => {
 };
 
 export const createNoteWithTags = (content, tags, color) => {
+  console.log("color is "+color);
   let newNote = createNewNote( { note: { content: content, color: color } } );
   tags.forEach((tag) => {
     let tagId = null;
     if (typeof(tag) == "string") {
-      let newTag = createNewTag( { name: tag, occurrences: 0 } );
+      let newTag = createNewTag( { name: tag, occurrences: 1 } );
       tagId = newTag.id;
     } else {
       tagId = tag.id;

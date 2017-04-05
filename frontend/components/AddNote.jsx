@@ -42,7 +42,8 @@ class AddNote extends Component {
                         4: "orange" };
 
     let randNum = Math.floor(Math.random()*5);
-
+    console.log(randNum);
+    console.log(colorHash[randNum]);
     createNoteWithTags(this.content, this.props.tagStore.getTentativeTags(), colorHash[randNum]);
     // still need to create the matches
     toggleNoteAdd(false);

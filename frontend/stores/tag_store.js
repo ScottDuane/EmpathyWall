@@ -68,8 +68,6 @@ class TagStore extends EventEmitter {
   };
 
   searchTags (query, tags) {
-    console.log("query is " + query);
-    console.log("tags are " + tags);
     if (tags.length === 0 || query === "") {
       this.suggestedTag =  "";
       return this.suggestedTag;

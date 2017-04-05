@@ -27217,11 +27217,12 @@
 	};
 	
 	var createNoteWithTags = exports.createNoteWithTags = function createNoteWithTags(content, tags, color) {
+	  console.log("color is " + color);
 	  var newNote = (0, _note_api_util.createNewNote)({ note: { content: content, color: color } });
 	  tags.forEach(function (tag) {
 	    var tagId = null;
 	    if (typeof tag == "string") {
-	      var newTag = createNewTag({ name: tag, occurrences: 0 });
+	      var newTag = createNewTag({ name: tag, occurrences: 1 });
 	      tagId = newTag.id;
 	    } else {
 	      tagId = tag.id;
@@ -27285,6 +27286,7 @@
 	};
 	
 	var createNewNote = exports.createNewNote = function createNewNote(data, tags) {
+	
 	  return $.ajax({
 	    method: 'POST',
 	    url: 'api/notes',
@@ -39851,8 +39853,6 @@
 	  }, {
 	    key: 'searchTags',
 	    value: function searchTags(query, tags) {
-	      console.log("query is " + query);
-	      console.log("tags are " + tags);
 	      if (tags.length === 0 || query === "") {
 	        this.suggestedTag = "";
 	        return this.suggestedTag;
@@ -40259,7 +40259,8 @@
 	        4: "orange" };
 	
 	      var randNum = Math.floor(Math.random() * 5);
-	
+	      console.log(randNum);
+	      console.log(colorHash[randNum]);
 	      (0, _note_actions.createNoteWithTags)(this.content, this.props.tagStore.getTentativeTags(), colorHash[randNum]);
 	      // still need to create the matches
 	      (0, _note_actions.toggleNoteAdd)(false);

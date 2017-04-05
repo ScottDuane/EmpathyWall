@@ -9,6 +9,7 @@ export const fetchNotes = () => {
 
 
 export const createNewNote = (data, tags) => {
+  
   return $.ajax({
     method: 'POST',
     url: 'api/notes',
