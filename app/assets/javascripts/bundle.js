@@ -40274,7 +40274,7 @@
 	    var _this = _possibleConstructorReturn(this, (AddNote.__proto__ || Object.getPrototypeOf(AddNote)).call(this));
 	
 	    _this.content = "";
-	    _this.state = { visible: false, tags: [], suggestedTag: "", partialTag: "" };
+	    _this.state = { content: "", visible: false, tags: [], suggestedTag: "", partialTag: "" };
 	    return _this;
 	  }
 	
@@ -40298,12 +40298,18 @@
 	  }, {
 	    key: 'changeContent',
 	    value: function changeContent(e) {
-	      this.content = e.target.value;
+	      this.setState({ content: e.target.value });
 	    }
 	  }, {
 	    key: 'toggleAdd',
 	    value: function toggleAdd() {
 	      var newAddState = !this.state.visible;
+	
+	      if (this.state.visible) {
+	        this.content = "";
+	        this.setState({ content: "", tags: [], suggestedTag: "", partialTag: "" });
+	      }
+	
 	      (0, _note_actions.toggleNoteAdd)(newAddState);
 	    }
 	  }, {
@@ -40348,11 +40354,9 @@
 	    key: 'render',
 	    value: function render() {
 	      var that = this;
-	
+	      debugger;
 	      var klass = this.state.visible ? "add-modal-wrapper" : "invisible";
 	      var newTagClass = this.state.tags.length > 7 ? "invisible" : "next-tag-field";
-	      var suggestedTag = this.state.suggestedTag ? this.state.suggestedTag : "Add a tag...";
-	      var suggestedEnd = suggestedTag.slice(that.state.partialTag.length);
 	      return _react2.default.createElement(
 	        'div',
 	        { className: klass },
@@ -40365,7 +40369,7 @@
 	            { className: 'add-note-header' },
 	            'Share some kind words'
 	          ),
-	          _react2.default.createElement('textarea', { className: 'note-content-input', 'default': 'Say it...', onChange: this.changeContent.bind(this) }),
+	          _react2.default.createElement('textarea', { className: 'note-content-input', value: this.state.content, onChange: this.changeContent.bind(this) }),
 	          _react2.default.createElement(
 	            'div',
 	            { className: 'tag-container' },

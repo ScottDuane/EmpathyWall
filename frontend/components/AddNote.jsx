@@ -8,7 +8,7 @@ class AddNote extends Component {
   constructor () {
     super();
     this.content = "";
-    this.state = {visible: false, tags: [], suggestedTag: "", partialTag: "" };
+    this.state = {content: "", visible: false, tags: [], suggestedTag: "", partialTag: "" };
   };
 
   componentDidMount () {
@@ -26,11 +26,17 @@ class AddNote extends Component {
   };
 
   changeContent (e) {
-    this.content = e.target.value;
+    this.setState({ content: e.target.value});
   };
 
   toggleAdd () {
     let newAddState = !this.state.visible;
+
+    if (this.state.visible) {
+      this.content = "";
+      this.setState( { content: "", tags: [], suggestedTag: "", partialTag: "" });
+    }
+
     toggleNoteAdd(newAddState);
   };
 
@@ -71,17 +77,15 @@ class AddNote extends Component {
 
   render () {
     let that = this;
-
+    debugger;
     let klass = this.state.visible ? "add-modal-wrapper" : "invisible";
     let newTagClass = this.state.tags.length > 7 ? "invisible" : "next-tag-field";
-    let suggestedTag = this.state.suggestedTag ? this.state.suggestedTag : "Add a tag...";
-    let suggestedEnd = suggestedTag.slice(that.state.partialTag.length);
     return <div className={klass}>
 
       <div className="add-modal-background" onClick={this.toggleAdd.bind(this)}></div>
       <div className="add-note-modal">
         <h2 className="add-note-header">Share some kind words</h2>
-        <textarea className="note-content-input" default="Say it..." onChange={this.changeContent.bind(this)}></textarea>
+        <textarea className="note-content-input" value={this.state.content} onChange={this.changeContent.bind(this)}></textarea>
         <div className="tag-container">
           <ul className="existing-tag-list">
             {this.state.tags.map((tag) => {
@@ -89,7 +93,7 @@ class AddNote extends Component {
             })}
           </ul>
           <div className="new-tag-container">
-            <input type="text" className={newTagClass} onKeyDown={this.handleTagStroke.bind(this)} onChange={this.handleTagChange.bind(this)} placeholder="Add a tag..." default={this.state.partialTag} />
+            <input type="text" className={newTagClass} onKeyDown={this.handleTagStroke.bind(this)} onChange={this.handleTagChange.bind(this)} placeholder="Add a tag..." value={this.state.partialTag} />
             <span className="suggested-tag-start">{this.state.suggestedTag}</span>
           </div>
         </div>
