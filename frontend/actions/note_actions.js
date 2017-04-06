@@ -1,5 +1,5 @@
-import { fetchNotes, createNewNote, createNewMatch, fetchTags, fetchMatches } from '../util/note_api_util';
-import { createNewTag } from '../util/tag_api_util';
+import { fetchNotes, fetchNoteById, createNewNote, createNewMatch, fetchTags, fetchMatches } from '../util/note_api_util';
+import { createNewTag, fetchTagById } from '../util/tag_api_util';
 import { AppDispatcher } from '../dispatcher/dispatcher';
 import { NOTES_RECEIVED, NOTE_RECEIVED, TOGGLE_ADD, TAGS_RECEIVED, SEARCH_NOTES, FILTER_RECEIVED, SEARCH_TAGS } from '../constants/note_constants';
 
@@ -9,18 +9,27 @@ export const fetchAllNotes = () => {
 };
 
 export const createNoteWithTags = (content, tags, color) => {
-  let newNote = createNewNote( { note: { content: content, color: color } }, tags ).then((newNote, tags) => {
+  let promise = createNewNote( { note: { content: content, color: color }});
+
+  promise.then((noteData) => {
+
     tags.forEach((tag) => {
       let tagId = null;
       if (typeof(tag) == "string") {
-        createNewTag( { name: tag, occurrences: 1 } ).then((tag) => {
-          tagId = tag.id;
+        debugger;
+        createNewTag( { tag: { name: tag, occurrences: 1 } } ).then((tagData) => {
+          createNewMatch( { note_tag: { note_id: noteData.note.id, tag_id: tagData.tag.id } }).then((match) => {
+            fetchNoteById(match.note_id).then((note) => { AppDispatcher.dispatch(receiveNote(note)); } );
+            fetchTagById(match.tag_id).then((tag) => { AppDispatcher.dispatch(receiveTag(tag)); } );
+          });
         });
       } else {
-        tagId = tag.id;
+        debugger;
+        createNewMatch( { note_tag: { note_id: noteData.note.id, tag_id: tag.id } }).then((matchData) => {
+          fetchNoteById(matchData.match.note_id).then((note) => { AppDispatcher.dispatch(receiveNote(note)); } );
+          fetchTagById(matchData.match.tag_id).then((tag) => { AppDispatcher.dispatch(receiveTag(tag)); } );
+        });
       }
-
-      createNewMatch({ note_id: newNote.id, tag_id: tagId }, newNote).then((match, newNote) => { AppDispatcher.dispatch(receiveNote(newNote)); });
     });
   });
 };
@@ -59,4 +68,9 @@ export const receiveNotes = (notes) => {
 export const receiveNote = (note) => {
   return { actionType: NOTE_RECEIVED,
             note: note };
+};
+
+export const receiveTag = (tag) => {
+  return { actionType: TAG_RECEIVED,
+          tag: tag };
 };

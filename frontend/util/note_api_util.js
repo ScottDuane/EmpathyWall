@@ -7,26 +7,29 @@ export const fetchNotes = () => {
   });
 };
 
+export const fetchNoteById = (id) => {
+  return $.ajax({
+    method: 'GET',
+    url: 'api/notes/' + id
+  });
+};
+
 export const createNewNote = (data, tags) => {
-  return (data, tags) => {
-    let newNote = $.ajax({
+  return $.ajax({
       method: 'POST',
       url: 'api/notes',
-      data: data
+      data: data,
+      success: (result) => {
+        debugger;
+      }
     });
-
-    return [newNote, tags];
-  };
 };
 
 export const createNewMatch = (data) => {
-  return (data, newNote) => {
-    let newMatch = $.ajax({
+  return $.ajax({
       method: 'POST',
       url: 'api/note_tags',
       data: data
-    });
+  });
 
-    return [newMatch, newNote];
-  };
 };

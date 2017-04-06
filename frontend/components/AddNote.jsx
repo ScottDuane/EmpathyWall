@@ -42,10 +42,8 @@ class AddNote extends Component {
                         4: "orange" };
 
     let randNum = Math.floor(Math.random()*5);
-    console.log(randNum);
-    console.log(colorHash[randNum]);
+
     createNoteWithTags(this.content, this.props.tagStore.getTentativeTags(), colorHash[randNum]);
-    // still need to create the matches
     toggleNoteAdd(false);
   };
 
@@ -55,6 +53,7 @@ class AddNote extends Component {
       if (this.state.tags.includes(e.target.value)) {
         this.setState( { partialTag: "", suggestedTag: "" });
       } else {
+        this.props.tagStore.addTentativeTag(e.target.value);
         let newTags = this.state.tags.slice(0);
         newTags.push(e.target.value);
         this.setState( { tags: newTags, suggestedTag: "" });

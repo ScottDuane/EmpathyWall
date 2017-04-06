@@ -57,6 +57,7 @@ class NoteStore extends EventEmitter {
           this.emit(this.change_event);
           break;
         case TAG_RECEIVED:
+          this.addTagToStore(payload.tag);
           this.tags.push([payload.tag]);
           this.emit(this.change_event);
           break;
@@ -71,6 +72,22 @@ class NoteStore extends EventEmitter {
       }
   };
 
+  addTagToStore(newTag) {
+    this.tags.forEach((tag, idx) => {
+      if (tag.id === newTag.id) {
+        this.tags.splice(idx, newTag);
+      }
+    });
+  };
+
+  addNoteToStore(newNote) {
+    this.notes.forEach((note, idx) => {
+      if (note.id === newNote.id) {
+        this.notes.splice(idx, newTag);
+      }
+    });
+  };
+  
   filterNotesByTag(tagName) {
     let foundTag = null;
     this.tags.forEach((tag) => {
