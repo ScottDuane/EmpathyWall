@@ -1,4 +1,5 @@
-import { fetchNotes, createNewNote, fetchTags, fetchMatches } from '../util/note_api_util';
+import { fetchNotes, createNewNote, createNewMatch, fetchTags, fetchMatches } from '../util/note_api_util';
+import { createNewTag } from '../util/tag_api_util';
 import { AppDispatcher } from '../dispatcher/dispatcher';
 import { NOTES_RECEIVED, NOTE_RECEIVED, TOGGLE_ADD, TAGS_RECEIVED, SEARCH_NOTES, FILTER_RECEIVED, SEARCH_TAGS } from '../constants/note_constants';
 
@@ -8,19 +9,20 @@ export const fetchAllNotes = () => {
 };
 
 export const createNoteWithTags = (content, tags, color) => {
-  console.log("color is "+color);
-  let newNote = createNewNote( { note: { content: content, color: color } } );
-  tags.forEach((tag) => {
-    let tagId = null;
-    if (typeof(tag) == "string") {
-      let newTag = createNewTag( { name: tag, occurrences: 1 } );
-      tagId = newTag.id;
-    } else {
-      tagId = tag.id;
-    }
-    createMatch({ note_id: newNote.id, tag_id: tagId })
-  });
+  let newNote = createNewNote( { note: { content: content, color: color } }, tags ).then((newNote, tags) => {
+    tags.forEach((tag) => {
+      let tagId = null;
+      if (typeof(tag) == "string") {
+        createNewTag( { name: tag, occurrences: 1 } ).then((tag) => {
+          tagId = tag.id;
+        });
+      } else {
+        tagId = tag.id;
+      }
 
+      createNewMatch({ note_id: newNote.id, tag_id: tagId }, newNote).then((match, newNote) => { AppDispatcher.dispatch(receiveNote(newNote)); });
+    });
+  });
 };
 
 export const createNote = (content, color) => {
