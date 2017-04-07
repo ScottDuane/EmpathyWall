@@ -26969,7 +26969,7 @@
 	            _react2.default.createElement(
 	              'a',
 	              { href: 'http://www.linkedin.com/in/sduane' },
-	              _react2.default.createElement('img', { className: 'icon', src: 'assets/linkedin-logo.svg' })
+	              _react2.default.createElement('img', { className: 'icon', src: 'https://s3-us-west-1.amazonaws.com/scottduanerails/assets/linkedin-logo.svg' })
 	            )
 	          ),
 	          _react2.default.createElement(
@@ -26978,7 +26978,7 @@
 	            _react2.default.createElement(
 	              'a',
 	              { href: 'http://www.github.com/ScottDuane' },
-	              _react2.default.createElement('img', { className: 'icon', src: 'assets/github.svg' })
+	              _react2.default.createElement('img', { className: 'icon', src: 'https://s3-us-west-1.amazonaws.com/elasticbeanstalk-us-west-1-218768822416/assets/github.svg' })
 	            )
 	          ),
 	          _react2.default.createElement(
@@ -26987,7 +26987,7 @@
 	            _react2.default.createElement(
 	              'a',
 	              { href: 'mailto:adrian.scott.duane@gmail.com' },
-	              _react2.default.createElement('img', { className: 'icon', src: 'assets/mail-black-envelope-symbol.svg' })
+	              _react2.default.createElement('img', { className: 'icon', src: 'https://s3-us-west-1.amazonaws.com/scottduanerails/assets/mail-black-envelope-symbol.svg' })
 	            )
 	          )
 	        )
@@ -40209,12 +40209,12 @@
 	          _react2.default.createElement(
 	            'button',
 	            { className: hoverClass, onMouseLeave: this.toggleAddButtonHover.bind(this), onClick: this.toggleAdd.bind(this) },
-	            _react2.default.createElement('img', { className: 'add-icon', src: 'assets/black_note.svg' })
+	            _react2.default.createElement('img', { className: 'add-icon', src: 'https://s3-us-west-1.amazonaws.com/scottduanerails/assets/black_note.svg' })
 	          ),
 	          _react2.default.createElement(
 	            'button',
 	            { className: unhoverClass, onMouseEnter: this.toggleAddButtonHover.bind(this), onClick: this.toggleAdd.bind(this) },
-	            _react2.default.createElement('img', { className: 'add-icon', src: 'assets/grey_note.svg' })
+	            _react2.default.createElement('img', { className: 'add-icon', src: 'https://s3-us-west-1.amazonaws.com/scottduanerails/assets/grey_note.svg' })
 	          ),
 	          _react2.default.createElement('input', { type: 'text', className: 'search-bar', 'default': 'Search...', placeholder: 'Search...', onChange: this.updateSearch.bind(this) })
 	        )
@@ -40387,7 +40387,7 @@
 	            _react2.default.createElement(
 	              'div',
 	              { className: 'new-tag-container' },
-	              _react2.default.createElement('input', { type: 'text', className: newTagClass, onKeyDown: this.handleTagStroke.bind(this), onChange: this.handleTagChange.bind(this), placeholder: 'Add a tag...', 'default': this.state.partialTag }),
+	              _react2.default.createElement('input', { type: 'text', className: newTagClass, onKeyDown: this.handleTagStroke.bind(this), onChange: this.handleTagChange.bind(this), placeholder: 'Add a tag...', value: this.state.partialTag }),
 	              _react2.default.createElement(
 	                'span',
 	                { className: 'suggested-tag-start' },
