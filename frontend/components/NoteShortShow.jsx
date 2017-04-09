@@ -12,7 +12,7 @@ class NoteShortShow extends React.Component {
               <span className="post-it-content">{this.props.note.content}</span>
               <ul className="short-show-tag-list">
                 {that.props.tags.map((tag, idx) => {
-                  return <li key={idx} onClick={this.filterByTag.bind(this)} className="short-show-tag-item">{tag.name}</li>
+                  return <li key={tag.id} onClick={this.filterByTag.bind(this)} className="short-show-tag-item">{tag.name}</li>
                 })}
               </ul>
           </li>

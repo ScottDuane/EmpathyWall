@@ -29,9 +29,9 @@ class NoteIndex extends React.Component {
   render () {
     let that = this;
     let listItems = this.state.notes.map( (note) => {
-            let randNum1 = Math.floor(Math.random()*3);
+            let sizeMeasure = Math.floor(note.content.length/50);
             let heightClass = "list-item-note ";
-            switch (randNum1) {
+            switch (sizeMeasure) {
               case 0:
                 heightClass += " list-item-note-1";
                 break;
@@ -40,6 +40,9 @@ class NoteIndex extends React.Component {
                 break;
               case 2:
                 heightClass += " list-item-note-3";
+                break;
+              default:
+                heightClass += " list-item-note-2";
                 break;
             };
 

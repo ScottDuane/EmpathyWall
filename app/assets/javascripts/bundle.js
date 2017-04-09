@@ -27135,9 +27135,9 @@
 	    value: function render() {
 	      var that = this;
 	      var listItems = this.state.notes.map(function (note) {
-	        var randNum1 = Math.floor(Math.random() * 3);
+	        var sizeMeasure = Math.floor(note.content.length / 50);
 	        var heightClass = "list-item-note ";
-	        switch (randNum1) {
+	        switch (sizeMeasure) {
 	          case 0:
 	            heightClass += " list-item-note-1";
 	            break;
@@ -27146,6 +27146,9 @@
 	            break;
 	          case 2:
 	            heightClass += " list-item-note-3";
+	            break;
+	          default:
+	            heightClass += " list-item-note-2";
 	            break;
 	        };
 	
@@ -27822,7 +27825,7 @@
 	          that.props.tags.map(function (tag, idx) {
 	            return _react2.default.createElement(
 	              'li',
-	              { key: idx, onClick: _this2.filterByTag.bind(_this2), className: 'short-show-tag-item' },
+	              { key: tag.id, onClick: _this2.filterByTag.bind(_this2), className: 'short-show-tag-item' },
 	              tag.name
 	            );
 	          })
@@ -40274,7 +40277,7 @@
 	    var _this = _possibleConstructorReturn(this, (AddNote.__proto__ || Object.getPrototypeOf(AddNote)).call(this));
 	
 	    _this.content = "";
-	    _this.state = { content: "", visible: false, tags: [], suggestedTag: "", partialTag: "" };
+	    _this.state = { content: "", visible: false, tags: [], suggestedTag: "", partialTag: "", charsLeft: 150 };
 	    return _this;
 	  }
 	
@@ -40298,7 +40301,12 @@
 	  }, {
 	    key: 'changeContent',
 	    value: function changeContent(e) {
-	      this.setState({ content: e.target.value });
+	      if (this.state.charsLeft > 0) {
+	        var newCharsLeft = 150 - e.target.value.length;
+	        this.setState({ content: e.target.value, charsLeft: newCharsLeft });
+	      } else {
+	        e.preventDefault();
+	      }
 	    }
 	  }, {
 	    key: 'toggleAdd',
@@ -40307,7 +40315,7 @@
 	
 	      if (this.state.visible) {
 	        this.content = "";
-	        this.setState({ content: "", tags: [], suggestedTag: "", partialTag: "" });
+	        this.setState({ content: "", tags: [], suggestedTag: "", partialTag: "", charsLeft: 150 });
 	      }
 	
 	      (0, _note_actions.toggleNoteAdd)(newAddState);
@@ -40351,10 +40359,14 @@
 	      }
 	    }
 	  }, {
+	    key: 'testClick',
+	    value: function testClick() {
+	      console.log("clicked!");
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
 	      var that = this;
-	      debugger;
 	      var klass = this.state.visible ? "add-modal-wrapper" : "invisible";
 	      var newTagClass = this.state.tags.length > 7 ? "invisible" : "next-tag-field";
 	      return _react2.default.createElement(
@@ -40370,6 +40382,16 @@
 	            'Share some kind words'
 	          ),
 	          _react2.default.createElement('textarea', { className: 'note-content-input', value: this.state.content, onChange: this.changeContent.bind(this) }),
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'chars-left-container' },
+	            _react2.default.createElement(
+	              'span',
+	              { className: 'chars-left' },
+	              'Characters left: ',
+	              this.state.charsLeft
+	            )
+	          ),
 	          _react2.default.createElement(
 	            'div',
 	            { className: 'tag-container' },
@@ -40399,7 +40421,8 @@
 	            'button',
 	            { className: 'save-button', onClick: this.saveNote.bind(this) },
 	            'Save'
-	          )
+	          ),
+	          _react2.default.createElement('div', { className: 'clickable-background', onClick: this.testClick.bind(this) })
 	        )
 	      );
 	    }

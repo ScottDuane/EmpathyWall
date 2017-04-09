@@ -8,7 +8,7 @@ class AddNote extends Component {
   constructor () {
     super();
     this.content = "";
-    this.state = {content: "", visible: false, tags: [], suggestedTag: "", partialTag: "" };
+    this.state = {content: "", visible: false, tags: [], suggestedTag: "", partialTag: "", charsLeft: 150 };
   };
 
   componentDidMount () {
@@ -26,7 +26,12 @@ class AddNote extends Component {
   };
 
   changeContent (e) {
-    this.setState({ content: e.target.value});
+    if (this.state.charsLeft > 0) {
+      let newCharsLeft = 200 - e.target.value.length;
+      this.setState({ content: e.target.value, charsLeft: newCharsLeft });
+    } else {
+      e.preventDefault();
+    }
   };
 
   toggleAdd () {
@@ -34,7 +39,7 @@ class AddNote extends Component {
 
     if (this.state.visible) {
       this.content = "";
-      this.setState( { content: "", tags: [], suggestedTag: "", partialTag: "" });
+      this.setState( { content: "", tags: [], suggestedTag: "", partialTag: "", charsLeft: 150 });
     }
 
     toggleNoteAdd(newAddState);
@@ -75,17 +80,24 @@ class AddNote extends Component {
     }
   };
 
+  testClick () {
+    console.log("clicked!");
+  };
+
   render () {
     let that = this;
-    debugger;
     let klass = this.state.visible ? "add-modal-wrapper" : "invisible";
     let newTagClass = this.state.tags.length > 7 ? "invisible" : "next-tag-field";
     return <div className={klass}>
 
       <div className="add-modal-background" onClick={this.toggleAdd.bind(this)}></div>
       <div className="add-note-modal">
-        <h2 className="add-note-header">Share some kind words</h2>
+
+        <h2 className="add-note-header"></h2>
         <textarea className="note-content-input" value={this.state.content} onChange={this.changeContent.bind(this)}></textarea>
+        <div className="chars-left-container">
+          <span className="chars-left">Characters left: {this.state.charsLeft}</span>
+        </div>
         <div className="tag-container">
           <ul className="existing-tag-list">
             {this.state.tags.map((tag) => {
@@ -98,6 +110,7 @@ class AddNote extends Component {
           </div>
         </div>
         <button className="save-button" onClick={this.saveNote.bind(this)}>Save</button>
+        <div className="clickable-background" onClick={this.testClick.bind(this)}></div>
       </div>
     </div>;
   };

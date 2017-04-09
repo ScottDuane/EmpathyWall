@@ -28,7 +28,7 @@
   font-size: 24px;
   padding-top: 10px;
   padding-bottom: 15px;
-  width: 20%;
+  width: 30%;
   box-shadow: 0px 4px 6px #333;
   -moz-box-shadow: 0px 4px 6px #333;
   -webkit-box-shadow: 0px 4px 6px #333;
@@ -39,16 +39,21 @@
   color: #222;
   padding: 3px;
 }
+
+.post-it-content {
+  margin-bottom: 10px;
+}
+
 .list-item-note-1 {
-  width: 20%;
+  font-size: 40px;
 }
 
 .list-item-note-2 {
-  width: 15%;
+  font-size: 32px;
 }
 
 .list-item-note-3 {
-  width: 25%;
+  font-size: 24px;
 }
 
 .list-item-yellow {
@@ -137,8 +142,8 @@ textarea {
 }
 .note-content-input {
   text-align: center;
-  font-family: 'Rock Salt', cursive;
-  font-size: large;
+  font-family: 'Permanent Marker', cursive;
+  font-size: 36px;
   padding-top: 16px;
   background-color: #fff66a;
   color: black;
@@ -192,11 +197,12 @@ font-family: 'Permanent Marker', cursive;*/
 .short-show-tag-list {
   display: flex;
   flex-flow: row;
+  flex-wrap: wrap;
   list-style-type: none;
 }
 
 .short-show-tag-item {
-  margin: 0 2px 0 2px;
+  margin: 0 2px 4px 2px;
   height: 23px;
   border-radius: 10px;
   padding: 0 5px 0 5px;
@@ -270,12 +276,13 @@ font-family: 'Permanent Marker', cursive;*/
   background: #fff66a;
   display: flex;
   flex-flow: row;
-  height: 10%;
+  height: 64px;
 }
 
 .existing-tag-list {
   display: flex;
   flex-flow: row;
+  flex-wrap: wrap;
   list-style: none;
 }
 .next-tag-field {
@@ -285,7 +292,8 @@ font-family: 'Permanent Marker', cursive;*/
   height: auto;
   font-size: 22px;
   margin: 10px;
-  font-family: 'Indie Flower', cursive;
+  padding: 4px;
+  font-family: 'Walter Turncoat', cursive;
   border: 2px solid #bbb;
   border-radius: 15px;
   background: transparent;
@@ -298,7 +306,12 @@ font-family: 'Permanent Marker', cursive;*/
 
 .new-tag-container {
   height: 100%;
-  font-family: 'Indie Flower', cursive;
+  font-family: 'Walter Turncoat', cursive;
+  font-size: 22px;
+}
+
+.tag-list-item {
+  font-family: 'Walter Turncoat', cursive;
   font-size: 22px;
 }
 
@@ -320,4 +333,27 @@ font-family: 'Permanent Marker', cursive;*/
   text-align: center;
   padding-top: 10px;
   border-bottom: 2px solid black;
+}
+
+.clickable-background {
+  z-index: 0;
+  height: 100%;
+  position: absolute;
+  width: 100%;
+}
+
+.chars-left-container {
+  position: absolute;
+  width: 100%;
+}
+.chars-left {
+  font-family: 'Walter Turncoat', cursive;
+  font-size: 14px;
+  color: black;
+  margin-left: calc(15% + 5px);
+}
+
+.suggested-tag-start {
+  position: absolute;
+  padding: 15px 15px 0px 15px;
 }
