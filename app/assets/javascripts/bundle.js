@@ -40302,7 +40302,7 @@
 	    key: 'changeContent',
 	    value: function changeContent(e) {
 	      if (this.state.charsLeft > 0) {
-	        var newCharsLeft = 150 - e.target.value.length;
+	        var newCharsLeft = 200 - e.target.value.length;
 	        this.setState({ content: e.target.value, charsLeft: newCharsLeft });
 	      } else {
 	        e.preventDefault();
@@ -40342,10 +40342,11 @@
 	        if (this.state.tags.includes(e.target.value)) {
 	          this.setState({ partialTag: "", suggestedTag: "" });
 	        } else {
-	          this.props.tagStore.addTentativeTag(e.target.value);
+	          var newTagName = this.state.suggestedTag.length > 0 ? this.state.suggestedTag : e.target.value;
+	          this.props.tagStore.addTentativeTag(newTagName);
 	          var newTags = this.state.tags.slice(0);
-	          newTags.push(e.target.value);
-	          this.setState({ tags: newTags, suggestedTag: "" });
+	          newTags.push(newTagName);
+	          this.setState({ tags: newTags, suggestedTag: "", partialTag: "" });
 	        }
 	      }
 	    }
@@ -40353,9 +40354,12 @@
 	    key: 'handleTagChange',
 	    value: function handleTagChange(e) {
 	      var query = e.target.value;
-	      this.setState({ partialTag: query });
+	
 	      if (query.length > 0) {
 	        (0, _tag_actions.findSuggestedTag)(query);
+	        this.setState({ partialTag: query });
+	      } else {
+	        this.setState({ partialTag: query, suggestedTag: "" });
 	      }
 	    }
 	  }, {
@@ -40372,15 +40376,15 @@
 	      return _react2.default.createElement(
 	        'div',
 	        { className: klass },
-	        _react2.default.createElement('div', { className: 'add-modal-background', onClick: this.toggleAdd.bind(this) }),
+	        _react2.default.createElement(
+	          'button',
+	          { className: 'add-close-button', onClick: this.toggleAdd.bind(this) },
+	          _react2.default.createElement('img', { className: 'close-button-image', src: 'https://s3-us-west-1.amazonaws.com/scottduanerails/assets/cancel-button.svg' })
+	        ),
 	        _react2.default.createElement(
 	          'div',
 	          { className: 'add-note-modal' },
-	          _react2.default.createElement(
-	            'h2',
-	            { className: 'add-note-header' },
-	            'Share some kind words'
-	          ),
+	          _react2.default.createElement('h2', { className: 'add-note-header' }),
 	          _react2.default.createElement('textarea', { className: 'note-content-input', value: this.state.content, onChange: this.changeContent.bind(this) }),
 	          _react2.default.createElement(
 	            'div',
@@ -40421,8 +40425,7 @@
 	            'button',
 	            { className: 'save-button', onClick: this.saveNote.bind(this) },
 	            'Save'
-	          ),
-	          _react2.default.createElement('div', { className: 'clickable-background', onClick: this.testClick.bind(this) })
+	          )
 	        )
 	      );
 	    }

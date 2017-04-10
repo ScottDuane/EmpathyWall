@@ -64,19 +64,23 @@ class AddNote extends Component {
       if (this.state.tags.includes(e.target.value)) {
         this.setState( { partialTag: "", suggestedTag: "" });
       } else {
-        this.props.tagStore.addTentativeTag(e.target.value);
+        let newTagName = this.state.suggestedTag.length > 0 ? this.state.suggestedTag : e.target.value;
+        this.props.tagStore.addTentativeTag(newTagName);
         let newTags = this.state.tags.slice(0);
-        newTags.push(e.target.value);
-        this.setState( { tags: newTags, suggestedTag: "" });
+        newTags.push(newTagName);
+        this.setState( { tags: newTags, suggestedTag: "", partialTag: "" });
       }
     }
   };
 
   handleTagChange (e) {
     let query = e.target.value;
-    this.setState( { partialTag: query });
+
     if (query.length > 0) {
       findSuggestedTag(query);
+      this.setState( { partialTag: query });
+    } else {
+      this.setState( { partialTag: query, suggestedTag: "" });
     }
   };
 
@@ -89,8 +93,7 @@ class AddNote extends Component {
     let klass = this.state.visible ? "add-modal-wrapper" : "invisible";
     let newTagClass = this.state.tags.length > 7 ? "invisible" : "next-tag-field";
     return <div className={klass}>
-
-      <div className="add-modal-background" onClick={this.toggleAdd.bind(this)}></div>
+      <button className="add-close-button" onClick={this.toggleAdd.bind(this)}><img className="close-button-image" src="https://s3-us-west-1.amazonaws.com/scottduanerails/assets/cancel-button.svg" /></button>
       <div className="add-note-modal">
 
         <h2 className="add-note-header"></h2>
@@ -110,7 +113,6 @@ class AddNote extends Component {
           </div>
         </div>
         <button className="save-button" onClick={this.saveNote.bind(this)}>Save</button>
-        <div className="clickable-background" onClick={this.testClick.bind(this)}></div>
       </div>
     </div>;
   };

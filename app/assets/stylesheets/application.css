@@ -97,11 +97,11 @@
 
   flex-direction: column;
   z-index: 2;
-  height: 80%;
+  height: calc(80% - 150px);
   width: 80%;
   position: fixed;
   right: 10%;
-  bottom: 10%;
+  bottom: calc(10% + 150px);
   background-color: black;
 
 }
@@ -112,7 +112,7 @@
   position: fixed;
   bottom: 0;
   right: 0;
-  background-color: rgba(0, 0, 0, 0.7);
+  background-color: black;
 }
 
 button {
@@ -164,7 +164,7 @@ textarea {
   width: 15%;
   margin-left: 43%;
   text-align: center;
-  height: 7%;
+  height: 44px;
   font-size: 24px;
   font-family: 'Indie Flower', cursive;
   color: #fff66a;
@@ -192,6 +192,11 @@ h1, h4 {
 font-family: 'Permanent Marker', cursive;*/
   font-family: 'Rock Salt', cursive;
 /*font-family: 'Walter Turncoat', cursive;*/
+}
+
+h1 {
+  font-size: 45px;
+  margin-left: 120px;
 }
 
 .short-show-tag-list {
@@ -290,7 +295,7 @@ font-family: 'Permanent Marker', cursive;*/
   background: #fff66a;
   color: black;
   height: auto;
-  font-size: 22px;
+  font-size: 16px;
   margin: 10px;
   padding: 4px;
   font-family: 'Walter Turncoat', cursive;
@@ -307,12 +312,19 @@ font-family: 'Permanent Marker', cursive;*/
 .new-tag-container {
   height: 100%;
   font-family: 'Walter Turncoat', cursive;
-  font-size: 22px;
+  font-size: 16px;
 }
 
 .tag-list-item {
   font-family: 'Walter Turncoat', cursive;
-  font-size: 22px;
+  font-size: 16px;
+  border: 2px solid black;
+  border-radius: 15px;
+  padding-left: 4px;
+  padding-right: 4px;
+  height: 30px;
+  margin-top: -6px;
+  color: black;
 }
 
 .suggested-tag-container {
@@ -329,6 +341,7 @@ font-family: 'Permanent Marker', cursive;*/
   margin-right: calc(15% - 4px);
   font-family: 'Permanent Marker', cursive;
   font-size: 29px;
+  height: 48px;
   padding-bottom: 10px;
   text-align: center;
   padding-top: 10px;
@@ -345,6 +358,7 @@ font-family: 'Permanent Marker', cursive;*/
 .chars-left-container {
   position: absolute;
   width: 100%;
+  top: 70px;
 }
 .chars-left {
   font-family: 'Walter Turncoat', cursive;
@@ -356,4 +370,20 @@ font-family: 'Permanent Marker', cursive;*/
 .suggested-tag-start {
   position: absolute;
   padding: 15px 15px 0px 15px;
+}
+
+.add-close-button {
+  width: 50px;
+  height: 50px;
+  position: fixed;
+  top: 5%;
+  left: 95%;
+}
+.close-button-image {
+  width: 50px;
+
+}
+
+.close-button-image:hover {
+  cursor: pointer;
 }
