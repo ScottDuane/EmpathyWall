@@ -4,7 +4,6 @@ import { fetchAllNotes, fetchAllMatches } from '../actions/note_actions';
 import { fetchAllTags } from '../actions/tag_actions';
 import NoteShortShow from './NoteShortShow';
 import Masonry from 'react-masonry-component';
-import Packery from 'packery';
 
 class NoteIndex extends React.Component {
   constructor () {
