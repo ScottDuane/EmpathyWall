@@ -93,7 +93,7 @@ class AddNote extends Component {
     let klass = this.state.visible ? "add-modal-wrapper" : "invisible";
     let newTagClass = this.state.tags.length > 7 ? "invisible" : "next-tag-field";
     return <div className={klass}>
-      <button className="add-close-button" onClick={this.toggleAdd.bind(this)}><img className="close-button-image" src="https://s3-us-west-1.amazonaws.com/scottduanerails/assets/cancel-button.svg" /></button>
+      <button className="add-close-button" onClick={this.toggleAdd.bind(this)}><img className="close-button-image" src="images/cancel-button.svg" /></button>
       <div className="add-note-modal">
 
         <h2 className="add-note-header"></h2>

@@ -48,8 +48,8 @@ class IndexHeader extends React.Component {
     return <div>
       <h1>Empathy Wall</h1>
       <div className="input-wrapper">
-        <button className={hoverClass} onMouseLeave={this.toggleAddButtonHover.bind(this)} onClick={this.toggleAdd.bind(this)}><img className="add-icon" src="https://s3-us-west-1.amazonaws.com/scottduanerails/assets/black_note.svg" /></button>
-        <button className={unhoverClass} onMouseEnter={this.toggleAddButtonHover.bind(this)} onClick={this.toggleAdd.bind(this)}><img className="add-icon" src="https://s3-us-west-1.amazonaws.com/scottduanerails/assets/grey_note.svg" /></button>
+        <button className={hoverClass} onMouseLeave={this.toggleAddButtonHover.bind(this)} onClick={this.toggleAdd.bind(this)}><img className="add-icon" src="images/black_note.svg" /></button>
+        <button className={unhoverClass} onMouseEnter={this.toggleAddButtonHover.bind(this)} onClick={this.toggleAdd.bind(this)}><img className="add-icon" src="images/grey_note.svg" /></button>
         <input type="text" className="search-bar" default="Search..." placeholder="Search..." onChange={this.updateSearch.bind(this)} />
       </div>
     </div>
