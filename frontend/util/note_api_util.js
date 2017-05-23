@@ -18,10 +18,7 @@ export const createNewNote = (data, tags) => {
   return $.ajax({
       method: 'POST',
       url: 'api/notes',
-      data: data,
-      success: (result) => {
-        debugger;
-      }
+      data: data
     });
 };
 
