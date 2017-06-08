@@ -1,5 +1,7 @@
 ## Empathy Wall
 
+<a href="https://empathy-wall.herokuapp.com">Live Link</a>
+
 This is a small portfolio piece that recreates the real-life Empathy Walls that showed up in BART stations and elsewhere in the Bay Area after the election. 
 
 **Technologies**: Empathy Wall runs Rails on the backend and uses React with a Flux architecture on the frontend. It intentionally does not use any auth, to keep things anonymous and therefore truer to the original "real life" walls. 
